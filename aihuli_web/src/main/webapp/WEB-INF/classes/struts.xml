@@ -1,0 +1,19 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="base" extends="json-default,struts-default">  
+     <!-- 这里可以设置一些全局的返回值映射关系等 -->  
+  </package>  
+
+    <!-- <constant name="struts.locale" value="zh_CN" /> -->
+    <constant name="struts.objectFactory" value="spring"></constant>
+	<constant name="struts.i18n.encoding" value="utf-8"></constant>
+	<constant name="struts.custom.i18n.resources" value="ApplicationResources"></constant>
+	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
+	<constant name="struts.multipart.maxSize" value="1000000000"></constant>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<constant name="struts.action.extension" value="action,do,,"/>  
+	 
+	<include file="com/team/svc/user/struts-user.xml"></include>
+</struts>

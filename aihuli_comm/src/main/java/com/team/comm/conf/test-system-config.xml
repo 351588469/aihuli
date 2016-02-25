@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!--
+@CheckItem@ Patch-Hutie-20041013 Patch:添加屏蔽附加码的开关
+@CheckItem@ Patch-Zhangzg-20041103 Patch:修改主动监控的阀值设置,对使用率一类的指标统一为百分比
+-->
+<XMLSystemConfig>
+	<!-- 系统配置宏定义 -->
+	<MacroDefine>
+    </MacroDefine>
+	<!-- 路由配置目录 根据IP查端口-->
+	<ModuleConfig Name="module1" Description="模块名称1">
+		<ConfigItem>
+			<Name>Item10</Name>
+			<Id>2</Id>
+			<Description>描述信息1</Description>
+			<Value>55556</Value>
+			<Reserved/>
+		</ConfigItem>
+		<ConfigItem>
+			<Name>item11</Name>
+			<Id>3</Id>
+			<Description>描述信息2</Description>
+			<Value>55556</Value>
+			<Reserved/>
+		</ConfigItem>
+	</ModuleConfig>
+	<!-- SMI 关于SNMPHOST路由的信息-->
+	<ModuleConfig Name="module2" Description="模块名称2">
+		<ArrayConfigItem>
+			<Name>item21</Name>
+			<Description>描述信息21</Description>
+			<ArrayValue>
+				<Id>1</Id>
+				<Value>10.1.3.*</Value>
+				<Reserved/>
+			</ArrayValue>
+			<ArrayValue>
+				<Id>1</Id>
+				<Value>10.1.*.*</Value>
+				<Reserved/>
+			</ArrayValue>
+		</ArrayConfigItem>
+		<ArrayConfigItem>
+			<Name>10.1.3.*</Name>
+			<Description>10.1.3.网段的路由信息</Description>
+			<ArrayValue>
+				<Id>1</Id>
+				<Value>10.1.3.84</Value>
+				<!-- 路由IP-->
+				<Reserved/>
+			</ArrayValue>
+		</ArrayConfigItem>
+	</ModuleConfig>
+</XMLSystemConfig>

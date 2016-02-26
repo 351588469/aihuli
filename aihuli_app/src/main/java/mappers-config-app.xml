@@ -7,5 +7,6 @@
 	<mappers>
 		<mapper resource="com/team/svc/user/dao/sql-map-user.xml"/>
 	</mappers>
+	
 </configuration>
 

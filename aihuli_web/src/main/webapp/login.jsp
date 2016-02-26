@@ -8,7 +8,6 @@
 <link href="css/public.css" rel="stylesheet" type="text/css"/>
 <script src="js/md5.js" type="text/javascript"></script>
 <script src="js/jQuery.js" type="text/javascript"></script>
-<%@ include file="limits/commons.jsp" %>
 <style type="text/css">
 body {
 	margin:0 auto;

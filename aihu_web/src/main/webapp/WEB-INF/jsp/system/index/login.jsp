@@ -27,7 +27,8 @@
 			<form action="" method="post" name="loginForm" id="loginForm">
 				<div class="control-group normal_text">
 					<h3>
-						<img src="static/login/logo.png" alt="Logo" />
+						<!-- <img src="static/login/logo.png" alt="Logo" /> -->
+						爱护理平台
 					</h3>
 				</div>
 				<div class="control-group">
@@ -82,17 +83,17 @@
 			</form>
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright ©
-							jaychum0 2016</span></font>
+					<font color="white"><span id="nameerr">Copyright © yg-technology.com 2018</span></font>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div id="templatemo_banner_slide" class="container_wapper">
 		<div class="camera_wrap camera_emboss" id="camera_slide">
+			<!--背景图片轮播-->
 			<div data-src="static/login/images/banner_slide_01.jpg"></div>
 			<div data-src="static/login/images/banner_slide_02.jpg"></div>
-			<div data-src="static/login/images/banner_slide_03.jpg"></div>
+			<div data-src="static/login/images/banner_slide_03.jpg"></div> 
 		</div>
 		<!-- #camera_wrap_3 -->
 	</div>
@@ -103,7 +104,7 @@
 			if(check()){
 				var loginname = $("#loginname").val();
 				var password = $("#password").val();
-				var code = "qq313596790fh"+loginname+",fh,"+password+"QQ978336446fh"+",fh,"+$("#code").val();
+				var code = ""+loginname+",jc,"+password+""+",jc,"+$("#code").val(); 
 				$.ajax({
 					type: "POST",
 					url: 'login_login',

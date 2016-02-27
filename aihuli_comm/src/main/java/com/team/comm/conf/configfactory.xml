@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="GB2312"?>
-<ConfigFactory>
-	<conf name="conf" type="com.aspire.isop.common.conf.SystemConfig">
-		<path></path>
-		<filename>sd168-system-config.xml</filename>
-	</conf>	
-</ConfigFactory>

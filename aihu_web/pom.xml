@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>aihuli_group</groupId>
+		<artifactId>pom_aihuli</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>aihuli_group</groupId>
+	<artifactId>aihu_web</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>aihu_web Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<!--设定tomcat7 maven插件的版本 -->
+	<properties>
+		<tomcat7-maven-plugin-version>2.1</tomcat7-maven-plugin-version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>aihuli_group</groupId>
+			<artifactId>aihu_core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>aihu_web</finalName>
+		<!--添加tomcat7 maven插件 -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.tomcat.maven</groupId>
+					<artifactId>tomcat7-maven-plugin</artifactId>
+					<version>${tomcat7-maven-plugin-version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

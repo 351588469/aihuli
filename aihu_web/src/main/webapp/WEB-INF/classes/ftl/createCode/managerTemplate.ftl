@@ -1,12 +1,12 @@
-package com.fh.service.${packageName}.${objectNameLower};
+package com.team.service.${packageName}.${objectNameLower};
 
 import java.util.List;
-import com.fh.entity.Page;
-import com.fh.util.PageData;
+import com.team.entity.Page;
+import com.team.util.PageData;
 
 /** 
  * 说明： ${TITLE}接口
- * 创建人：FH Q313596790
+ * 创建人：jaychum
  * 创建时间：${nowDate?string("yyyy-MM-dd")}
  * @version
  */

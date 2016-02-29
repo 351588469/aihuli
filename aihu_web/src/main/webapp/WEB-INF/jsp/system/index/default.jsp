@@ -38,42 +38,7 @@
 							</div>
 
 							<div id="main" style="width: 600px; height: 300px;"></div>
-							<script type="text/javascript">
-						        // 基于准备好的dom，初始化echarts实例
-						        var myChart = echarts.init(document.getElementById('main'));
-						
-						        // 指定图表的配置项和数据
-								var option = {
-						            title: {
-						                text: '用户统计'
-						            },
-						            tooltip: {},
-						            xAxis: {
-						                data: ["系统用户","系统会员"]
-						            },
-						            yAxis: {},
-						            series: [
-						               {
-						                name: '',
-						                type: 'bar',
-						                data: [${pd.userCount},${pd.appUserCount}],
-						                itemStyle: {
-						                    normal: {
-						                        color: function(params) {
-						                            // build a color map as your need.
-						                            var colorList = ['#6FB3E0','#87B87F'];
-						                            return colorList[params.dataIndex];
-						                        }
-						                    }
-						                }
-						               }
-						            ]
-						        };	        
-
-						        // 使用刚指定的配置项和数据显示图表。
-						        myChart.setOption(option);
-						    </script>
-
+				
 						</div>
 						<!-- /.col -->
 					</div>

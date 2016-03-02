@@ -102,7 +102,8 @@ public class WeixinController extends BaseController{
 				logBefore(logger, "进入身份验证");
 			    List<String> list = new ArrayList<String>(3) { 
 				    private static final long serialVersionUID = 2621444383666420433L; 
-				    public String toString() {  // 重写toString方法，得到三个参数的拼接字符串
+				    @Override
+					public String toString() {  // 重写toString方法，得到三个参数的拼接字符串
 				               return this.get(0) + this.get(1) + this.get(2); 
 				           } 
 				         }; 

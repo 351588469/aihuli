@@ -24,7 +24,7 @@ public class JPushClientUtil extends BaseController{
 	private static final String masterSecret = "c0e2c47796f2095cbc56a516";// "13ac09b17715bd117163d8a1";//必填，每个应用都对应一个masterSecret
 	private static JPushClient jpush = null;
 	public static final int MAX = Integer.MAX_VALUE;
-	public static final int MIN = (int) MAX / 2;
+	public static final int MIN = MAX / 2;
 	
 	/**
 	 * 保存离线的时长。秒为单位。最多支持10天（864000秒）。 

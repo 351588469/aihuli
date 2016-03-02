@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -79,7 +78,8 @@ public class TimeSizeRollingFileAppender extends FileAppender
     this.logInServer = server;
   }
 
-  public void setFile(String file)
+  @Override
+public void setFile(String file)
   {
     String val = file.trim();
     String tmpfileName = val.replace('/', LogConstants.FILE_SEP.charAt(0));
@@ -131,7 +131,8 @@ public class TimeSizeRollingFileAppender extends FileAppender
     LogLog.debug("File set:" + this.fileName);
   }
 
-  public synchronized void setFile(String pFileName, boolean append, boolean bufferedIO, int bufferSize) throws IOException
+  @Override
+public synchronized void setFile(String pFileName, boolean append, boolean bufferedIO, int bufferSize) throws IOException
   {
     try {
       reset();
@@ -163,7 +164,8 @@ public class TimeSizeRollingFileAppender extends FileAppender
     }
   }
 
-  public void activateOptions() {
+  @Override
+public void activateOptions() {
     super.activateOptions();
     if ((this.datePattern != null) && (this.fileName != null)) {
       this.now.setTime(System.currentTimeMillis());
@@ -199,7 +201,8 @@ public class TimeSizeRollingFileAppender extends FileAppender
     this.maxFileSize = value;
   }
 
-  protected void setQWForFiles(Writer writer) {
+  @Override
+protected void setQWForFiles(Writer writer) {
     this.qw = new CountingQuietWriter(writer, this.errorHandler);
   }
 
@@ -361,7 +364,8 @@ public class TimeSizeRollingFileAppender extends FileAppender
     }
   }
 
-  protected void subAppend(LoggingEvent event)
+  @Override
+protected void subAppend(LoggingEvent event)
   {
     if ((this.fileName != null) && 
       (((CountingQuietWriter)this.qw).getCount() >= this.maxFileSize))

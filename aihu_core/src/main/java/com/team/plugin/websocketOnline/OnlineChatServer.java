@@ -183,7 +183,7 @@ public class OnlineChatServer extends WebSocketServer{
 	}
 	
 	public static void main( String[] args ) throws InterruptedException , IOException {
-		WebSocketImpl.DEBUG = false;
+		WebSocket.DEBUG = false;
 		int port = 8887; //端口
 		OnlineChatServer s = new OnlineChatServer(port);
 		s.start();

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ElderMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		ELDER
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		E_NAME,	
+		E_GENDER,	
+		E_INTAKE,	
+		E_IDENTITY,	
+		E_IDATE,	
+		E_SDATE,	
+		E_LDATE,	
+		E_AGE,	
+		E_CENSUS,	
+		E_ADDRESS,	
+		E_TEL,	
+		E_G_NAME,	
+		E_G_REL,	
+		E_G_TEL,	
+		E_HEIGHT,	
+		E_WEIGHT,	
+		E_BTYPE,	
+		E_VISSION,	
+		E_HEARING,	
+		E_MEMORY,	
+		E_MIND,	
+		E_RELIEVE,	
+		E_STOLIC,	
+		E_PULSE,	
+		E_D_ALLERGY,	
+		E_D_COMMON,	
+		E_D_CHRONIC,	
+		E_HNOTE,	
+		E_A_SCORE,	
+		E_A_LEVEL,	
+		E_A_LEVELLIST,	
+		E_AVATER,	
+		E_PWD,	
+		E_GMU_ID,	
+		E_CTIME,	
+		E_UTIME,	
+		ELDER_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{E_NAME},	
+		#{E_GENDER},	
+		#{E_INTAKE},	
+		#{E_IDENTITY},	
+		#{E_IDATE},	
+		#{E_SDATE},	
+		#{E_LDATE},	
+		#{E_AGE},	
+		#{E_CENSUS},	
+		#{E_ADDRESS},	
+		#{E_TEL},	
+		#{E_G_NAME},	
+		#{E_G_REL},	
+		#{E_G_TEL},	
+		#{E_HEIGHT},	
+		#{E_WEIGHT},	
+		#{E_BTYPE},	
+		#{E_VISSION},	
+		#{E_HEARING},	
+		#{E_MEMORY},	
+		#{E_MIND},	
+		#{E_RELIEVE},	
+		#{E_STOLIC},	
+		#{E_PULSE},	
+		#{E_D_ALLERGY},	
+		#{E_D_COMMON},	
+		#{E_D_CHRONIC},	
+		#{E_HNOTE},	
+		#{E_A_SCORE},	
+		#{E_A_LEVEL},	
+		#{E_A_LEVELLIST},	
+		#{E_AVATER},	
+		#{E_PWD},	
+		#{E_GMU_ID},	
+		#{E_CTIME},	
+		#{E_UTIME},	
+		#{ELDER_ID}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			ELDER_ID = #{ELDER_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			E_NAME = #{E_NAME},
+			E_GENDER = #{E_GENDER},
+			E_INTAKE = #{E_INTAKE},
+			E_IDENTITY = #{E_IDENTITY},
+			E_IDATE = #{E_IDATE},
+			E_SDATE = #{E_SDATE},
+			E_AGE = #{E_AGE},
+			E_CENSUS = #{E_CENSUS},
+			E_ADDRESS = #{E_ADDRESS},
+			E_TEL = #{E_TEL},
+			E_G_NAME = #{E_G_NAME},
+			E_G_REL = #{E_G_REL},
+			E_G_TEL = #{E_G_TEL},
+			E_HEIGHT = #{E_HEIGHT},
+			E_WEIGHT = #{E_WEIGHT},
+			E_BTYPE = #{E_BTYPE},
+			E_VISSION = #{E_VISSION},
+			E_HEARING = #{E_HEARING},
+			E_MEMORY = #{E_MEMORY},
+			E_MIND = #{E_MIND},
+			E_RELIEVE = #{E_RELIEVE},
+			E_STOLIC = #{E_STOLIC},
+			E_PULSE = #{E_PULSE},
+			E_D_ALLERGY = #{E_D_ALLERGY},
+			E_D_COMMON = #{E_D_COMMON},
+			E_D_CHRONIC = #{E_D_CHRONIC},
+			E_HNOTE = #{E_HNOTE},
+			E_A_SCORE = #{E_A_SCORE},
+			E_A_LEVEL = #{E_A_LEVEL},
+			E_A_LEVELLIST = #{E_A_LEVELLIST},
+			E_AVATER = #{E_AVATER},
+			E_PWD = #{E_PWD},
+			E_GMU_ID = #{E_GMU_ID},
+		ELDER_ID = ELDER_ID
+		where 
+		ELDER_ID = #{ELDER_ID}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			ELDER_ID = #{ELDER_ID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				-->
+				)
+		</if>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			ELDER_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

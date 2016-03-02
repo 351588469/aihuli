@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ERDrugMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		ELDER_ERDRUG
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		ERD_GMU_ID,	
+		ERD_EDP_ID,	
+		ERD_EDP_E_ID,	
+		ERD_EDP_GMU_ID,	
+		ERD_EDP_GM_ID,	
+		ERD_EDP_SDATE,	
+		ERD_EDP_EDATE,	
+		ERD_EDP_MHOUR,	
+		ERD_EDP_MDESC,	
+		ERD_EDP_MNAME,	
+		ERD_EDP_MDOSAGE,	
+		ERD_EDP_MCOUNT,	
+		ERD_CTIME,	
+		ERD_UTIME,	
+		ERD_GTIME,	
+		ERDRUG_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{ERD_GMU_ID},	
+		#{ERD_EDP_ID},	
+		#{ERD_EDP_E_ID},	
+		#{ERD_EDP_GMU_ID},	
+		#{ERD_EDP_GM_ID},	
+		#{ERD_EDP_SDATE},	
+		#{ERD_EDP_EDATE},	
+		#{ERD_EDP_MHOUR},	
+		#{ERD_EDP_MDESC},	
+		#{ERD_EDP_MNAME},	
+		#{ERD_EDP_MDOSAGE},	
+		#{ERD_EDP_MCOUNT},	
+		#{ERD_CTIME},	
+		#{ERD_UTIME},	
+		#{ERD_GTIME},	
+		#{ERDRUG_ID}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			ERDRUG_ID = #{ERDRUG_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			ERD_GMU_ID = #{ERD_GMU_ID},
+			ERD_EDP_ID = #{ERD_EDP_ID},
+			ERD_GTIME = #{ERD_GTIME},
+		ERDRUG_ID = ERDRUG_ID
+		where 
+		ERDRUG_ID = #{ERDRUG_ID}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			ERDRUG_ID = #{ERDRUG_ID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				-->
+				)
+		</if>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			ERDRUG_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

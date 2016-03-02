@@ -114,7 +114,7 @@ public class ChatServer extends WebSocketServer{
 		}
 	}
 	public static void main( String[] args ) throws InterruptedException , IOException {
-		WebSocketImpl.DEBUG = false;
+		WebSocket.DEBUG = false;
 		int port = 8887; //端口
 		ChatServer s = new ChatServer(port);
 		s.start();

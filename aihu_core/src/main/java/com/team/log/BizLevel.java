@@ -12,7 +12,7 @@ public final class BizLevel extends Level
   {
     super(level, strLevel, syslogEquiv);
   }
-
+ 
   public static Level toLevel(String sArg)
   {
     return toLevel(sArg, BIZ);

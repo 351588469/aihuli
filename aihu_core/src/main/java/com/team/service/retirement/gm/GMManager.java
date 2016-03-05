@@ -1,6 +1,8 @@
 package com.team.service.retirement.gm;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -54,5 +56,11 @@ public interface GMManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
 	
+	/**
+	 * zzy
+	 * 根据
+	 * 创建人获取养老院名称和编号列表
+	 */
+	public List<Map<String,Object>> listByCreator()throws Exception;
 }
 

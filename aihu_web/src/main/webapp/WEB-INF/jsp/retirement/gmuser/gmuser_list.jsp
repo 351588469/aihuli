@@ -66,32 +66,14 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">职工所属养老院编号</th>
-									<th class="center">职工姓名</th>
-									<th class="center">职工性别</th>
-									<th class="center">职工生日</th>
-									<th class="center">职工入职时间</th>
-									<th class="center">职工所属部门</th>
-									<th class="center">职工职务</th>
-									<th class="center">职工直属领导编号</th>
-									<th class="center">职工健康状况</th>
-									<th class="center">职工婚姻状况</th>
-									<th class="center">职工联系电话</th>
-									<th class="center">职工电子邮箱</th>
-									<th class="center">职工户籍</th>
-									<th class="center">职工家庭住址</th>
-									<th class="center">职工入职状态(1:入职2:离职3:请假)</th>
-									<th class="center">职工学历</th>
-									<th class="center">职工毕业院校</th>
-									<th class="center">职工专业</th>
-									<th class="center">职工英语水平</th>
-									<th class="center">职工计算机水平</th>
-									<th class="center">职工工资</th>
-									<th class="center">职工头像</th>
-									<th class="center">职工密码</th>
-									<th class="center">创建用户</th>
-									<th class="center">创建时间</th>
-									<th class="center">最后修改时间</th>
+									<th class="center">姓名</th>
+									<th class="center">性别</th>
+									<th class="center">生日</th>
+									<th class="center">入职时间</th>
+									<th class="center">职务</th>
+									<th class="center">联系电话</th>
+									<th class="center">入职状态</th>
+									<th class="center">头像</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -107,32 +89,21 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.GMUSER_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.GMU_GM_ID}</td>
 											<td class='center'>${var.GMU_NAME}</td>
 											<td class='center'>${var.GMU_GENDER}</td>
 											<td class='center'>${var.GMU_BIRTHDAY}</td>
 											<td class='center'>${var.GM_EDATE}</td>
-											<td class='center'>${var.GMU_DEP}</td>
-											<td class='center'>${var.GMU_DUTIES}</td>
-											<td class='center'>${var.GMU_LEADERID}</td>
-											<td class='center'>${var.GMU_HEALTH}</td>
-											<td class='center'>${var.GMU_MARRIAGE}</td>
+											<td class='center'>
+												<c:if test="${var.GMU_DUTIES==1}">护士长</c:if>
+												<c:if test="${var.GMU_DUTIES==2}">护士</c:if>
+											</td>
 											<td class='center'>${var.GMU_TEL}</td>
-											<td class='center'>${var.GMU_EMAIL}</td>
-											<td class='center'>${var.GMU_CENSUS}</td>
-											<td class='center'>${var.GMU_ADDRESS}</td>
-											<td class='center'>${var.GMU_ESTATUS}</td>
-											<td class='center'>${var.GMU_EDUCATION}</td>
-											<td class='center'>${var.GMU_COLLAGE}</td>
-											<td class='center'>${var.GMU_MAJOR}</td>
-											<td class='center'>${var.GMU_LENGLISH}</td>
-											<td class='center'>${var.GMU_LCOMPUTER}</td>
-											<td class='center'>${var.GMU_WAGE}</td>
+											<td class='center'>
+												<c:if test="${var.GMU_ESTATUS==1}">入职</c:if>
+												<c:if test="${var.GMU_ESTATUS==2}">离职</c:if>
+												<c:if test="${var.GMU_ESTATUS==3}">请假</c:if>
+											</td>
 											<td class='center'>${var.GMU_AVATER}</td>
-											<td class='center'>${var.GMU_PWD}</td>
-											<td class='center'>${var.GMU_GMUID}</td>
-											<td class='center'>${var.GMU_CTIME}</td>
-											<td class='center'>${var.GMU_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

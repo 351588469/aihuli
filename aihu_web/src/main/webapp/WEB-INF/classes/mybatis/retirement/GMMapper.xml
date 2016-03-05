@@ -99,6 +99,7 @@
 			GM_CKSTATUS = #{GM_CKSTATUS},
 			GM_CKDESC = #{GM_CKDESC},
 			GM_AU_ID = #{GM_AU_ID},
+			GM_UTIME=#{GM_UTIME},
 		GM_ID = GM_ID
 		where 
 		GM_ID = #{GM_ID}
@@ -152,4 +153,8 @@
 		</foreach>
 	</delete>
 	
+	<!-- 列表(创建人__名称，编号) -->
+	<select id="listCreator"  resultType="java.util.Map">
+		select GM_ID,GM_NAME from GM;
+	</select>
 </mapper>

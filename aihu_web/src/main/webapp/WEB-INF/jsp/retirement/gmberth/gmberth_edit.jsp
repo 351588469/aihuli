@@ -27,7 +27,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 					
-					<form action="gmberth/${msg }.do" name="Form" id="Form" method="post">
+					<form action="gmberth/${msg}.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="GMBERTH_ID" id="GMBERTH_ID" value="${pd.GMBERTH_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
@@ -36,8 +36,17 @@
 								<td><input type="text" name="GMB_GM_ID" id="GMB_GM_ID" value="${pd.GMB_GM_ID}" maxlength="32" placeholder="这里输入房间所属养老院编号" title="房间所属养老院编号" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">数据类别(1:仅有楼栋2:至楼层3:至房间4：至床位):</td>
-								<td><input type="number" name="GMB_TYPE" id="GMB_TYPE" value="${pd.GMB_TYPE}" maxlength="32" placeholder="这里输入数据类别(1:仅有楼栋2:至楼层3:至房间4：至床位)" title="数据类别(1:仅有楼栋2:至楼层3:至房间4：至床位)" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">数据类别:</td>
+								<td>
+									<select name="select" id="GMB_TYPE" style="width:98%;">
+    								<option value="1">仅有楼栋</option>
+   									<option value="2">至楼层</option>
+   									<option value="3">至房间</option>
+   									<option value="4">至床位</option>
+ 									</select>
+ 								</td>
+								<!--<td><input type="number" name="GMB_TYPE" id="GMB_TYPE" value="${pd.GMB_TYPE}" maxlength="32" placeholder="这里输入数据类别(1:仅有楼栋2:至楼层3:至房间4：至床位)" title="数据类别(1:仅有楼栋2:至楼层3:至房间4：至床位)" style="width:98%;"/></td>
+								-->
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">楼栋号:</td>
@@ -64,8 +73,15 @@
 								<td><input type="text" name="GMB_GMU_ID" id="GMB_GMU_ID" value="${pd.GMB_GMU_ID}" maxlength="32" placeholder="这里输入房间负责职工编号" title="房间负责职工编号" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">床位状态(1:可以入住2:不能入住):</td>
-								<td><input type="number" name="GMB_STATUS" id="GMB_STATUS" value="${pd.GMB_STATUS}" maxlength="32" placeholder="这里输入床位状态(1:可以入住2:不能入住)" title="床位状态(1:可以入住2:不能入住)" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">床位状态:</td>
+								<td>
+									<select name="select" style="width:98%;">
+    								<option value="1">可以入住</option>
+   									<option value="2">不能入住</option>
+ 									</select>
+ 								</td>
+								<!--<td><input type="number" name="GMB_STATUS" id="GMB_STATUS" value="${pd.GMB_STATUS}" maxlength="32" placeholder="这里输入床位状态(1:可以入住2:不能入住)" title="床位状态(1:可以入住2:不能入住)" style="width:98%;"/></td>
+								-->
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">说明:</td>
@@ -110,6 +126,9 @@
 		$(top.hangge());
 		//保存
 		function save(){
+			//zzy
+			var TYPE=$("#GMB_TYPE").val();
+			//if($("#GMB_TYPE".val()))
 			if($("#GMB_GM_ID").val()==""){
 				$("#GMB_GM_ID").tips({
 					side:3,
@@ -118,16 +137,6 @@
 		            time:2
 		        });
 				$("#GMB_GM_ID").focus();
-			return false;
-			}
-			if($("#GMB_TYPE").val()==""){
-				$("#GMB_TYPE").tips({
-					side:3,
-		            msg:'请输入数据类别(1:仅有楼栋2:至楼层3:至房间4：至床位)',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#GMB_TYPE").focus();
 			return false;
 			}
 			if($("#GMB_FLOOR").val()==""){
@@ -140,7 +149,7 @@
 				$("#GMB_FLOOR").focus();
 			return false;
 			}
-			if($("#GMB_LAYER").val()==""){
+			if($("#GMB_LAYER").val()==""&&TYPE>1){
 				$("#GMB_LAYER").tips({
 					side:3,
 		            msg:'请输入楼层号',
@@ -150,7 +159,7 @@
 				$("#GMB_LAYER").focus();
 			return false;
 			}
-			if($("#GMB_ROOM").val()==""){
+			if($("#GMB_ROOM").val()==""&&TYPE>2){
 				$("#GMB_ROOM").tips({
 					side:3,
 		            msg:'请输入房间号',
@@ -160,7 +169,7 @@
 				$("#GMB_ROOM").focus();
 			return false;
 			}
-			if($("#GMB_BERTH").val()==""){
+			if($("#GMB_BERTH").val()==""&&TYPE>2){
 				$("#GMB_BERTH").tips({
 					side:3,
 		            msg:'请输入床位号',
@@ -188,16 +197,6 @@
 		            time:2
 		        });
 				$("#GMB_GMU_ID").focus();
-			return false;
-			}
-			if($("#GMB_STATUS").val()==""){
-				$("#GMB_STATUS").tips({
-					side:3,
-		            msg:'请输入床位状态(1:可以入住2:不能入住)',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#GMB_STATUS").focus();
 			return false;
 			}
 			if($("#GMB_DESC").val()==""){

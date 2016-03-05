@@ -186,7 +186,38 @@ public class PicturesController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
-	
+	/**
+	 * zzy的新增页面
+	 */
+	@RequestMapping(value="/goAddZzy")
+	public ModelAndView goAddZzy() throws Exception{
+		logBefore(logger, "去新增Pictures页面");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("information/pictures/pictures_addzzy");
+		mv.addObject("pd", pd);
+		return mv;
+		/*String  ffile = DateUtil.getDays(), fileName = "";
+		if (null != file && !file.isEmpty()) {
+			String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;	//文件上传路径
+			fileName = FileUpload.fileUp(file, filePath, this.get32UUID());			//执行上传
+			System.out.println("zzy2:"+fileName);
+		}
+		return "";*/
+	}
+	@ResponseBody
+	@RequestMapping(value="/zzyAdd")
+	public String zzyAdd(MultipartFile file)throws Exception{
+		System.out.println("zzy:come to zzyAdd");
+		String  ffile = DateUtil.getDays(), fileName = "";
+		if (null != file && !file.isEmpty()) {
+			String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;	//文件上传路径
+			fileName = FileUpload.fileUp(file, filePath, this.get32UUID());			//执行上传
+		}
+		System.out.println("zzy:leave zzyAdd");
+		return DateUtil.getDays()+"/"+fileName;
+	}
 	/**去修改页面
 	 * @return
 	 * @throws Exception 

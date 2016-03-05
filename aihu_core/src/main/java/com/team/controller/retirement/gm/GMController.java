@@ -10,22 +10,29 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
 import com.team.service.retirement.gm.GMManager;
 import com.team.util.AppUtil;
+import com.team.util.Const;
+import com.team.util.DateUtil;
+import com.team.util.FileUpload;
 import com.team.util.Jurisdiction;
 import com.team.util.ObjectExcelView;
 import com.team.util.PageData;
+import com.team.util.PathUtil;
 import com.team.util.Tools;
 
 /** 
@@ -52,6 +59,14 @@ public class GMController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		System.out.println("zzy:"+pd.toString());
+		/*String  ffile = DateUtil.getDays(), fileName = "";
+		if (null != file && !file.isEmpty()) {
+			String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;	//文件上传路径
+			fileName = FileUpload.fileUp(file, filePath, this.get32UUID());			//执行上传
+			System.out.println("zzy2:"+fileName);
+		}*/
+		
 		pd.put("GM_ID", this.get32UUID());	//主键
 		pd.put("GM_CTIME", Tools.date2Str(new Date()));	//创建时间
 		pd.put("GM_UTIME", Tools.date2Str(new Date()));	//最后修改时间

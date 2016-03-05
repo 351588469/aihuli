@@ -66,18 +66,14 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">房间所属养老院编号</th>
-									<th class="center">数据类别(1:仅有楼栋2:至楼层3:至房间4：至床位)</th>
 									<th class="center">楼栋号</th>
 									<th class="center">楼层号</th>
 									<th class="center">房间号</th>
 									<th class="center">床位号</th>
 									<th class="center">居住老人编号</th>
 									<th class="center">房间负责职工编号</th>
-									<th class="center">床位状态(1:可以入住2:不能入住)</th>
+									<th class="center">床位状态</th>
 									<th class="center">说明</th>
-									<th class="center">创建时间</th>
-									<th class="center">最后修改时间</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -93,18 +89,17 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.GMBERTH_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.GMB_GM_ID}</td>
-											<td class='center'>${var.GMB_TYPE}</td>
 											<td class='center'>${var.GMB_FLOOR}</td>
 											<td class='center'>${var.GMB_LAYER}</td>
 											<td class='center'>${var.GMB_ROOM}</td>
 											<td class='center'>${var.GMB_BERTH}</td>
 											<td class='center'>${var.GMB_E_ID}</td>
 											<td class='center'>${var.GMB_GMU_ID}</td>
-											<td class='center'>${var.GMB_STATUS}</td>
+											<td class='center'>
+												<c:if test="${var.GMB_STATUS==1}">可以入住</c:if>
+												<c:if test="${var.GMB_STATUS==2}">不能入住</c:if>
+											</td>
 											<td class='center'>${var.GMB_DESC}</td>
-											<td class='center'>${var.GMB_CTIME}</td>
-											<td class='center'>${var.GMB_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

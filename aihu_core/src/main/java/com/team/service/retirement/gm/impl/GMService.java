@@ -1,10 +1,15 @@
 package com.team.service.retirement.gm.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
+import com.team.util.DateUtil;
 import com.team.util.PageData;
 import com.team.service.retirement.gm.GMManager;
 
@@ -25,6 +30,10 @@ public class GMService implements GMManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception{
+		//数据处理
+		if(!pd.containsKey("GM_CKSTATUS"))pd.put("GM_CKSTATUS",3);//3:待审核
+		if(!pd.containsKey("GM_BERTH_COUNT"))pd.put("GM_BERTH_COUNT",null);
+		pd.put("GM_UTIME",null);//新数据无修改时间
 		dao.save("GMMapper.save", pd);
 	}
 	
@@ -41,6 +50,9 @@ public class GMService implements GMManager{
 	 * @throws Exception
 	 */
 	public void edit(PageData pd)throws Exception{
+		if(pd.get("GM_BERTH_COUNT").equals(""))pd.put("GM_BERTH_COUNT",null);
+		if(!pd.containsKey("GM_CKSTATUS"))pd.put("GM_CKSTATUS",3);//3:待审核
+		pd.put("GM_UTIME",DateUtil.getTime().toString());
 		dao.update("GMMapper.edit", pd);
 	}
 	
@@ -76,6 +88,13 @@ public class GMService implements GMManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("GMMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String,Object>> listByCreator() throws Exception {
+		List<Map<String,Object>>list=(List<Map<String, Object>>) dao.findForList("GMMapper.listCreator",null);
+		return list;
 	}
 	
 }

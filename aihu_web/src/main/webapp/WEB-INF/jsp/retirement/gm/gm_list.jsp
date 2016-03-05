@@ -67,25 +67,10 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">名称</th>
-									<th class="center">头像</th>
-									<th class="center">地址</th>
 									<th class="center">联系电话</th>
 									<th class="center">联系人</th>
-									<th class="center">性质</th>
-									<th class="center">营业面积</th>
-									<th class="center">床位数</th>
-									<th class="center">简介</th>
-									<th class="center">收住对象</th>
-									<th class="center">收费标准</th>
-									<th class="center">服务内容</th>
-									<th class="center">营业执照图片</th>
-									<th class="center">法人身份证正面</th>
-									<th class="center">法人身份证反面</th>
-									<th class="center">审核状态(1审核通过2审核未通过3待审核)</th>
-									<th class="center">审核状态描述</th>
-									<th class="center">创建用户id(app_user)</th>
+									<th class="center">审核状态</th>
 									<th class="center">创建时间</th>
-									<th class="center">最后修改时间</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -102,25 +87,14 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.GM_NAME}</td>
-											<td class='center'>${var.GM_AVATER}</td>
-											<td class='center'>${var.GM_ADDRESS}</td>
 											<td class='center'>${var.GM_TEL}</td>
 											<td class='center'>${var.GM_CONCAT}</td>
-											<td class='center'>${var.GM_NATURE}</td>
-											<td class='center'>${var.GM_SQUARE}</td>
-											<td class='center'>${var.GM_BERTH_COUNT}</td>
-											<td class='center'>${var.GM_DESCRIPTION}</td>
-											<td class='center'>${var.GM_RECEIVE}</td>
-											<td class='center'>${var.GM_FEEDESC }</td>
-											<td class='center'>${var.GM_SERVEINFO}</td>
-											<td class='center'>${var.GM_LICENCE_PHOTO}</td>
-											<td class='center'>${var.GM_LEGALPERSON_PHOTOA}</td>
-											<td class='center'>${var.GM_LEGALPERSON_PHOTOB}</td>
-											<td class='center'>${var.GM_CKSTATUS}</td>
-											<td class='center'>${var.GM_CKDESC}</td>
-											<td class='center'>${var.GM_AU_ID}</td>
+											<td class='center'>
+												<c:if test="${var.GM_CKSTATUS==1}">审核通过</c:if>
+												<c:if test="${var.GM_CKSTATUS==2}">审核未通过</c:if>
+												<c:if test="${var.GM_CKSTATUS==3}">待审核</c:if>
+											</td>
 											<td class='center'>${var.GM_CTIME}</td>
-											<td class='center'>${var.GM_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

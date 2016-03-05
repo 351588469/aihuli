@@ -7,7 +7,7 @@ import com.team.util.PageData;
 /** 
  * 说明： 职工信息接口
  * 创建人：jaychum
- * 创建时间：2016-03-02
+ * 创建时间：2016-03-03
  * @version
  */
 public interface GMUserManager{

@@ -11,7 +11,7 @@ import com.team.service.retirement.gmuser.GMUserManager;
 /** 
  * 说明： 职工信息
  * 创建人：jaychum
- * 创建时间：2016-03-02
+ * 创建时间：2016-03-03
  * @version
  */
 @Service("gmuserService")

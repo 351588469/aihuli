@@ -8019,6 +8019,9 @@
      *     ...
      * })
      */
+    WebUploader.create({
+    	fileNumLimit: 2
+    });
     define('widgets/log',[
         'base',
         'uploader',

@@ -9,7 +9,7 @@
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		GMAR_CODE,	
+		GMAR_CODE,
 		GMAR_E_ID,	
 		GMAR_SCORE,	
 		GMAR_GMAI_ID,	
@@ -26,7 +26,7 @@
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{GMAR_CODE},	
+		#{GMAR_CODE},
 		#{GMAR_E_ID},	
 		#{GMAR_SCORE},	
 		#{GMAR_GMAI_ID},	
@@ -51,7 +51,32 @@
 	<include refid="FieldValue"></include>
 		)
 	</insert>
-	
+	<!-- zzy批量新增 -->
+	<insert id="zzySaveMult" parameterType="java.util.List">
+ 		insert into 
+ 		<include refid="tableName"></include>
+ 		(
+ 		<include refid="Field"></include>
+ 		)
+ 		values
+ 		<foreach item="item" collection="list" index="index" separator=",">
+ 		(	
+ 			#{item.GMAR_CODE},
+ 			#{item.GMAR_E_ID},	
+			#{item.GMAR_SCORE},	
+			#{item.GMAR_GMAI_ID},	
+			#{item.GMAR_GMAI_GM_ID},	
+			#{item.GMAR_GMAI_NUM},	
+			#{item.GMAR_GMAI_ITYPE},	
+			#{item.GMAR_GMAI_STYPE},	
+			#{item.GMAR_GMAI_SCORE},	
+			#{item.GMAR_GMAI_CONTENT},	
+			#{item.GMAR_CTIME},	
+			#{item.GMAR_UTIME},	
+			#{item.GMARESULT_ID}
+		)
+ 		</foreach>
+ 	</insert>
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
 		delete from

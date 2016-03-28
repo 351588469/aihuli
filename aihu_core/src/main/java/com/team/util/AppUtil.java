@@ -28,10 +28,107 @@ public class AppUtil  {
 		if(method=="registered"){// 注册
 			paramArray = Const.APP_REGISTERED_PARAM_ARRAY;  //参数
 			valueArray = Const.APP_REGISTERED_VALUE_ARRAY;  //参数名称
-			
 		}else if(method=="getAppuserByUsernmae"){//根据用户名获取会员信息
 			paramArray = Const.APP_GETAPPUSER_PARAM_ARRAY;  
 			valueArray = Const.APP_GETAPPUSER_VALUE_ARRAY;
+		}else if(method=="appzzys_elist"){//护士端首页
+			paramArray=Const.ZZY_ZZYS_ELIST_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_ELIST_VALUE_ARRAY;
+		}else if(method=="appzzys_login"){//护士端登录
+			paramArray=Const.ZZY_ZZYS_LOGIN_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_LOGIN_VALUE_ARRAY;
+		}else if(method=="appzzys_einfo"){//护士端老人信息
+			paramArray=Const.ZZY_ZZYS_EINFO_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_EINFO_VALUE_ARRAY;
+		}else if(method=="appzzys_dmsg"){//护士端每日消息
+			paramArray=Const.ZZY_ZZYS_DMSG_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_DMSG_VALUE_ARRAY;
+		}
+		/**
+		 * 新增记录
+		 */
+		else if(method=="appzzys_rnew"){//护士端新增记录
+			paramArray=Const.ZZY_ZZYS_RNEW_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RNEW_VALUE_ARRAY;
+		}else if(method=="appzzys_rnew_erh"){//护士端新增健康记录
+			paramArray=Const.ZZY_ZZYS_RNEW_ERH_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RNEW_ERH_VALUE_ARRAY;
+		}else if(method=="appzzys_rnew_ern"){//护士端新增护理记录
+			paramArray=Const.ZZY_ZZYS_RNEW_ERN_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RNEW_ERN_VALUE_ARRAY;
+		}else if(method=="appzzys_rnew_erd"){//护士端新增用药记录
+			paramArray=Const.ZZY_ZZYS_RNEW_ERD_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RNEW_ERD_VALUE_ARRAY;
+		}else if(method=="appzzys_rnew_ero"){//护士端新增其他记录
+			paramArray=Const.ZZY_ZZYS_RNEW_ERO_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RNEW_ERO_VALUE_ARRAY;
+		}
+		/**
+		 * 获取历史记录
+		 */
+		else if(method=="appzzys_rpast"){//护士端获取历史记录
+			paramArray=Const.ZZY_ZZYS_RPAST_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RPAST_VALUE_ARRAY;
+		}else if(method=="appzzys_rpast_erh"){//护士端获取历史健康记录
+			paramArray=Const.ZZY_ZZYS_RPAST_ERH_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RPAST_ERH_VALUE_ARRAY;
+		}else if(method=="appzzys_rpast_ern"){//护士端获取历史护理记录
+			paramArray=Const.ZZY_ZZYS_RPAST_ERN_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RPAST_ERN_VALUE_ARRAY;
+		}else if(method=="appzzys_rpast_erd"){//护士端获取历史用药记录
+			paramArray=Const.ZZY_ZZYS_RPAST_ERD_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RPAST_ERD_VALUE_ARRAY;
+		}else if(method=="appzzys_rpast_ero"){//护士端获取历史其他记录
+			paramArray=Const.ZZY_ZZYS_RPAST_ERO_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_RPAST_ERO_VALUE_ARRAY;
+		}
+		/**
+		 * 新增计划
+		 */
+		else if(method=="appzzys_pnew"){//护士端新增计划
+			paramArray=Const.ZZY_ZZYS_PNEW_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_PNEW_VALUE_ARRAY;
+		}else if(method=="appzzys_pnew_enp"){//护士端新增老人护理计划
+			paramArray=Const.ZZY_ZZYS_PNEW_ENP_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_PNEW_ENP_VALUE_ARRAY;
+		}else if(method=="appzzys_pnew_edp"){//护士端新增老人用药计划
+			paramArray=Const.ZZY_ZZYS_PNEW_EDP_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_PNEW_EDP_VALUE_ARRAY;
+		}
+		/**
+		 * 计划列表
+		 */
+		else if(method=="appzzys_plist"){//护士端计划列表
+			paramArray=Const.ZZY_ZZYS_PLIST_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_PLIST_VALUE_ARRAY;
+		}else if(method=="appzzys_plist_enp"){//护士端老人护理计划列表
+			paramArray=Const.ZZY_ZZYS_PLIST_ENP_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_PLIST_ENP_VALUE_ARRAY;
+		}else if(method=="appzzys_plist_edp"){//护士端老人用药计划列表
+			paramArray=Const.ZZY_ZZYS_PLIST_EDP_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_PLIST_EDP_VALUE_ARRAY;
+		}
+		
+		
+		else if(method=="appzzys_gmnlist"){//护理项目列表
+			paramArray=Const.ZZY_ZZYS_GMNLIST_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_GMNLIST_VALUE_ARRAY;
+		}
+		
+		else if(method=="appzzys_beval"){//护士端房间评测
+			paramArray=Const.ZZY_ZZYS_BEVAL_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_BEVAL_VALUE_ARRAY;
+		}else if(method=="appzzys_bpast"){//护士端房间评测
+			paramArray=Const.ZZY_ZZYS_BPAST_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_BPAST_VALUE_ARRAY;
+		}
+		
+		else if(method=="appzzys_alist"){//评测题目列表
+			paramArray=Const.ZZY_ZZYS_ALIST_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_ALIST_VALUE_ARRAY;
+		}else if(method=="appzzys_aradd"){//新增评测结果
+			paramArray=Const.ZZY_ZZYS_ARADD_PARAM_ARRAY;
+			valueArray =Const.ZZY_ZZYS_ARADD_VALUE_ARRAY;
 		}
 		int size = paramArray.length;
 		for(int i=0;i<size;i++){

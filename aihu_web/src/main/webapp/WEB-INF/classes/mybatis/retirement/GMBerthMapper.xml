@@ -89,7 +89,15 @@
 		where 
 			GMBERTH_ID = #{GMBERTH_ID}
 	</select>
-	
+	<!-- 通过ID获取数据 -->
+	<select id="zzyFindById" parameterType="String" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			GMBERTH_ID = #{0}
+	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -97,6 +105,13 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
+		<if test="pd.GMB_GM_ID!= null and pd.GMB_GM_ID != ''">
+		and GMB_GM_ID=#{pd.GMB_GM_ID} and GMB_TYPE=#{pd.GMB_TYPE}
+		</if>
+		<if test="pd.GMBERTH_ID!=null and pd.GMBERTH_ID!=''">
+		and GMB_FLOOR=#{pd.GMB_FLOOR} and GMB_LAYER=#{pd.GMB_LAYER} 
+		and GMB_ROOM=#{pd.GMB_ROOM} and GMB_TYPE=#{pd.GMB_TYPE}
+		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
@@ -116,7 +131,7 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -127,5 +142,20 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- 获取负责床位列表 -->
+	<select id="zzyListOfBerth" parameterType="java.lang.String" resultType="pd">
+		select * from GM_GMBERTH where GMB_GMU_ID like  CONCAT('%',#{0},'%' )
+		order by GMB_FLOOR ,GMB_LAYER,GMB_ROOM
+	</select>
+	<!-- 获取老人列表 -->
+	<select id="zzyListOfElder" parameterType="java.lang.String" resultType="pd">
+		select GMB_E_ID,GMBERTH_ID from GM_GMBERTH where GMB_GMU_ID like  CONCAT('%',#{0},'%' )
+		order by GMB_FLOOR ,GMB_LAYER,GMB_ROOM 
+	</select>
+	<select id="zzyCheckByElderName" parameterType="pd" resultType="String">
+		select GMBERTH_ID from 
+		<include refid="tableName"></include>
+		where 
+		GMB_E_ID=#{GMB_E_ID} and GMB_GM_ID=#{GMB_GM_ID}
+	</select>
 </mapper>

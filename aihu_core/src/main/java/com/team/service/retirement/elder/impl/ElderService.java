@@ -1,8 +1,11 @@
 package com.team.service.retirement.elder.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.util.PageData;
@@ -69,13 +72,41 @@ public class ElderService implements ElderManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("ElderMapper.findById", pd);
 	}
-	
+	/**
+	 * zzy
+	 */
+	@Override
+	public PageData zzyFindById(String id)throws Exception{
+		return (PageData)dao.findForObject("ElderMapper.zzyFindById",id);
+	}
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("ElderMapper.deleteAll", ArrayDATA_IDS);
+	}
+	/**
+	 * zzy
+	 *  根据老人姓名检测老人信息是否存在
+	 *  return 老人编号
+	 */
+	@Override
+	public String zzyCheckByName(PageData pd) throws Exception {
+		return (String) dao.findForObject("ElderMapper.zzyCheckByName",pd);
+	}
+	/**
+	 * zzy
+	 * 根据编号获取老人姓名
+	 */
+	@Override
+	public String zzyFindNameById(String id) throws Exception {
+		return (String)dao.findForObject("ElderMapper.zzyFindNameById",id);
+	}
+
+	@Override
+	public String zzyFindGmidById(String id) throws Exception {
+		return (String)dao.findForObject("ElderMapper.zzyFindGmidById",id);
 	}
 	
 }

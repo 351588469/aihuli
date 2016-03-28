@@ -44,7 +44,8 @@
 		E_PWD,	
 		E_GMU_ID,	
 		E_CTIME,	
-		E_UTIME,	
+		E_UTIME,
+		E_GM_ID,	
 		ELDER_ID
 	</sql>
 	
@@ -86,6 +87,7 @@
 		#{E_GMU_ID},	
 		#{E_CTIME},	
 		#{E_UTIME},	
+		#{E_GM_ID},
 		#{ELDER_ID}
 	</sql>
 	
@@ -146,6 +148,7 @@
 			E_AVATER = #{E_AVATER},
 			E_PWD = #{E_PWD},
 			E_GMU_ID = #{E_GMU_ID},
+			E_GM_ID=#{E_GM_ID},
 		ELDER_ID = ELDER_ID
 		where 
 		ELDER_ID = #{ELDER_ID}
@@ -160,7 +163,15 @@
 		where 
 			ELDER_ID = #{ELDER_ID}
 	</select>
-	
+	<!-- zzy通过ID获取数据 -->
+	<select id="zzyFindById" parameterType="java.lang.String" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			ELDER_ID = #{0}
+	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -168,6 +179,9 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
+		<if test="pd.E_GM_ID!= null and pd.E_GM_ID != ''">
+		and E_GM_ID=#{pd.E_GM_ID}
+		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
@@ -198,5 +212,20 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- zzy 根据老人姓名检测老人信息是否存在 -->
+	<select id="zzyCheckByName" parameterType="pd" resultType="java.lang.String">
+		select ELDER_ID from 
+		<include refid="tableName"></include>
+		where E_NAME=#{E_NAME} and E_GM_ID=#{E_GM_ID}
+	</select>
+	<select id="zzyFindNameById" parameterType="java.lang.String" resultType="java.lang.String">
+		select E_NAME from 
+		<include refid="tableName"></include>
+		where ELDER_ID=#{0}
+	</select>
+	<select id="zzyFindGmidById" parameterType="java.lang.String" resultType="java.lang.String">
+		select E_GM_ID from 
+		<include refid="tableName"></include>
+		where ELDER_ID=#{0}
+	</select>
 </mapper>

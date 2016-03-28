@@ -17,6 +17,31 @@
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
 </head>
+<script type="text/javascript">
+	
+	function doUpload(formid) {
+     var formData = new FormData($("#"+formid)[0]);
+     $.ajax({
+          url: '<%=basePath%>pictures/zzyAdd.do' ,
+          type: 'POST',
+          data: formData,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (returndata) {
+              	$('#'+'E_'+formid).val(returndata);
+              	$('#'+'A_'+formid).css('visibility','visible');
+              	$('#'+'A_'+formid).attr('href','<%=basePath%>uploadFiles/uploadImgs/'+returndata); 
+              	$('#'+'IMG_'+formid).attr('src','<%=basePath%>uploadFiles/uploadImgs/'+returndata); 
+              	//alert($('#'+'E_'+formid).val());
+          },
+          error: function (returndata) {
+              alert(returndata);
+          }
+     });
+}
+</script>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
 <div class="main-container" id="main-container">
@@ -26,22 +51,88 @@
 			<div class="page-content">
 				<div class="row">
 					<div class="col-xs-12">
-					
-					<form action="elder/${msg }.do" name="Form" id="Form" method="post">
+					<!--图片处理开始 -->
+								<div id="zhongxin" style="padding-top: 13px;">
+									<table id="table_report"
+										class="table table-striped table-bordered table-hover">
+										<!-- 单张图片处理开始 -->
+										<tr>
+											<td style="width:75px;text-align: right;padding-top: 13px;">上传头像:</td>
+											<td>
+												<c:if test="${pd.E_AVATER!=null&&pd.E_AVATER!=''}">
+												<a target="_blank" style="" id="A_AVATER"
+													href="<%=basePath%>uploadFiles/uploadImgs/${pd.E_AVATER}">
+													<img src="<%=basePath%>uploadFiles/uploadImgs/${pd.E_AVATER}" id="IMG_AVATER"
+													style="width:30px;height:30px"
+													/>
+												</a>
+												</c:if>
+												<c:if test="${pd.E_AVATER==null||pd.E_AVATER==''}">
+												<a target="_blank" style="visibility:hidden;" id="A_AVATER"
+													href="">
+													<img src="" id="IMG_AVATER"
+													style="width:30px;height:30px"
+													/>
+												</a>
+												</c:if>
+											</td>
+											<td>
+												<form id="AVATER">
+												<input style="padding:0;margin:0;width:200px;float:left" type="file" name="file"/>
+												<input style="padding:0;margin:0;float:left" type="button" value="上传" onclick="doUpload('AVATER')" />
+												</form>
+											</td>
+										</tr>
+										<!-- 单张图片处理结束 -->
+									</table>
+								</div>
+					<!-- 图片处理结束 -->
+					<form action="elder/${msg}.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="ELDER_ID" id="ELDER_ID" value="${pd.ELDER_ID}"/>
+						<input type="hidden" name="E_AVATER" id="E_AVATER" value="${pd.E_AVATER}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">养老院:</td>
+								<td>
+									<input type="hidden"name="E_GM_ID" id="E_GM_ID" value="${GM_ID}">
+									<input type="text" readonly="readonly" value="${GM_NAME}" style="width:98%"/>
+								</td>
+							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">老人姓名:</td>
 								<td><input type="text" name="E_NAME" id="E_NAME" value="${pd.E_NAME}" maxlength="20" placeholder="这里输入老人姓名" title="老人姓名" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">老人性别:</td>
-								<td><input type="text" name="E_GENDER" id="E_GENDER" value="${pd.E_GENDER}" maxlength="5" placeholder="这里输入老人性别" title="老人性别" style="width:98%;"/></td>
+								<td>
+									<input type="hidden" readonly="readonly" name="E_GENDER" id="E_GENDER" value="${pd.E_GENDER}"/>
+									<select  name="SELECT_GENDER" id="SELECT_GENDER" style="width:50%"
+									onchange="$('#E_GENDER').val(this.value)">
+									<c:if test="${pd.E_GENDER==''||pd.E_GENDER==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="男" <c:if test="${pd.E_GENDER=='男'}">selected</c:if>>男</option>
+   									<option value="女" <c:if test="${pd.E_GENDER=='女'}">selected</c:if>>女</option>
+   									</select>
+   								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">入住状态(1入住2退住3试住):</td>
-								<td><input type="number" name="E_INTAKE" id="E_INTAKE" value="${pd.E_INTAKE}" maxlength="32" placeholder="这里输入入住状态(1入住2退住3试住)" title="入住状态(1入住2退住3试住)" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">入住状态</td>
+								<td>
+									<input type="hidden" name="E_INTAKE" id="E_INTAKE" value="${pd.E_INTAKE}"/>
+									<select  name="SELECT_INTAKE" id="SELECT_INTAKE" style="width:98%;"
+									onchange="$('#E_INTAKE').val(this.value)">
+									<c:if test="${pd.E_INTAKE==''||pd.E_INTAKE==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="1" <c:if test="${pd.E_INTAKE=='1'}">selected</c:if>>入住</option>
+   									<option value="2" <c:if test="${pd.E_INTAKE=='2'}">selected</c:if>>退住</option>
+   									<option value="3" <c:if test="${pd.E_INTAKE=='3'}">selected</c:if>>试住</option>
+ 									</select>
+ 								</td>
+								<!--<td><input type="number" name="E_INTAKE" id="E_INTAKE" value="${pd.E_INTAKE}" maxlength="32" placeholder="这里输入入住状态(1入住2退住3试住)" title="入住状态(1入住2退住3试住)" style="width:98%;"/></td>
+								-->
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">身份证:</td>
@@ -89,30 +180,118 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">血型:</td>
-								<td><input type="text" name="E_BTYPE" id="E_BTYPE" value="${pd.E_BTYPE}" maxlength="10" placeholder="这里输入血型" title="血型" style="width:98%;"/></td>
+								<td>
+									<input type="hidden" readonly="readonly" name="E_BTYPE" id="E_BTYPE" value="${pd.E_BTYPE}"/>
+									<select  name="SELECT_BTYPE" id="SELECT_BTYPE" style="width:50%"
+									onchange="$('#E_BTYPE').val(this.value)">
+									<c:if test="${pd.E_BTYPE==''||pd.E_BTYPE==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="A" <c:if test="${pd.E_BTYPE=='A'}">selected</c:if>>A</option>
+   									<option value="B" <c:if test="${pd.E_BTYPE=='B'}">selected</c:if>>B</option>
+   									<option value="AB" <c:if test="${pd.E_BTYPE=='AB'}">selected</c:if>>AB</option>
+   									<option value="O" <c:if test="${pd.E_BTYPE=='O'}">selected</c:if>>O</option>
+   									<option value="RH" <c:if test="${pd.E_BTYPE=='RH'}">selected</c:if>>RH</option>
+   									</select>
+   								</td>
+								<!--<td><input type="text" name="E_BTYPE" id="E_BTYPE" value="${pd.E_BTYPE}" maxlength="10" placeholder="这里输入血型" title="血型" style="width:98%;"/></td>
+								-->
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">视力:</td>
-								<td><input type="text" name="E_VISSION" id="E_VISSION" value="${pd.E_VISSION}" maxlength="20" placeholder="这里输入视力" title="视力" style="width:98%;"/></td>
+								<td>
+									<input type="hidden" name="E_VISSION" id="E_VISSION" value="${pd.E_VISSION}"/>
+									<select  name="SELECT_VISSION" id="SELECT_VISSION" style="width:50%;"
+									onchange="$('#E_VISSION').val(this.value)">
+    								<c:if test="${pd.E_VISSION==''||pd.E_VISSION==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="1" <c:if test="${pd.E_VISSION=='1'}">selected</c:if>>很差</option>
+    								<option value="2" <c:if test="${pd.E_VISSION=='2'}">selected</c:if>>较差</option>
+    								<option value="3" <c:if test="${pd.E_VISSION=='3'}">selected</c:if>>一般</option>
+    								<option value="4" <c:if test="${pd.E_VISSION=='4'}">selected</c:if>>较好</option>
+    								<option value="5" <c:if test="${pd.E_VISSION=='5'}">selected</c:if>>好</option>
+ 									</select>
+ 								</td>
+								<!--<td><input type="text" name="E_VISSION" id="E_VISSION" value="${pd.E_VISSION}" maxlength="20" placeholder="这里输入视力" title="视力" style="width:98%;"/></td>-->
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">听力:</td>
-								<td><input type="text" name="E_HEARING" id="E_HEARING" value="${pd.E_HEARING}" maxlength="20" placeholder="这里输入听力" title="听力" style="width:98%;"/></td>
+								<td>
+									<input type="hidden" name="E_HEARING" id="E_HEARING" value="${pd.E_HEARING}"/>
+									<select  name="SELECT_HEARING" id="SELECT_HEARING" style="width:50%;"
+									onchange="$('#E_HEARING').val(this.value)">
+    								<c:if test="${pd.E_HEARING==''||pd.E_HEARING==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="1" <c:if test="${pd.E_HEARING=='1'}">selected</c:if>>很差</option>
+    								<option value="2" <c:if test="${pd.E_HEARING=='2'}">selected</c:if>>较差</option>
+    								<option value="3" <c:if test="${pd.E_HEARING=='3'}">selected</c:if>>一般</option>
+    								<option value="4" <c:if test="${pd.E_HEARING=='4'}">selected</c:if>>较好</option>
+    								<option value="5" <c:if test="${pd.E_HEARING=='5'}">selected</c:if>>好</option>
+ 									</select>
+ 								</td>
+								<!--<td><input type="text" name="E_HEARING" id="E_HEARING" value="${pd.E_HEARING}" maxlength="20" placeholder="这里输入听力" title="听力" style="width:98%;"/></td>-->
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">记忆力:</td>
-								<td><input type="text" name="E_MEMORY" id="E_MEMORY" value="${pd.E_MEMORY}" maxlength="20" placeholder="这里输入记忆力" title="记忆力" style="width:98%;"/></td>
+								<td>
+									<input type="hidden" name="E_MEMORY" id="E_MEMORY" value="${pd.E_MEMORY}"/>
+									<select  name="SELECT_MEMORY" id="SELECT_MEMORY" style="width:50%;"
+									onchange="$('#E_MEMORY').val(this.value)">
+    								<c:if test="${pd.E_MEMORY==''||pd.E_MEMORY==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="1" <c:if test="${pd.E_MEMORY=='1'}">selected</c:if>>很差</option>
+    								<option value="2" <c:if test="${pd.E_MEMORY=='2'}">selected</c:if>>较差</option>
+    								<option value="3" <c:if test="${pd.E_MEMORY=='3'}">selected</c:if>>一般</option>
+    								<option value="4" <c:if test="${pd.E_MEMORY=='4'}">selected</c:if>>较好</option>
+    								<option value="5" <c:if test="${pd.E_MEMORY=='5'}">selected</c:if>>好</option>
+ 									</select>
+ 								</td>
+								<!--<td><input type="text" name="E_MEMORY" id="E_MEMORY" value="${pd.E_MEMORY}" maxlength="20" placeholder="这里输入记忆力" title="记忆力" style="width:98%;"/></td>
+								-->
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">神智:</td>
-								<td><input type="text" name="E_MIND" id="E_MIND" value="${pd.E_MIND}" maxlength="20" placeholder="这里输入神智" title="神智" style="width:98%;"/></td>
+								<td>
+									<input type="hidden" name="E_MIND" id="E_MIND" value="${pd.E_MIND}"/>
+									<select  name="SELECT_MIND" id="SELECT_MIND" style="width:50%;"
+									onchange="$('#E_MIND').val(this.value)">
+    								<c:if test="${pd.E_MIND==''||pd.E_MIND==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="1" <c:if test="${pd.E_MIND=='1'}">selected</c:if>>很差</option>
+    								<option value="2" <c:if test="${pd.E_MIND=='2'}">selected</c:if>>较差</option>
+    								<option value="3" <c:if test="${pd.E_MIND=='3'}">selected</c:if>>一般</option>
+    								<option value="4" <c:if test="${pd.E_MIND=='4'}">selected</c:if>>较好</option>
+    								<option value="5" <c:if test="${pd.E_MIND=='5'}">selected</c:if>>好</option>
+ 									</select>
+ 								</td>
+								<!--<td><input type="text" name="E_MIND" id="E_MIND" value="${pd.E_MIND}" maxlength="20" placeholder="这里输入神智" title="神智" style="width:98%;"/></td>
+								-->
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">大小便:</td>
-								<td><input type="text" name="E_RELIEVE" id="E_RELIEVE" value="${pd.E_RELIEVE}" maxlength="20" placeholder="这里输入大小便" title="大小便" style="width:98%;"/></td>
+								<td>
+									<input type="hidden" name="E_RELIEVE" id="E_RELIEVE" value="${pd.E_RELIEVE}"/>
+									<select  name="SELECT_RELIEVE" id="SELECT_RELIEVE" style="width:50%;"
+									onchange="$('#E_RELIEVE').val(this.value)">
+    								<c:if test="${pd.E_RELIEVE==''||pd.E_RELIEVE==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="1" <c:if test="${pd.E_RELIEVE=='1'}">selected</c:if>>很差</option>
+    								<option value="2" <c:if test="${pd.E_RELIEVE=='2'}">selected</c:if>>较差</option>
+    								<option value="3" <c:if test="${pd.E_RELIEVE=='3'}">selected</c:if>>一般</option>
+    								<option value="4" <c:if test="${pd.E_RELIEVE=='4'}">selected</c:if>>较好</option>
+    								<option value="5" <c:if test="${pd.E_RELIEVE=='5'}">selected</c:if>>好</option>
+ 									</select>
+ 								</td>
+								<!--<td><input type="text" name="E_RELIEVE" id="E_RELIEVE" value="${pd.E_RELIEVE}" maxlength="20" placeholder="这里输入大小便" title="大小便" style="width:98%;"/></td>
+								 -->
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">血压(收缩压/舒张压):</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">血压:</td>
 								<td><input type="text" name="E_STOLIC" id="E_STOLIC" value="${pd.E_STOLIC}" maxlength="20" placeholder="这里输入血压(收缩压/舒张压)" title="血压(收缩压/舒张压)" style="width:98%;"/></td>
 							</tr>
 							<tr>
@@ -144,20 +323,20 @@
 								<td><input type="number" name="E_A_LEVEL" id="E_A_LEVEL" value="${pd.E_A_LEVEL}" maxlength="32" placeholder="这里输入评估等级" title="评估等级" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">最近一次评估表:</td>
-								<td><input type="text" name="E_A_LEVELLIST" id="E_A_LEVELLIST" value="${pd.E_A_LEVELLIST}" maxlength="32" placeholder="这里输入最近一次评估表" title="最近一次评估表" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">老人头像:</td>
-								<td><input type="text" name="E_AVATER" id="E_AVATER" value="${pd.E_AVATER}" maxlength="255" placeholder="这里输入老人头像" title="老人头像" style="width:98%;"/></td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">老人密码:</td>
 								<td><input type="text" name="E_PWD" id="E_PWD" value="${pd.E_PWD}" maxlength="64" placeholder="这里输入老人密码" title="老人密码" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">创建职工编号:</td>
-								<td><input type="text" name="E_GMU_ID" id="E_GMU_ID" value="${pd.E_GMU_ID}" maxlength="32" placeholder="这里输入创建职工" title="创建职工" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">创建人:</td>
+								<td>
+									<c:if test="${pd.E_GMU_ID==''||pd.E_GMU_ID==null}">
+									
+									</c:if>
+									<input type="hidden" name="E_GMU_ID" id="E_GMU_ID" value="${user.USER_ID}"/>
+									<input type="text" readonly="readonly" value="${user.USERNAME}"/>
+								</td>
+								<!--<td><input type="text" name="E_GMU_ID" id="E_GMU_ID" value="${pd.E_GMU_ID}" maxlength="32" placeholder="这里输入创建职工" title="创建职工" style="width:98%;"/></td>
+								-->
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -258,266 +437,7 @@
 				$("#E_SDATE").focus();
 			return false;
 			}
-			if($("#E_AGE").val()==""){
-				$("#E_AGE").tips({
-					side:3,
-		            msg:'请输入老人年龄',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_AGE").focus();
-			return false;
-			}
-			if($("#E_CENSUS").val()==""){
-				$("#E_CENSUS").tips({
-					side:3,
-		            msg:'请输入老人户籍',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_CENSUS").focus();
-			return false;
-			}
-			if($("#E_ADDRESS").val()==""){
-				$("#E_ADDRESS").tips({
-					side:3,
-		            msg:'请输入老人住址',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_ADDRESS").focus();
-			return false;
-			}
-			if($("#E_TEL").val()==""){
-				$("#E_TEL").tips({
-					side:3,
-		            msg:'请输入老人联系电话',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_TEL").focus();
-			return false;
-			}
-			if($("#E_G_NAME").val()==""){
-				$("#E_G_NAME").tips({
-					side:3,
-		            msg:'请输入监护人姓名',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_G_NAME").focus();
-			return false;
-			}
-			if($("#E_G_REL").val()==""){
-				$("#E_G_REL").tips({
-					side:3,
-		            msg:'请输入监护人关系',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_G_REL").focus();
-			return false;
-			}
-			if($("#E_G_TEL").val()==""){
-				$("#E_G_TEL").tips({
-					side:3,
-		            msg:'请输入监护人电话',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_G_TEL").focus();
-			return false;
-			}
-			if($("#E_HEIGHT").val()==""){
-				$("#E_HEIGHT").tips({
-					side:3,
-		            msg:'请输入身高',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_HEIGHT").focus();
-			return false;
-			}
-			if($("#E_WEIGHT").val()==""){
-				$("#E_WEIGHT").tips({
-					side:3,
-		            msg:'请输入体重',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_WEIGHT").focus();
-			return false;
-			}
-			if($("#E_BTYPE").val()==""){
-				$("#E_BTYPE").tips({
-					side:3,
-		            msg:'请输入血型',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_BTYPE").focus();
-			return false;
-			}
-			if($("#E_VISSION").val()==""){
-				$("#E_VISSION").tips({
-					side:3,
-		            msg:'请输入视力',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_VISSION").focus();
-			return false;
-			}
-			if($("#E_HEARING").val()==""){
-				$("#E_HEARING").tips({
-					side:3,
-		            msg:'请输入听力',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_HEARING").focus();
-			return false;
-			}
-			if($("#E_MEMORY").val()==""){
-				$("#E_MEMORY").tips({
-					side:3,
-		            msg:'请输入记忆力',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_MEMORY").focus();
-			return false;
-			}
-			if($("#E_MIND").val()==""){
-				$("#E_MIND").tips({
-					side:3,
-		            msg:'请输入神智',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_MIND").focus();
-			return false;
-			}
-			if($("#E_RELIEVE").val()==""){
-				$("#E_RELIEVE").tips({
-					side:3,
-		            msg:'请输入大小便',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_RELIEVE").focus();
-			return false;
-			}
-			if($("#E_STOLIC").val()==""){
-				$("#E_STOLIC").tips({
-					side:3,
-		            msg:'请输入血压(收缩压/舒张压)',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_STOLIC").focus();
-			return false;
-			}
-			if($("#E_PULSE").val()==""){
-				$("#E_PULSE").tips({
-					side:3,
-		            msg:'请输入脉搏',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_PULSE").focus();
-			return false;
-			}
-			if($("#E_D_ALLERGY").val()==""){
-				$("#E_D_ALLERGY").tips({
-					side:3,
-		            msg:'请输入药物过敏史',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_D_ALLERGY").focus();
-			return false;
-			}
-			if($("#E_D_COMMON").val()==""){
-				$("#E_D_COMMON").tips({
-					side:3,
-		            msg:'请输入常服药名',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_D_COMMON").focus();
-			return false;
-			}
-			if($("#E_D_CHRONIC").val()==""){
-				$("#E_D_CHRONIC").tips({
-					side:3,
-		            msg:'请输入慢性病史',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_D_CHRONIC").focus();
-			return false;
-			}
-			if($("#E_HNOTE").val()==""){
-				$("#E_HNOTE").tips({
-					side:3,
-		            msg:'请输入其他健康情况',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_HNOTE").focus();
-			return false;
-			}
-			if($("#E_A_SCORE").val()==""){
-				$("#E_A_SCORE").tips({
-					side:3,
-		            msg:'请输入评估分数',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_A_SCORE").focus();
-			return false;
-			}
-			if($("#E_A_LEVEL").val()==""){
-				$("#E_A_LEVEL").tips({
-					side:3,
-		            msg:'请输入评估等级',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_A_LEVEL").focus();
-			return false;
-			}
-			if($("#E_A_LEVELLIST").val()==""){
-				$("#E_A_LEVELLIST").tips({
-					side:3,
-		            msg:'请输入最近一次评估表',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_A_LEVELLIST").focus();
-			return false;
-			}
-			if($("#E_AVATER").val()==""){
-				$("#E_AVATER").tips({
-					side:3,
-		            msg:'请输入老人头像',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_AVATER").focus();
-			return false;
-			}
-			if($("#E_PWD").val()==""){
-				$("#E_PWD").tips({
-					side:3,
-		            msg:'请输入老人密码',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#E_PWD").focus();
-			return false;
-			}
+			
 			if($("#E_GMU_ID").val()==""){
 				$("#E_GMU_ID").tips({
 					side:3,

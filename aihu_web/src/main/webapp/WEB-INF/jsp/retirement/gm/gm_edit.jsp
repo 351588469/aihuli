@@ -21,20 +21,6 @@
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 </head>
 <script type="text/javascript">
-		//新增
-		function add_image(){
-			 top.jzts();
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>pictures/goAddZzy.do';
-		diag.Width = 800;
-		diag.Height = 490;
-		diag.CancelEvent = function() { //关闭事件
-			diag.close();
-		};
-		diag.show();
-	}
 	
 	function doUpload(formid) {
      var formData = new FormData($("#"+formid)[0]);
@@ -47,18 +33,16 @@
           contentType: false,
           processData: false,
           success: function (returndata) {
-              	var id='GM_'+formid;
-              	$('#'+id).val(returndata);
+          		alert('图片上传成功');
+              	$('#'+'GM_'+formid).val(returndata);
+              	$('#'+'A_'+formid).css('visibility','visible');
+              	$('#'+'A_'+formid).attr('href','<%=basePath%>uploadFiles/uploadImgs/'+returndata); 
+              	$('#'+'IMG_'+formid).attr('src','<%=basePath%>uploadFiles/uploadImgs/'+returndata); 
           },
           error: function (returndata) {
               alert(returndata);
           }
      });
-     //onload事件
-     $(function() { 
-		var FLAG_AVATER=false;
-		if(${pd.GM_AVATER!=null&&pd.GM_AVATER!=''})FLAG_AVATER=true;
-	});
 }
 </script>
 <body class="no-skin">
@@ -78,13 +62,22 @@
 										<tr>
 											<td style="width:75px;text-align: right;padding-top: 13px;">上传头像:</td>
 											<td>
-												
-												<a target="_blank" style=""
+												<c:if test="${pd.GM_AVATER!=null&&pd.GM_AVATER!=''}">
+												<a target="_blank" style="" id="A_AVATER"
 													href="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_AVATER}">
-													<img src="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_AVATER}"
+													<img src="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_AVATER}" id="IMG_AVATER"
 													style="width:30px;height:30px"
 													/>
 												</a>
+												</c:if>
+												<c:if test="${pd.GM_AVATER==null||pd.GM_AVATER==''}">
+												<a target="_blank" style="visibility:hidden;" id="A_AVATER"
+													href="">
+													<img src=""
+													style="width:30px;height:30px"
+													/>
+												</a>
+												</c:if>
 											</td>
 											<td>
 												<form id="AVATER">
@@ -98,40 +91,21 @@
 										<tr>
 											<td style="width:75px;text-align: right;padding-top: 13px;">营业执照图片:</td>
 											<td>
-												<c:if test="${pd.GM_LICENCE_PHOTO==null||pd.GM_LICENCE_PHOTO==''}">
-												
-												</c:if>
 												<c:if test="${pd.GM_LICENCE_PHOTO!=null&&pd.GM_LICENCE_PHOTO!=''}">
-													<a target="_blank"
-													href="<%=basePath%>uploadFiles/uploadImgs/20160304/0d1da3097ebb452f9871d651a7fbf853.jpg">
-													<img src="<%=basePath%>uploadFiles/uploadImgs/20160304/0d1da3097ebb452f9871d651a7fbf853.jpg"
+												<a target="_blank" style="" id="A_LICENCE_PHOTO"
+													href="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_LICENCE_PHOTO}">
+													<img src="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_LICENCE_PHOTO}" id="IMG_LICENCE_PHOTO"
 													style="width:30px;height:30px"
 													/>
-													</a>
+												</a>
 												</c:if>
-											</td>
-											<td>
-												<form id="LICENCE_PHOTO">
-												<input style="padding:0;margin:0;width:200px;float:left" type="file" name="file"/>
-												<input style="padding:0;margin:0;float:left" type="button" value="上传" onclick="doUpload('LICENCE_PHOTO')" />
-												</form>
-											</td>
-										</tr>
-										<!-- 单张图片处理结束 -->
-										<!-- 单张图片处理开始 -->
-										<tr>
-											<td style="width:75px;text-align: right;padding-top: 13px;">营业执照图片:</td>
-											<td>
 												<c:if test="${pd.GM_LICENCE_PHOTO==null||pd.GM_LICENCE_PHOTO==''}">
-												
-												</c:if>
-												<c:if test="${pd.GM_LICENCE_PHOTO!=null&&pd.GM_LICENCE_PHOTO!=''}">
-													<a target="_blank"
-													href="<%=basePath%>uploadFiles/uploadImgs/20160304/0d1da3097ebb452f9871d651a7fbf853.jpg">
-													<img src="<%=basePath%>uploadFiles/uploadImgs/20160304/0d1da3097ebb452f9871d651a7fbf853.jpg"
+												<a target="_blank" style="visibility:hidden;" id="A_LICENCE_PHOTO"
+													href="">
+													<img src="" id="IMG_AVATER"
 													style="width:30px;height:30px"
 													/>
-													</a>
+												</a>
 												</c:if>
 											</td>
 											<td>
@@ -146,16 +120,21 @@
 										<tr>
 											<td style="width:75px;text-align: right;padding-top: 13px;">法人身份证正面:</td>
 											<td>
-												<c:if test="${pd.GM_LEGALPERSON_PHOTOA==null||pd.LEGALPERSON_PHOTOA==''}">
-												
-												</c:if>
 												<c:if test="${pd.GM_LEGALPERSON_PHOTOA!=null&&pd.GM_LEGALPERSON_PHOTOA!=''}">
-													<a target="_blank"
-													href="<%=basePath%>uploadFiles/uploadImgs/20160304/0d1da3097ebb452f9871d651a7fbf853.jpg">
-													<img src="<%=basePath%>uploadFiles/uploadImgs/20160304/0d1da3097ebb452f9871d651a7fbf853.jpg"
+												<a target="_blank" style="" id="A_LEGALPERSON_PHOTOA"
+													href="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_LEGALPERSON_PHOTOA}">
+													<img src="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_LEGALPERSON_PHOTOA}" id="IMG_LEGALPERSON_PHOTOA"
 													style="width:30px;height:30px"
 													/>
-													</a>
+												</a>
+												</c:if>
+												<c:if test="${pd.GM_LEGALPERSON_PHOTOA==null||pd.GM_LEGALPERSON_PHOTOA==''}">
+												<a target="_blank" style="visibility:hidden;" id="A_LEGALPERSON_PHOTOA"
+													href="">
+													<img src="" id="IMG_LEGALPERSON_PHOTOA"
+													style="width:30px;height:30px"
+													/>
+												</a>
 												</c:if>
 											</td>
 											<td>
@@ -170,17 +149,19 @@
 										<tr>
 											<td style="width:75px;text-align: right;padding-top: 13px;">法人身份证反面:</td>
 											<td>
-												
-												<c:if test="${pd.GM_LEGALPERSON_PHOTOB==null||pd.LEGALPERSON_PHOTOB==''}">
-												
-												</c:if>
 												<c:if test="${pd.GM_LEGALPERSON_PHOTOB!=null&&pd.GM_LEGALPERSON_PHOTOB!=''}">
-													<a target="_blank"
-													href="<%=basePath%>uploadFiles/uploadImgs/20160304/0d1da3097ebb452f9871d651a7fbf853.jpg">
-													<img src="<%=basePath%>uploadFiles/uploadImgs/20160304/0d1da3097ebb452f9871d651a7fbf853.jpg"
+												<a target="_blank" style="" id="A_LEGALPERSON_PHOTOB"
+													href="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_LEGALPERSON_PHOTOB}">
+													<img src="<%=basePath%>uploadFiles/uploadImgs/${pd.GM_LEGALPERSON_PHOTOB}" id="IMG_LEGALPERSON_PHOTOB"
 													style="width:30px;height:30px"
 													/>
-													</a>
+												</a>
+												</c:if>
+												<c:if test="${pd.GM_LEGALPERSON_PHOTOB==null||pd.GM_LEGALPERSON_PHOTOB==''}">
+												<a target="_blank" style="visibility:hidden;" id="A_LEGALPERSON_PHOTOB"
+													href="">
+													<img src="" id="IMG_LEGALPERSON_PHOTOB"style="width:30px;height:30px"/>
+												</a>
 												</c:if>
 											</td>
 											<td>
@@ -270,27 +251,6 @@
 											<td><input type="text" name="GM_SERVEINFO"
 												id="GM_SERVEINFO" value="${pd.GM_SERVEINFO}" maxlength="255"
 												placeholder="这里输入服务内容" title="服务内容" style="width:98%;" /></td>
-										</tr>
-										<tr>
-											<td style="width:75px;text-align: right;padding-top: 13px;">营业执照图片:</td>
-											<td><input type="file" id="GM_LICENCE_PHOTO"
-												style="width:98%;"></td>
-											<!--<td><input type="text" name="GM_LICENCE_PHOTO" id="GM_LICENCE_PHOTO" value="${pd.GM_LICENCE_PHOTO}" maxlength="255" placeholder="这里输入营业执照图片" title="营业执照图片" style="width:98%;"/></td>
-											-->
-										</tr>
-										<tr>
-											<td style="width:75px;text-align: right;padding-top: 13px;">法人身份证正面:</td>
-											<td><input type="file" id="GM_LEGALPERSON_PHOTOA"
-												style="width:98%;"></td>
-											<!-- <td><input type="text" name="GM_LEGALPERSON_PHOTOA" id="GM_LEGALPERSON_PHOTOA" value="${pd.GM_LEGALPERSON_PHOTOA}" maxlength="255" placeholder="这里输入法人身份证正面" title="法人身份证正面" style="width:98%;"/></td>
-								 -->
-										</tr>
-										<tr>
-											<td style="width:75px;text-align: right;padding-top: 13px;">法人身份证反面:</td>
-											<td><input type="file" id="GM_LEGALPERSON_PHOTOB"
-												style="width:98%;"></td>
-											<!--<td><input type="text" name="GM_LEGALPERSON_PHOTOB" id="GM_LEGALPERSON_PHOTOB" value="${pd.GM_LEGALPERSON_PHOTOB}" maxlength="255" placeholder="这里输入法人身份证反面" title="法人身份证反面" style="width:98%;"/></td>
-								-->
 										</tr>
 										<tr>
 											<td style="text-align: center;" colspan="10"><a

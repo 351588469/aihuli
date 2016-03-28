@@ -1,6 +1,7 @@
 package com.team.service.retirement.gmbresult;
 
 import java.util.List;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -17,7 +18,10 @@ public interface GMBResultManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception;
-	
+	/**
+	 * 新增
+	 */
+	public void zzySave(PageData pd)throws Exception;
 	/**删除
 	 * @param pd
 	 * @throws Exception
@@ -41,7 +45,10 @@ public interface GMBResultManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**
+	 * 房间评测历史记录
+	 */
+	public List<PageData> zzyPast(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -53,6 +60,10 @@ public interface GMBResultManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
+	/**
+	 *zzy
+	 *最近一次房间评价
+	 */
+	public PageData zzyRecent(String roomid)throws Exception;
 }
 

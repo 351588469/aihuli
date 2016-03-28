@@ -17,7 +17,11 @@ public interface EROtherManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception;
-	
+	/**
+	 * zzy
+	 * 新增
+	 */
+	public void zzySave(PageData pd)throws Exception;
 	/**删除
 	 * @param pd
 	 * @throws Exception
@@ -41,7 +45,11 @@ public interface EROtherManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**
+	 * zzy
+	 * 历史
+	 */
+	public List<PageData> zzyPast(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -53,6 +61,7 @@ public interface EROtherManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+
 	
 }
 

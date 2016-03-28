@@ -18,6 +18,7 @@
 		ERN_ENP_SDATE,	
 		ERN_ENP_EDATE,	
 		ERN_COUNT,	
+		ERN_DESC,
 		ERN_CTIME,	
 		ERN_UTIME,	
 		ERN_GTIME,	
@@ -35,6 +36,7 @@
 		#{ERN_ENP_SDATE},	
 		#{ERN_ENP_EDATE},	
 		#{ERN_COUNT},	
+		#{ERN_DESC},	
 		#{ERN_CTIME},	
 		#{ERN_UTIME},	
 		#{ERN_GTIME},	
@@ -69,6 +71,7 @@
 			ERN_GMU_ID = #{ERN_GMU_ID},
 			ERN_ENP_ID = #{ERN_ENP_ID},
 			ERN_COUNT = #{ERN_COUNT},
+			ERN_DESC = #{ERN_DESC},
 			ERN_GTIME = #{ERN_GTIME},
 		ERNURSE_ID = ERNURSE_ID
 		where 
@@ -111,7 +114,17 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 历史-->
+	<select id="zzyPast" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		ERN_GTIME &gt;=#{SDATE} AND ERN_GTIME &lt;=#{EDATE} AND
+		 ERN_E_ID=#{ERN_E_ID} AND ERN_ENP_GM_ID= #{ERN_GM_ID}
+		 order by ERN_GTIME desc
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -122,5 +135,17 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<select id="zzyCheckData" parameterType="pd" resultType="String">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		 ERN_E_ID=#{ERN_E_ID} AND 
+		 ERN_ENP_GM_ID= #{ERN_GM_ID} AND 
+		 ERN_ENP_ID= #{ERN_ENP_ID} AND
+		 ERN_ENP_UNIT= #{ERN_ENP_UNIT} AND
+		 ERN_GTIME&gt;=#{STIME} AND 
+		 ERN_GTIME &lt;=#{ETIME}
+	</select>
 </mapper>

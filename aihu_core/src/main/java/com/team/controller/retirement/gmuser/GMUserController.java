@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import oracle.net.aso.g;
 
 import org.apache.shiro.session.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -24,6 +29,9 @@ import com.team.util.Const;
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
 import com.team.entity.system.User;
+import com.team.service.retirement.elder.ElderManager;
+import com.team.service.retirement.elder.impl.ElderService;
+import com.team.service.retirement.gm.GMManager;
 import com.team.service.retirement.gm.impl.GMService;
 import com.team.service.retirement.gmuser.GMUserManager;
 import com.team.util.AppUtil;
@@ -45,7 +53,9 @@ public class GMUserController extends BaseController {
 	@Resource(name="gmuserService")
 	private GMUserManager gmuserService;
 	@Resource(name="gmService")
-	private GMService gmService;
+	private GMManager gmService;
+	@Resource(name="elderService")
+	private ElderManager elderService;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -57,9 +67,14 @@ public class GMUserController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		System.out.println("pd:"+pd.toString());
 		pd.put("GMUSER_ID", this.get32UUID());	//主键
 		pd.put("GMU_CTIME", Tools.date2Str(new Date()));	//创建时间
-		pd.put("GMU_UTIME", Tools.date2Str(new Date()));	//最后修改时间
+		//pd.put("GMU_UTIME", null);	//最后修改时间
+		/**
+		 * zzy
+		 */
+		//if(pd.get("GMU_DUTIES").equals(""))pd.put("GMU_DUTIES", null);
 		gmuserService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -103,22 +118,39 @@ public class GMUserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/list")
-	public ModelAndView list(Page page) throws Exception{
+	public ModelAndView list(Page page,HttpServletRequest request) throws Exception{
 		//logBefore(logger, Jurisdiction.getUsername()+"列表GMUser");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+	
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		
+		//Session取值
+		HttpSession zzyHs=request.getSession();
+		if(pd.get("GMU_GM_ID")!=""&&pd.get("GMU_GM_ID")!=null){//重新赋值
+			zzyHs.setAttribute("ZZY_GMID",pd.get("GMU_GM_ID"));
+		}else{
+			pd.put("GMU_GM_ID",zzyHs.getAttribute("ZZY_GMID"));
+		}
+		
 		String keywords = pd.getString("keywords");				//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
+		//System.out.println("zzy:"+pd.getString("GMU_GM_ID"));
 		page.setPd(pd);
 		List<PageData>	varList = gmuserService.list(page);	//列出GMUser列表
 		mv.setViewName("retirement/gmuser/gmuser_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		/**
+		 * zzy
+		 */
+	
+		mv.addObject("GM_ID",pd.get("GMU_GM_ID"));
+		mv.addObject("GM_NAME",gmService.zzyFindNameById((String) pd.get("GMU_GM_ID")));
 		return mv;
 	}
 	
@@ -127,20 +159,22 @@ public class GMUserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/goAdd")
-	public ModelAndView goAdd()throws Exception{
+	public ModelAndView goAdd(HttpServletRequest request)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("retirement/gmuser/gmuser_edit");
 		mv.addObject("msg", "save");
-		//养老院编号
-		mv.addObject("gm_info",gmService.listByCreator());
 		mv.addObject("pd", pd);
+		//养老院编号及名称
+		HttpSession zzyHs=request.getSession();
+		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
+		mv.addObject("GM_ID",gmid);
+		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
 		//创建用户
 		Session session = Jurisdiction.getSession();
 		User user=(User)session.getAttribute(Const.SESSION_USER);
 		mv.addObject("user",user);
-		//System.out.println("zzy: "+user);
 		return mv;
 	}	
 	
@@ -149,7 +183,7 @@ public class GMUserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/goEdit")
-	public ModelAndView goEdit()throws Exception{
+	public ModelAndView goEdit(HttpServletRequest request)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -157,6 +191,18 @@ public class GMUserController extends BaseController {
 		mv.setViewName("retirement/gmuser/gmuser_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		/**
+		 * zzy
+		 */
+		//养老院编号和名称
+		HttpSession zzyHs=request.getSession();
+		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
+		mv.addObject("GM_ID",gmid);
+		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//创建用户
+		Session session = Jurisdiction.getSession();
+		User user=(User)session.getAttribute(Const.SESSION_USER);
+		mv.addObject("user",user);
 		return mv;
 	}	
 	
@@ -264,5 +310,18 @@ public class GMUserController extends BaseController {
 	public void initBinder(WebDataBinder binder){
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
+	}
+	/**
+	 * zzy
+	 * 根据职工姓名检测职工信息是否存在
+	 * @throws Exception 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/zzyCheckByName")
+	public String zzyCheckByName() throws Exception{
+		PageData pd=new PageData();
+		pd=this.getPageData();
+		String str=gmuserService.zzyCheckByName(pd);
+		return str;
 	}
 }

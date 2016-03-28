@@ -1,8 +1,11 @@
 package com.team.service.retirement.gmhealth.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.util.PageData;
@@ -61,7 +64,15 @@ public class GMHealthService implements GMHealthManager{
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("GMHealthMapper.listAll", pd);
 	}
-	
+	/**
+	 * zzy
+	 * 列表
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<PageData> zzyList(String gmid)throws Exception{
+		return (List<PageData>)dao.findForList("GMHealthMapper.zzyList",gmid);
+	}
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -69,7 +80,13 @@ public class GMHealthService implements GMHealthManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("GMHealthMapper.findById", pd);
 	}
-	
+	/**
+	 * zzy
+	 * 通过id获取数据
+	 */
+	public PageData zzyFindById(String id)throws Exception{
+		return (PageData)dao.findForObject("GMHealthMapper.zzyFindById",id);
+	}
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

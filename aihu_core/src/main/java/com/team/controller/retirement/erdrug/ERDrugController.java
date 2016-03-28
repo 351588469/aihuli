@@ -31,7 +31,7 @@ import com.team.util.Tools;
 /** 
  * 说明：用药记录
  * 创建人：jaychum
- * 创建时间：2016-03-02
+ * 创建时间：2016-03-12
  */
 @Controller
 @RequestMapping(value="/erdrug")
@@ -212,6 +212,8 @@ public class ERDrugController extends BaseController {
 		titles.add("创建时间");	//13
 		titles.add("最后修改时间");	//14
 		titles.add("客户端记录时间");	//15
+		titles.add("记录值");	//16
+		titles.add("记录说明");	//17
 		dataMap.put("titles", titles);
 		List<PageData> varOList = erdrugService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
@@ -232,6 +234,8 @@ public class ERDrugController extends BaseController {
 			vpd.put("var13", varOList.get(i).getString("ERD_CTIME"));	//13
 			vpd.put("var14", varOList.get(i).getString("ERD_UTIME"));	//14
 			vpd.put("var15", varOList.get(i).getString("ERD_GTIME"));	//15
+			vpd.put("var16", varOList.get(i).getString("ERD_VALUE"));	//16
+			vpd.put("var17", varOList.get(i).getString("ERD_DESC"));	//17
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);

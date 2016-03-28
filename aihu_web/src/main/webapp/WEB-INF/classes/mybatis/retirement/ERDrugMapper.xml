@@ -24,6 +24,8 @@
 		ERD_CTIME,	
 		ERD_UTIME,	
 		ERD_GTIME,	
+		ERD_VALUE,	
+		ERD_DESC,	
 		ERDRUG_ID
 	</sql>
 	
@@ -44,6 +46,8 @@
 		#{ERD_CTIME},	
 		#{ERD_UTIME},	
 		#{ERD_GTIME},	
+		#{ERD_VALUE},	
+		#{ERD_DESC},	
 		#{ERDRUG_ID}
 	</sql>
 	
@@ -74,6 +78,8 @@
 			ERD_GMU_ID = #{ERD_GMU_ID},
 			ERD_EDP_ID = #{ERD_EDP_ID},
 			ERD_GTIME = #{ERD_GTIME},
+			ERD_VALUE = #{ERD_VALUE},
+			ERD_DESC = #{ERD_DESC},
 		ERDRUG_ID = ERDRUG_ID
 		where 
 		ERDRUG_ID = #{ERDRUG_ID}
@@ -115,7 +121,17 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 历史-->
+	<select id="zzyPast" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		ERD_GTIME &gt;=#{SDATE} AND ERD_GTIME &lt;=#{EDATE} AND
+		ERD_EDP_E_ID=#{ERD_E_ID} AND ERD_EDP_GM_ID = #{ERD_GM_ID}
+		order by ERD_GTIME desc
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

@@ -104,7 +104,16 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!--  -->
+	<select id="zzyPast" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		ERO_GTIME &gt;=#{SDATE} AND ERO_GTIME &lt;=#{EDATE} AND
+		 ERO_E_ID=#{ERO_E_ID} AND ERO_GM_ID = #{ERO_GM_ID}
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

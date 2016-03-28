@@ -50,6 +50,12 @@ public interface GMManager{
 	 */
 	public PageData findById(PageData pd)throws Exception;
 	
+	/**
+	 * zzy
+	 * 通过id获取名称
+	 */
+	public String zzyFindNameById(String id)throws Exception;
+	
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

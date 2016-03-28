@@ -32,8 +32,11 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">养老院编号:</td>
-								<td><input type="text" name="GMAT_GM_ID" id="GMAT_GM_ID" value="${pd.GMAT_GM_ID}" maxlength="32" placeholder="这里输入养老院编号" title="养老院编号" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">养老院:</td>
+								<td>
+									<input type="hidden" name="GMAT_GM_ID" id="GMAT_GM_ID" value="${pd.GMAT_GM_ID}"/>
+									<input type="text" readonly="readonly" name="GMAT_GM_NAME" id="GMAT_GM_NAME" value="${pd.GMAT_GM_NAME}"/>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">类别名称:</td>

@@ -21,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
+import com.team.service.retirement.gm.impl.GMService;
 import com.team.service.retirement.gmaitem.GMAitemManager;
+import com.team.service.retirement.gmatype.GMATypeManager;
 import com.team.util.AppUtil;
 import com.team.util.Jurisdiction;
 import com.team.util.ObjectExcelView;
@@ -40,7 +42,10 @@ public class GMAitemController extends BaseController {
 	String menuUrl = "gmaitem/list.do"; //菜单地址(权限用)
 	@Resource(name="gmaitemService")
 	private GMAitemManager gmaitemService;
-	
+	@Resource(name="gmatypeService")
+	private GMATypeManager gmatypeService;
+	@Resource(name="gmService")
+	private GMService gmService;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -88,7 +93,8 @@ public class GMAitemController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		gmaitemService.edit(pd);
+		//gmaitemService.edit(pd);
+		gmaitemService.zzyEdit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -110,7 +116,18 @@ public class GMAitemController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		List<PageData>	varList = gmaitemService.list(page);	//列出GMAitem列表
+		//List<PageData>varList = gmaitemService.list(page);	//列出GMAitem列表
+		List<PageData>varList = gmaitemService.zzyListByType(pd.getString("GMATYPE_ID"));
+		
+		String gmatype_id=(String)pd.getString("GMATYPE_ID");
+		PageData tpd=gmatypeService.zzyFindById(gmatype_id);
+		String gmid=(String) tpd.get("GMAT_GM_ID");
+		String gm_name=gmService.zzyFindNameById(gmid);
+		pd.put("GMAI_GMAT_ID",gmatype_id);
+		pd.put("GMAI_GMAT_NAME",tpd.get("GMAT_NAME"));
+		pd.put("GMAI_GM_ID",gmid);
+		pd.put("GMAI_GM_NAME",gm_name);
+		
 		mv.setViewName("retirement/gmaitem/gmaitem_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
@@ -127,9 +144,22 @@ public class GMAitemController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		//System.out.println("zzy:"+pd.toString());
+		
+		String gmatype_id=(String)pd.getString("GMATYPE_ID");
+		PageData tpd=gmatypeService.zzyFindById(gmatype_id);
+		String gmid=(String) tpd.get("GMAT_GM_ID");
+		String gm_name=gmService.zzyFindNameById(gmid);
+		pd.put("GMAI_GMAT_ID",gmatype_id);
+		pd.put("GMAI_GMAT_NAME",tpd.get("GMAT_NAME"));
+		pd.put("GMAI_GM_ID",gmid);
+		pd.put("GMAI_GM_NAME",gm_name);
+		
 		mv.setViewName("retirement/gmaitem/gmaitem_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		//类别
+		
 		return mv;
 	}	
 	
@@ -145,6 +175,8 @@ public class GMAitemController extends BaseController {
 		pd = gmaitemService.findById(pd);	//根据ID读取
 		mv.setViewName("retirement/gmaitem/gmaitem_edit");
 		mv.addObject("msg", "edit");
+		String gm_name=gmService.zzyFindNameById(pd.getString("GMAI_GM_ID"));
+		pd.put("GMAI_GM_NAME",gm_name);
 		mv.addObject("pd", pd);
 		return mv;
 	}	

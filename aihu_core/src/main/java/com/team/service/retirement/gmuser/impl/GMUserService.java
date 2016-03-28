@@ -1,8 +1,12 @@
 package com.team.service.retirement.gmuser.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.util.PageData;
@@ -76,6 +80,42 @@ public class GMUserService implements GMUserManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("GMUserMapper.deleteAll", ArrayDATA_IDS);
+	}
+	/**
+	 * zzy
+	 * 根据职工姓名检测职工信息是否存在
+	 */
+	@Override
+	public String zzyCheckByName(PageData pd) throws Exception {
+		return  (String)dao.findForObject("GMUserMapper.zzyCheckByName",pd);
+	}
+	/**
+	 * zzy
+	 * 根据养老院编号获取职工姓名及编号列表
+	 * @param GM_ID
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> zzyListForNameID(String GM_ID) throws Exception {
+		return (List<Map<String, Object>>) dao.findForList("GMUserMapper.zzyListForNameID",GM_ID);
+	}
+	/**
+	 * zzy
+	 * 根据职工编号获取职工姓名
+	 */
+	@Override
+	public String zzyFindNameById(String ID) throws Exception {
+		return (String) dao.findForObject("GMUserMapper.zzyFindNameById",ID);
+	}
+	/**
+	 * zzy
+	 * 登录
+	 */
+	@Override
+	public PageData zzyLogin(String tel) throws Exception {
+		return (PageData) dao.findForObject("GMUserMapper.zzyLogin",tel);
 	}
 	
 }

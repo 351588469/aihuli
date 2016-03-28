@@ -69,7 +69,13 @@ public class GMATypeService implements GMATypeManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("GMATypeMapper.findById", pd);
 	}
-	
+	/**
+	 * zzy通过id获取数据
+	 */
+	@Override
+	public PageData zzyFindById(String id)throws Exception{
+		return (PageData)dao.findForObject("GMATypeMapper.zzyFindById",id);
+	}
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

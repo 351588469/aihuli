@@ -66,12 +66,10 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">楼栋号</th>
-									<th class="center">楼层号</th>
-									<th class="center">房间号</th>
-									<th class="center">床位号</th>
-									<th class="center">居住老人编号</th>
-									<th class="center">房间负责职工编号</th>
+									<th class="center">房间</th>
+									<th class="center">床位</th>
+									<th class="center">居住老人</th>
+									<th class="center">工作人员</th>
 									<th class="center">床位状态</th>
 									<th class="center">说明</th>
 									<th class="center">操作</th>
@@ -89,12 +87,10 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.GMBERTH_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.GMB_FLOOR}</td>
-											<td class='center'>${var.GMB_LAYER}</td>
-											<td class='center'>${var.GMB_ROOM}</td>
+											<td class='center'>${var.GMB_FLOOR}-${var.GMB_LAYER}-${var.GMB_ROOM}</td>
 											<td class='center'>${var.GMB_BERTH}</td>
-											<td class='center'>${var.GMB_E_ID}</td>
-											<td class='center'>${var.GMB_GMU_ID}</td>
+											<td class='center'>${var.GMB_E_NAME}</td>
+											<td class='center'>${var.GMB_GMU_NAME}</td>
 											<td class='center'>
 												<c:if test="${var.GMB_STATUS==1}">可以入住</c:if>
 												<c:if test="${var.GMB_STATUS==2}">不能入住</c:if>
@@ -167,12 +163,15 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="vertical-align:top;">
+									
+									
 									<c:if test="${QX.add == 1 }">
 									<a class="btn btn-sm btn-success" onclick="add();">新增</a>
 									</c:if>
 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
+									<a href="gmberth/list.do"title="返回" ><img src="<%=basePath%>/static/images/zzy_back.png"/></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>
@@ -271,7 +270,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>gmberth/goAdd.do';
+			 diag.URL = '<%=basePath%>gmberth/goAdd.do?GMBERTH_ID=${GMBERTH_ID}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件

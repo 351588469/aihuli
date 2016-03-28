@@ -29,8 +29,6 @@
 				<div class="page-content">
 					<div class="row">
 						<div class="col-xs-12">
-							
-						<!-- 检索  -->
 						<form action="gmuser/list.do" method="post" name="Form" id="Form">
 						<table style="margin-top:5px;">
 							<tr>
@@ -103,7 +101,11 @@
 												<c:if test="${var.GMU_ESTATUS==2}">离职</c:if>
 												<c:if test="${var.GMU_ESTATUS==3}">请假</c:if>
 											</td>
-											<td class='center'>${var.GMU_AVATER}</td>
+											<td class='center'>
+												<a target="_blank" href="<%=basePath%>uploadFiles/uploadImgs/${var.GMU_AVATER}">
+												<img src="<%=basePath%>uploadFiles/uploadImgs/${var.GMU_AVATER}" style="width:30px;height:30px">
+												</a>
+											</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -177,6 +179,7 @@
 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
+									<a href="gm/list.do"title="返回" ><img src="<%=basePath%>/static/images/zzy_back.png"/></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>
@@ -275,7 +278,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>gmuser/goAdd.do';
+			 diag.URL = '<%=basePath%>gmuser/goAdd.do?GMU_GM_ID=${GM_ID}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件

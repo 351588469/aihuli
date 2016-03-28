@@ -66,15 +66,15 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">老人姓名</th>
-									<th class="center">老人性别</th>
+									<th class="center">姓名</th>
+									<th class="center">性别</th>
 									<th class="center">入住状态</th>
 									<th class="center">身份证</th>
 									<th class="center">入住时间</th>
 									<th class="center">阳历生日</th>
 									<th class="center">农历生日</th>
-									<th class="center">老人年龄</th>
-									<th class="center">老人头像</th>
+									<th class="center">年龄</th>
+									<th class="center">头像</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -92,13 +92,25 @@
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.E_NAME}</td>
 											<td class='center'>${var.E_GENDER}</td>
-											<td class='center'>${var.E_INTAKE}</td>
+											<!-- <td class='center'>${var.E_INTAKE}</td> -->
+											<td class='center'>
+												<c:if test="${var.E_INTAKE==1}">入住</c:if>
+												<c:if test="${var.E_INTAKE==2}">退住</c:if>
+												<c:if test="${var.E_INTAKE==3}">试住</c:if>
+											</td>
 											<td class='center'>${var.E_IDENTITY}</td>
 											<td class='center'>${var.E_IDATE}</td>
 											<td class='center'>${var.E_SDATE}</td>
 											<td class='center'>${var.E_LDATE}</td>
 											<td class='center'>${var.E_AGE}</td>
-											<td class='center'>${var.E_AVATER}</td>
+											<!-- <td class='center'>${var.E_AVATER}</td> -->
+											<td class='center'>
+												<c:if test="${var.E_AVATER!=''}">
+													<a target="_blank" href="<%=basePath%>uploadFiles/uploadImgs/${var.E_AVATER}">
+													<img src="<%=basePath%>uploadFiles/uploadImgs/${var.E_AVATER}" style="width:30px;height:30px">
+													</a>
+												</c:if>
+											</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -114,6 +126,15 @@
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
+													<!-- 职工信息 -->
+													<a href="gmuser/list.do?GMU_GM_ID=${var.GM_ID}"title="职工" ><img src="<%=basePath%>/static/images/zzy_work.png"/></a>
+													<!-- 职工信息 -->
+													<a href="gmuser/list.do?GMU_GM_ID=${var.GM_ID}"title="职工" ><img src="<%=basePath%>/static/images/zzy_work.png"/></a>
+													<!-- 职工信息 -->
+													<a href="gmuser/list.do?GMU_GM_ID=${var.GM_ID}"title="职工" ><img src="<%=basePath%>/static/images/zzy_work.png"/></a>
+													<!-- 职工信息 -->
+													<a href="gmuser/list.do?GMU_GM_ID=${var.GM_ID}"title="职工" ><img src="<%=basePath%>/static/images/zzy_work.png"/></a>
+													
 												</div>
 												<div class="hidden-md hidden-lg">
 													<div class="inline pos-rel">
@@ -172,6 +193,7 @@
 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
+									<a href="gm/list.do"title="返回" ><img src="<%=basePath%>/static/images/zzy_back.png"/></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>
@@ -270,7 +292,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>elder/goAdd.do';
+			 diag.URL = '<%=basePath%>elder/goAdd.do?ZZY_C_GMID=${GM_ID}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件

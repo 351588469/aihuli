@@ -17,7 +17,10 @@ public interface EDPlanManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception;
-	
+	/**
+	 * zzy新增
+	 */
+	public void zzySave(PageData pd)throws Exception;
 	/**删除
 	 * @param pd
 	 * @throws Exception
@@ -41,18 +44,24 @@ public interface EDPlanManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**
+	 * 列表(zzy)
+	 */
+	public List<PageData> zzyList(String eid)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
-	
+	/**
+	 * zzy
+	 * 通过id获取数据
+	 */
+	public PageData zzyFindById(String id)throws Exception;
 	/**批量删除
-	 * @param ArrayDATA_IDS
+	 * @param ArrayDATA_IDSs
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
 }
 

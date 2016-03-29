@@ -10,7 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.session.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -21,12 +25,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
+import com.team.entity.system.User;
+import com.team.service.retirement.elder.ElderManager;
+import com.team.service.retirement.gm.GMManager;
+import com.team.service.retirement.gmberth.GMBerthManager;
 import com.team.util.AppUtil;
+import com.team.util.Const;
+import com.team.util.DateUtil;
+import com.team.util.Jurisdiction;
 import com.team.util.ObjectExcelView;
 import com.team.util.PageData;
-import com.team.util.Jurisdiction;
 import com.team.util.Tools;
-import com.team.service.retirement.elder.ElderManager;
 
 /** 
  * 说明：老人信息
@@ -40,7 +49,10 @@ public class ElderController extends BaseController {
 	String menuUrl = "elder/list.do"; //菜单地址(权限用)
 	@Resource(name="elderService")
 	private ElderManager elderService;
-	
+	@Resource(name="gmService")
+	private GMManager gmService;
+	@Resource(name="gmberthService")
+	private GMBerthManager gmberthService;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -53,10 +65,22 @@ public class ElderController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("ELDER_ID", this.get32UUID());	//主键
-		pd.put("E_LDATE", Tools.date2Str(new Date()));	//农历生日
+		//pd.put("E_LDATE", Tools.date2Str(new Date()));	//农历生日
+		
+		String lunar=DateUtil.zzyGetLunarFromSolar(pd.getString("E_SDATE"));//农历生日
+		pd.put("E_LDATE",lunar);
+		String day=(String) pd.get("E_SDATE");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		Date date=sdf.parse(day);
+		int age=DateUtil.zzyGetAgeByBirthday(date);//年纪
+		pd.put("E_AGE",age);
 		pd.put("E_CTIME", Tools.date2Str(new Date()));	//创建时间
 		pd.put("E_UTIME", Tools.date2Str(new Date()));	//最后修改时间
 		elderService.save(pd);
+		
+		
+		
+		
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -88,9 +112,20 @@ public class ElderController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		//System.out.println("zzy:"+pd.toString());
+		if(pd.get("E_SDATE")!=""){
+			String lunar=DateUtil.zzyGetLunarFromSolar(pd.getString("E_SDATE"));//农历生日
+			pd.put("E_LDATE",lunar);
+			String day=(String) pd.get("E_SDATE");
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			Date date=sdf.parse(day);
+			int age=DateUtil.zzyGetAgeByBirthday(date);//年纪
+			pd.put("E_AGE",age);
+		}
 		elderService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
+
 		return mv;
 	}
 	
@@ -99,7 +134,7 @@ public class ElderController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/list")
-	public ModelAndView list(Page page) throws Exception{
+	public ModelAndView list(Page page,HttpServletRequest request) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"列表Elder");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
@@ -109,12 +144,29 @@ public class ElderController extends BaseController {
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
+		/**
+		 * 
+		 */
+
+		//Session取值
+		HttpSession zzyHs=request.getSession();
+		if(pd.get("E_GM_ID")!=""&&pd.get("E_GM_ID")!=null){//重新赋值
+			zzyHs.setAttribute("ZZY_GMID",pd.get("E_GM_ID"));
+		}else{
+			pd.put("E_GM_ID",zzyHs.getAttribute("ZZY_GMID"));
+		}
+		
 		page.setPd(pd);
+		
 		List<PageData>	varList = elderService.list(page);	//列出Elder列表
 		mv.setViewName("retirement/elder/elder_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		
+		
+		mv.addObject("GM_ID",pd.get("E_GM_ID"));
+		mv.addObject("GM_NAME",gmService.zzyFindNameById((String) pd.get("E_GM_ID")));
 		return mv;
 	}
 	
@@ -123,13 +175,26 @@ public class ElderController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/goAdd")
-	public ModelAndView goAdd()throws Exception{
+	public ModelAndView goAdd(HttpServletRequest request)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("retirement/elder/elder_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		
+		/**
+		 * 
+		 */
+		//养老院编号和名称
+		HttpSession zzyHs=request.getSession();
+		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
+		mv.addObject("GM_ID",gmid);
+		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//创建用户
+		Session session = Jurisdiction.getSession();
+		User user=(User)session.getAttribute(Const.SESSION_USER);
+		mv.addObject("user",user);
 		return mv;
 	}	
 	
@@ -138,7 +203,7 @@ public class ElderController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/goEdit")
-	public ModelAndView goEdit()throws Exception{
+	public ModelAndView goEdit(HttpServletRequest request)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -146,9 +211,46 @@ public class ElderController extends BaseController {
 		mv.setViewName("retirement/elder/elder_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
+		
+		/**
+		 * zzy
+		 */
+		//养老院编号和名称
+		HttpSession zzyHs=request.getSession();
+		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
+		mv.addObject("GM_ID",gmid);
+		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//创建用户
+		Session session = Jurisdiction.getSession();
+		User user=(User)session.getAttribute(Const.SESSION_USER);
+		mv.addObject("user",user);
 		return mv;
 	}	
-	
+	/**
+	 * zzy
+	 * 根据老人姓名检测老人信息是否存在
+	 */
+	@RequestMapping(value="/zzyCheckByName")
+	@ResponseBody
+	public String zzyCheckByName()throws Exception{
+		//System.out.println("zzy:come to check");
+		PageData pd=new PageData();
+		pd=this.getPageData();
+		String elder_id=elderService.zzyCheckByName(pd);
+		if(elder_id!=""&&elder_id!=null){//老人信息存在，判断老人是否有其他床位的入住信息
+			String gm_id=pd.getString("E_GM_ID");
+			PageData tpd=new PageData();
+			tpd.put("GMB_E_ID",elder_id);
+			tpd.put("GMB_GM_ID",gm_id);
+			String gmb_id=gmberthService.zzyCheckByElderName(tpd);
+			if(gmb_id!=""&&gmb_id!=null){//已入住
+				return "2";
+			}else {
+				return elder_id;
+			}
+		}else return "1";
+		
+	}
 	 /**批量删除
 	 * @param
 	 * @throws Exception
@@ -224,6 +326,7 @@ public class ElderController extends BaseController {
 		titles.add("创建职工");	//34
 		titles.add("创建时间");	//35
 		titles.add("最后修改时间");	//36
+		titles.add("养老院编号");	//37
 		dataMap.put("titles", titles);
 		List<PageData> varOList = elderService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
@@ -265,6 +368,7 @@ public class ElderController extends BaseController {
 			vpd.put("var34", varOList.get(i).getString("E_GMU_ID"));	//34
 			vpd.put("var35", varOList.get(i).getString("E_CTIME"));	//35
 			vpd.put("var36", varOList.get(i).getString("E_UTIME"));	//36
+			vpd.put("var36", varOList.get(i).getString("E_GM_ID"));	//37
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);

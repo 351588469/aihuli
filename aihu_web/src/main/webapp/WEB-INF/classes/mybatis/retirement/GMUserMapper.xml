@@ -132,7 +132,10 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
-		where 1=1
+		where 1=1 
+		<if test="pd.GMU_GM_ID!= null and pd.GMU_GM_ID != ''">
+		and GMU_GM_ID=#{pd.GMU_GM_ID}
+		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
@@ -141,6 +144,7 @@
 					 or 
 					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
 				-->
+					
 				)
 		</if>
 	</select>
@@ -151,6 +155,7 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		
 	</select>
 	
 	<!-- 批量删除 -->
@@ -163,5 +168,29 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- 根据职工姓名检测职工信息是否存在 -->
+	<select id="zzyCheckByName" parameterType="String" resultType="String">
+		select GMUSER_ID from
+		<include refid="tableName"></include>
+		where GMU_NAME=#{GMU_NAME} and GMU_GM_ID=#{GMU_GM_ID}
+	</select>
+	<!--  -->
+	<select id="zzyListForNameID" parameterType="java.lang.String" resultType="java.util.Map">
+		select GMU_NAME,GMUSER_ID from 
+		<include refid="tableName"></include>
+		where GMU_GM_ID=#{0}
+	</select>
+	<!--根据职工编号获取职工姓名  -->
+	<select id="zzyFindNameById" parameterType="java.lang.String" resultType="java.lang.String">
+		select GMU_NAME from
+		<include refid="tableName"></include>
+		where GMUSER_ID=#{0}
+	</select>
+	<!-- 医护端登录 -->
+	<select id="zzyLogin" parameterType="java.lang.String" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from GM_GMUSER 
+		where GMU_TEL=#{0} limit 1
+	</select>
 </mapper>

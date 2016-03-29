@@ -206,16 +206,20 @@ public class PicturesController extends BaseController {
 		}
 		return "";*/
 	}
+	/**
+	 * zzy上传单个文件
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@RequestMapping(value="/zzyAdd")
 	public String zzyAdd(MultipartFile file)throws Exception{
-		System.out.println("zzy:come to zzyAdd");
 		String  ffile = DateUtil.getDays(), fileName = "";
 		if (null != file && !file.isEmpty()) {
 			String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;	//文件上传路径
 			fileName = FileUpload.fileUp(file, filePath, this.get32UUID());			//执行上传
 		}
-		System.out.println("zzy:leave zzyAdd");
 		return DateUtil.getDays()+"/"+fileName;
 	}
 	/**去修改页面

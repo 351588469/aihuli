@@ -17,7 +17,15 @@ public interface ERNurseManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception;
-	
+	/**
+	 * zzy
+	 * 新增
+	 */
+	public void zzySave(PageData pd)throws Exception;
+	/**
+	 * 常规项目记录
+	 */
+	public void zzySaveRoutine(PageData pd)throws Exception;
 	/**删除
 	 * @param pd
 	 * @throws Exception
@@ -41,7 +49,11 @@ public interface ERNurseManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**
+	 * zzy
+	 * 历史
+	 */
+	public List<PageData> zzyPast(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -53,6 +65,11 @@ public interface ERNurseManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	/**
+	 * 检查当天记录是否存在
+	 */
+	public PageData zzyCheckData(PageData pd)throws Exception;
+
 	
 }
 

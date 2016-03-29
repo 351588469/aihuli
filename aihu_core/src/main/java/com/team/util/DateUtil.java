@@ -6,9 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.zzy.yh.config.Lunar;
+
 /** 
  * 说明：日期处理
  * 修改时间：2015年11月24日
+ * zzy:阳历到农历,
  * @version
  */
 public class DateUtil {
@@ -35,7 +38,7 @@ public class DateUtil {
 	}
 	
 	/**
-	 * 获取YYYYMMDD格式
+	 * 获取+格式
 	 * @return
 	 */
 	public static String getDays(){
@@ -155,6 +158,16 @@ public class DateUtil {
         
         return dateStr;
     }
+    public static String getAfterDayDate(Integer daysInt) {
+        Calendar canlendar = Calendar.getInstance(); // java.util包
+        canlendar.add(Calendar.DATE, daysInt); // 日期减 如果不够减会将月变动
+        Date date = canlendar.getTime();
+        
+        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateStr = sdfd.format(date);
+        
+        return dateStr;
+    }
     
     /**
      * 得到n天之后是周几
@@ -171,9 +184,55 @@ public class DateUtil {
         return dateStr;
     }
     
+    /**
+     * 阳历转农历
+     * @param args
+     */
+    public static String zzyGetLunarFromSolar(String day){
+    	Date solar=fomatDate(day);
+    	Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(solar.getTime());
+		Lunar lunar=new Lunar(c);
+    	return lunar.toString();
+    }
+    
     public static void main(String[] args) {
     	System.out.println(getDays());
     	System.out.println(getAfterDayWeek("3"));
     }
+    /**
+     * 根据生日获取年龄
+     */
+    public static int zzyGetAgeByBirthday(Date birthday) {
+    	Calendar cal = Calendar.getInstance();
 
+    	if (cal.before(birthday)) {
+    		throw new IllegalArgumentException(
+    				"The birthDay is before Now.It's unbelievable!");
+    	}
+
+    	int yearNow = cal.get(Calendar.YEAR);
+    	int monthNow = cal.get(Calendar.MONTH) + 1;
+    	int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+
+    	cal.setTime(birthday);
+    	int yearBirth = cal.get(Calendar.YEAR);
+    	int monthBirth = cal.get(Calendar.MONTH) + 1;
+    	int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
+
+    	int age = yearNow - yearBirth;
+
+    	if (monthNow <= monthBirth) {
+    		if (monthNow == monthBirth) {
+    			// monthNow==monthBirth 
+    			if (dayOfMonthNow < dayOfMonthBirth) {
+    				age--;
+    			}
+    		} else {
+    			// monthNow>monthBirth 
+    			age--;
+    		}
+    	}
+    	return age;
+    }
 }

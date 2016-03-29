@@ -1,11 +1,24 @@
 package com.team.service.retirement.gmaresult.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.util.PageData;
+import com.team.util.Tools;
+import com.team.util.UuidUtil;
+import com.team.service.retirement.elder.ElderManager;
+import com.team.service.retirement.gmaanlysis.GMAAnlysisManager;
+import com.team.service.retirement.gmaitem.GMAitemManager;
 import com.team.service.retirement.gmaresult.GMAResultManager;
 
 /** 
@@ -19,7 +32,12 @@ public class GMAResultService implements GMAResultManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	
+	@Resource(name="gmaitemService")
+	private GMAitemManager gmaitemService;
+	@Resource(name="elderService")
+	private ElderManager elderService;
+	@Resource(name="gmaanlysisService")
+	private GMAAnlysisManager gmaanlysisService;
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -77,6 +95,88 @@ public class GMAResultService implements GMAResultManager{
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("GMAResultMapper.deleteAll", ArrayDATA_IDS);
 	}
-	
+	/**
+	 *批量上传评测结果
+	 */
+	@Override
+	public String zzySaveMult(PageData pd) throws Exception {
+		PageData zzyPd=new PageData();
+		String json=pd.getString("json");
+		String E_ID=pd.getString("e_id");
+		String GMU_ID=pd.getString("gmu_id");
+		Gson gson=new Gson();
+		@SuppressWarnings("unchecked")
+		List<Map<String,Object>>list=gson.fromJson(json,List.class);
+		List<Map<String,Object>>dl=new ArrayList<>();
+		String GMAR_CODE=UuidUtil.get32UUID();
+		String E_NAME=elderService.zzyFindNameById(E_ID);
+		Map<String,Map<String,Object>>resultMap=new HashMap<>();
+		for(int i=0;i<list.size();i++){
+			Map<String,Object>map=list.get(i);
+			Double score=(Double) map.get("gmar_score");
+			Integer is=score.intValue();
+			map.put("gmar_score",is);
+			Map<String,Object>tm=new HashMap<String, Object>();
+			tm.put("GMARESULT_ID",UuidUtil.get32UUID());
+			tm.put("GMAR_E_ID",E_ID);
+			tm.put("GMAR_SCORE",map.get("gmar_score"));
+			String gmaiid=(String) map.get("gmai_id");
+			tm.put("GMAR_GMAI_ID",gmaiid);
+			PageData gmai=gmaitemService.zzyFindById(gmaiid);
+			tm.put("GMAR_GMAI_GM_ID",gmai.get("GMAI_GM_ID"));//
+			tm.put("GMAR_GMAI_NUM",gmai.get("GMAI_NUMBER"));//
+			tm.put("GMAR_GMAI_ITYPE",gmai.get("GMAI_GMAT_NUM"));//
+			tm.put("GMAR_GMAI_STYPE",gmai.get("GMAI_GMAT_NAME"));//
+			tm.put("GMAR_GMAI_SCORE",gmai.get("GMAI_SCORE"));//
+			tm.put("GMAR_GMAI_CONTENT",gmai.get("GMAI_CONTENT"));//
+			tm.put("GMAR_CTIME",Tools.date2Str(new Date()));
+			tm.put("GMAR_UTIME",Tools.date2Str(new Date()));
+			tm.put("GMAR_CODE",GMAR_CODE);
+			dl.add(tm);
+			//评测结果分析
+			Map<String,Object>map2=resultMap.get(gmai.get("GMAI_GMAT_NAME"));
+			if(map2==null){
+				map2=new HashMap<>();
+				map2.put("total",gmai.get("GMAI_SCORE"));
+				map2.put("get",map.get("gmar_score"));
+				resultMap.put((String) gmai.get("GMAI_GMAT_NAME"),map2);
+			}else{
+				Map<String,Object>map3=new HashMap<>();
+				Integer total=(Integer)gmai.get("GMAI_SCORE")+(Integer)map2.get("total");
+				map3.put("total",total);
+				Integer get=(Integer)map.get("gmar_score")+(Integer)map2.get("get");
+				map3.put("get",get);
+				resultMap.put((String) gmai.get("GMAI_GMAT_NAME"),map3);
+			}
+		}	
+		dao.save("GMAResultMapper.zzySaveMult",dl);
+		/**
+		 * 评测结果分析上传
+		 */
+		String Analysis="老人"+E_NAME+"的评测分析如下:";
+		Integer t_total=0;
+		Integer t_get=0;
+		for (Map.Entry<String,Map<String,Object>> entry :resultMap.entrySet()) {
+			//System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+			Analysis+=entry.getKey()+"项目的总分为:"+entry.getValue().get("total")+
+					",得分为:"+entry.getValue().get("get")+";";
+			
+			t_total+=(Integer) entry.getValue().get("total");
+			t_get+=(Integer) entry.getValue().get("get");
+		}
+		
+		Analysis+="评测合计总分为:"+t_total+",老人合计得分:"+t_get;
+		PageData zzyPd_a=new PageData();
+		zzyPd_a.put("GMAANLYSIS_ID",UuidUtil.get32UUID());
+		zzyPd_a.put("GMAA_CODE",GMAR_CODE);
+		zzyPd_a.put("GMAA_E_ID",E_ID);
+		zzyPd_a.put("GMAA_SCORE",t_get);
+		zzyPd_a.put("GMAA_ANALYSIS",Analysis);
+		zzyPd_a.put("GMAA_GMU_ID",GMU_ID);
+		zzyPd_a.put("GMAA_CTIME",Tools.date2Str(new Date()));
+		zzyPd_a.put("GMAA_UTIME",Tools.date2Str(new Date()));
+		gmaanlysisService.save(zzyPd_a);
+		return Analysis;
+	}
 }
 

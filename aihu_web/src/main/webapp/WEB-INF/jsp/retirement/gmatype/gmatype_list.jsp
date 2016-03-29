@@ -66,11 +66,8 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">养老院编号</th>
-									<th class="center">类别名称</th>
-									<th class="center">类别编号</th>
-									<th class="center">创建时间</th>
-									<th class="center">最后修改时间</th>
+									<th class="center">名称</th>
+									<th class="center">编号</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -86,16 +83,15 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.GMATYPE_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.GMAT_GM_ID}</td>
 											<td class='center'>${var.GMAT_NAME}</td>
 											<td class='center'>${var.GMAT_NUM}</td>
-											<td class='center'>${var.GMAT_CTIME}</td>
-											<td class='center'>${var.GMAT_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
+													<!-- 题目列表 -->
+													<a href="gmaitem/list.do?GMATYPE_ID=${var.GMATYPE_ID}"title="题目" ><img src="<%=basePath%>/static/images/zzy_item.png"/></a>
 													<c:if test="${QX.edit == 1 }">
 													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.GMATYPE_ID}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
@@ -164,6 +160,7 @@
 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
+									<a href="gm/list.do"title="返回" ><img src="<%=basePath%>/static/images/zzy_back.png"/></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>

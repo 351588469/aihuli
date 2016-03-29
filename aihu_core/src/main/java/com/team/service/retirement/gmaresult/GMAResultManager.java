@@ -53,6 +53,10 @@ public interface GMAResultManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	/**
+	 * 批量上传评测结果
+	 */
+	public String zzySaveMult(PageData pd)throws Exception;
 	
 }
 

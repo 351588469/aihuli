@@ -66,12 +66,10 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">项目所属养老院编号</th>
-									<th class="center">护理项目名称</th>
-									<th class="center">护理项目描述</th>
-									<th class="center">创建时间</th>
-									<th class="center">最后修改时间</th>
-									<th class="center">状态（1有效、2 无效）</th>
+									<th class="center">类别</th>
+									<th class="center">名称</th>
+									<th class="center">描述</th>
+									<th class="center">状态</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -87,12 +85,16 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.GMNURSE_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.GMN_GM_ID}</td>
+											<td class='center'>
+												<c:if test="${var.GMN_TYPE==1}">定制项目</c:if>
+												<c:if test="${var.GMN_TYPE==2}">常规项目</c:if>
+											</td>
 											<td class='center'>${var.GMN_NAME}</td>
 											<td class='center'>${var.GMN_CONTENT}</td>
-											<td class='center'>${var.GMN_CTIME}</td>
-											<td class='center'>${var.GMN_UTIME}</td>
-											<td class='center'>${var.GMN_STATUS}</td>
+											<td class='center'>
+												<c:if test="${var.GMN_STATUS==1}">有效</c:if>
+												<c:if test="${var.GMN_STATUS==2}">无效</c:if>
+											</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -166,6 +168,7 @@
 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
+									<a href="gm/list.do"title="返回" ><img src="<%=basePath%>/static/images/zzy_back.png"/></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>

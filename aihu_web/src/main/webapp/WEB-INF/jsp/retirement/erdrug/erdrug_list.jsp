@@ -81,6 +81,8 @@
 									<th class="center">创建时间</th>
 									<th class="center">最后修改时间</th>
 									<th class="center">客户端记录时间</th>
+									<th class="center">记录值</th>
+									<th class="center">记录说明</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -111,6 +113,8 @@
 											<td class='center'>${var.ERD_CTIME}</td>
 											<td class='center'>${var.ERD_UTIME}</td>
 											<td class='center'>${var.ERD_GTIME}</td>
+											<td class='center'>${var.ERD_VALUE}</td>
+											<td class='center'>${var.ERD_DESC}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

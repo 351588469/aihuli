@@ -114,7 +114,14 @@
 		where 
 			GM_ID = #{GM_ID}
 	</select>
-	
+	<!-- 通过ID获取名称 -->
+	<select id="zzyFindNameById" parameterType="java.lang.String" resultType="java.lang.String">
+		select GM_NAME
+		from
+		<include refid="tableName"></include>
+		where 
+			GM_ID=#{0}
+	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select

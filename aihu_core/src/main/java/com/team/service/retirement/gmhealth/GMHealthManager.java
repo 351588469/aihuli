@@ -41,13 +41,21 @@ public interface GMHealthManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**
+	 * zzy
+	 * 列表
+	 */
+	public List<PageData>zzyList(String gmid)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
-	
+	/**
+	 * zzy
+	 * 通过id获取数据
+	 */
+	public PageData zzyFindById(String id)throws Exception;
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

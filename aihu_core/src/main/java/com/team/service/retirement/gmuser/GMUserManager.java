@@ -1,6 +1,8 @@
 package com.team.service.retirement.gmuser;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -53,6 +55,27 @@ public interface GMUserManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
+	/**
+	 * zzy根据职工姓名检测职工信息是否存在
+	 */
+	public String zzyCheckByName(PageData pd)throws Exception;
+	/**
+	 * zzy
+	 * 根据养老院编号获取职工姓名及编号列表
+	 * @param GM_ID
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> zzyListForNameID(String GM_ID)throws Exception;
+	/**
+	 * zzy
+	 * 根据职工编号获取职工姓名
+	 */
+	public String zzyFindNameById(String ID)throws Exception;
+	/**
+	 * zzy
+	 * 医护端登录
+	 */
+	public PageData zzyLogin(String tel)throws Exception;
 }
 

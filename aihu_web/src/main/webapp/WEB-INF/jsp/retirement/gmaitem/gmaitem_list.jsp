@@ -66,14 +66,8 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">第几题</th>
-									<th class="center">题目所属类别编号</th>
-									<th class="center">题目最大或最小分值</th>
+									<th class="center">题目分值</th>
 									<th class="center">题目具体内容</th>
-									<th class="center">创建时间</th>
-									<th class="center">修改时间</th>
-									<th class="center">题目类别名称</th>
-									<th class="center">养老院编号</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -89,15 +83,9 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.GMAITEM_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.GMAI_NUMBER}</td>
-											<td class='center'>${var.GMAI_GMAT_ID}</td>
-											<td class='center'>${var.GMAI_SCORE}</td>
-											<td class='center'>${var.GMAI_CONTENT}</td>
-											<td class='center'>${var.GMAI_CTIME}</td>
-											<td class='center'>${var.GMAI_UTIME}</td>
-											<td class='center'>${var.GMAI_GMAT_NAME}</td>
-											<td class='center'>${var.GMAI_GM_ID}</td>
-											<td class="center">
+											<td class='center'style="width:40px">${var.GMAI_SCORE}</td>
+											<td class='center' style="width:80%">${var.GMAI_CONTENT}</td>
+											<td class="center" style="width:10%">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
@@ -170,6 +158,7 @@
 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
+									<a href="gmatype/list.do"title="返回" ><img src="<%=basePath%>/static/images/zzy_back.png"/></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>
@@ -268,7 +257,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>gmaitem/goAdd.do';
+			 diag.URL = '<%=basePath%>gmaitem/goAdd.do?GMATYPE_ID=${pd.GMATYPE_ID}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件

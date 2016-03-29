@@ -32,8 +32,6 @@ public class GMService implements GMManager{
 	public void save(PageData pd)throws Exception{
 		//数据处理
 		if(!pd.containsKey("GM_CKSTATUS"))pd.put("GM_CKSTATUS",3);//3:待审核
-		if(!pd.containsKey("GM_BERTH_COUNT"))pd.put("GM_BERTH_COUNT",null);
-		pd.put("GM_UTIME",null);//新数据无修改时间
 		dao.save("GMMapper.save", pd);
 	}
 	
@@ -95,6 +93,14 @@ public class GMService implements GMManager{
 	public List<Map<String,Object>> listByCreator() throws Exception {
 		List<Map<String,Object>>list=(List<Map<String, Object>>) dao.findForList("GMMapper.listCreator",null);
 		return list;
+	}
+	/**
+	 * zzy
+	 * 通过id获取名称
+	 */
+	@Override
+	public String zzyFindNameById(String id) throws Exception {
+		return (String) dao.findForObject("GMMapper.zzyFindNameById",id);
 	}
 	
 }

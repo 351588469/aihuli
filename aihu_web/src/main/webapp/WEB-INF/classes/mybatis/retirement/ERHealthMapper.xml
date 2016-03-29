@@ -110,7 +110,19 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!--  -->
+	<select id="zzyPast" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		 ERH_GMH_ID=#{ERH_GMH_ID}	AND
+		 ERH_E_ID=#{ERH_E_ID} 		AND 
+		 ERH_GM_ID = #{ERH_GM_ID}  	AND
+		 ERH_GTIME &gt;=#{SDATE} 	AND 
+		 ERH_GTIME &lt;=#{EDATE}
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

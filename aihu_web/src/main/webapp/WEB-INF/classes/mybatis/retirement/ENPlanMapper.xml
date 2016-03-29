@@ -92,7 +92,15 @@
 		where 
 			ENPLAN_ID = #{ENPLAN_ID}
 	</select>
-	
+	<!-- zzy通过ID获取数据 -->
+	<select id="zzyFindById" parameterType="java.lang.String" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			ENPLAN_ID = #{0}
+	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -119,7 +127,15 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表(全部) -->
+	<select id="zzyList" parameterType="String" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+		ENP_E_ID=#{0}
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -130,5 +146,10 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!--  -->
+	<select id="zzyFindNNAMEById" parameterType="String" resultType="String">
+		select ENP_GMN_NAME from 
+		<include refid="tableName"></include>
+		where ENPLAN_ID=#{0}
+	</select>
 </mapper>

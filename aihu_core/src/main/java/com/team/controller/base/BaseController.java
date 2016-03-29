@@ -27,7 +27,13 @@ public class BaseController {
 	public PageData getPageData(){
 		return new PageData(this.getRequest());
 	}
-	
+	/**
+	 * form-data对象
+	 *
+	 */
+	public PageData zzyGetPageData(){
+		return new PageData(this.getRequest(),"zzy");
+	}
 	/**得到ModelAndView
 	 * @return
 	 */

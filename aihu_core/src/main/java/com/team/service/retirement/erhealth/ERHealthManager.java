@@ -17,7 +17,11 @@ public interface ERHealthManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception;
-	
+	/**
+	 * zzy
+	 * 新增
+	 */
+	public void zzySave(PageData pd)throws Exception;
 	/**删除
 	 * @param pd
 	 * @throws Exception
@@ -35,7 +39,10 @@ public interface ERHealthManager{
 	 * @throws Exception
 	 */
 	public List<PageData> list(Page page)throws Exception;
-	
+	/**
+	 * 历史
+	 */
+	public List<PageData> zzyPast(PageData pd)throws Exception;
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception

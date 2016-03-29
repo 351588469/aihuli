@@ -128,7 +128,16 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!--  -->
+	<select id="zzyPast" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		 GMBR_UTIME &gt;=#{SDATE} 	AND 
+		 GMBR_UTIME &lt;=#{EDATE}
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -139,5 +148,11 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<select id="zzyRecent" parameterType="String" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where GMBR_GMB_ID=#{0} order by GMBR_UTIME desc limit 1
+	</select>
 </mapper>

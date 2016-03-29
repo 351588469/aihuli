@@ -36,20 +36,26 @@
 								<td><input type="number" name="GMAI_NUMBER" id="GMAI_NUMBER" value="${pd.GMAI_NUMBER}" maxlength="32" placeholder="这里输入第几题" title="第几题" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">题目所属类别编号:</td>
-								<td><input type="text" name="GMAI_GMAT_ID" id="GMAI_GMAT_ID" value="${pd.GMAI_GMAT_ID}" maxlength="32" placeholder="这里输入题目所属类别编号" title="题目所属类别编号" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">类别:</td>
+								<td>
+									<input type="text" readonly="readonly" name="GMAI_GMAT_NAME" id="GMAI_GMAT_NAME" value="${pd.GMAI_GMAT_NAME}" maxlength="32" style="width:98%;"/>
+									<input type="hidden" id="GMAI_GMAT_ID" value="${pd.GMAI_GMAT_ID}"/>
+								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">题目最大或最小分值:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">分值:</td>
 								<td><input type="number" name="GMAI_SCORE" id="GMAI_SCORE" value="${pd.GMAI_SCORE}" maxlength="32" placeholder="这里输入题目最大或最小分值" title="题目最大或最小分值" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">题目具体内容:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">内容:</td>
 								<td><input type="text" name="GMAI_CONTENT" id="GMAI_CONTENT" value="${pd.GMAI_CONTENT}" maxlength="255" placeholder="这里输入题目具体内容" title="题目具体内容" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">养老院编号:</td>
-								<td><input type="text" name="GMAI_GM_ID" id="GMAI_GM_ID" value="${pd.GMAI_GM_ID}" maxlength="32" placeholder="这里输入养老院编号" title="养老院编号" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">养老院:</td>
+								<td>
+									<input type="hidden" name="GMAI_GM_ID" id="GMAI_GM_ID" value="${pd.GMAI_GM_ID}"/>
+									<input type="text" readonly="readonly" name="GMAI_GM_NAME" id="GMAI_GM_NAME" value="${pd.GMAI_GM_NAME}"style="width:98%;"/>
+								</td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">

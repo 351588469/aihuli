@@ -100,6 +100,19 @@
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
+													<!-- 职工信息 -->
+													<a href="gmuser/list.do?GMU_GM_ID=${var.GM_ID}"title="职工" ><img src="<%=basePath%>/static/images/zzy_work.png"/></a>
+													<!-- 老人信息 -->
+													<a href="elder/list.do?E_GM_ID=${var.GM_ID}"title="老人" ><img src="<%=basePath%>/static/images/zzy_old.png"/></a>
+													<!-- 房间信息 -->
+													<a href="gmberth/list.do?GMB_GM_ID=${var.GM_ID}"title="房间" ><img src="<%=basePath%>/static/images/zzy_room.png"/></a>
+													<!-- 评测信息 -->
+													<a href="gmatype/list.do?GMAT_GM_ID=${var.GM_ID}"title="评测" ><img src="<%=basePath%>/static/images/zzy_ping.png"/></a>
+													<!-- 项目信息 -->
+													<a href="gmnurse/list.do?GMN_GM_ID=${var.GM_ID}"title="项目" ><img src="<%=basePath%>/static/images/zzy_object.png"/></a>
+													<c:if test="${QX.Staff == 1 }">
+													</c:if>
+													
 													<c:if test="${QX.edit == 1 }">
 													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.GM_ID}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>

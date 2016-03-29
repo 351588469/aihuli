@@ -44,6 +44,14 @@
 								<td><input class="span10 date-picker" name="ERD_GTIME" id="ERD_GTIME" value="${pd.ERD_GTIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="客户端记录时间" title="客户端记录时间" style="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">记录值:</td>
+								<td><input type="text" name="ERD_VALUE" id="ERD_VALUE" value="${pd.ERD_VALUE}" maxlength="10" placeholder="这里输入记录值" title="记录值" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">记录说明:</td>
+								<td><input type="text" name="ERD_DESC" id="ERD_DESC" value="${pd.ERD_DESC}" maxlength="255" placeholder="这里输入记录说明" title="记录说明" style="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
@@ -110,6 +118,26 @@
 		            time:2
 		        });
 				$("#ERD_GTIME").focus();
+			return false;
+			}
+			if($("#ERD_VALUE").val()==""){
+				$("#ERD_VALUE").tips({
+					side:3,
+		            msg:'请输入记录值',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#ERD_VALUE").focus();
+			return false;
+			}
+			if($("#ERD_DESC").val()==""){
+				$("#ERD_DESC").tips({
+					side:3,
+		            msg:'请输入记录说明',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#ERD_DESC").focus();
 			return false;
 			}
 			$("#Form").submit();

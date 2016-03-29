@@ -60,16 +60,14 @@ public class GMController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		System.out.println("zzy:"+pd.toString());
-		/*String  ffile = DateUtil.getDays(), fileName = "";
-		if (null != file && !file.isEmpty()) {
-			String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG + ffile;	//文件上传路径
-			fileName = FileUpload.fileUp(file, filePath, this.get32UUID());			//执行上传
-			System.out.println("zzy2:"+fileName);
-		}*/
-		
 		pd.put("GM_ID", this.get32UUID());	//主键
 		pd.put("GM_CTIME", Tools.date2Str(new Date()));	//创建时间
-		pd.put("GM_UTIME", Tools.date2Str(new Date()));	//最后修改时间
+		//新增数据时无最后修改时间
+		//pd.put("GM_UTIME", Tools.date2Str(new Date()));	//最后修改时间
+		//pagedata中存在但无传值
+		if(pd.get("GM_BERTH_COUNT").equals(""))pd.put("GM_BERTH_COUNT", null);
+		//pagedata中不存在但需要
+		if(!pd.containsKey("GM_CKSTATUS"))pd.put("GM_CKSTATUS",3);//3:待审核
 		gmService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -102,6 +100,9 @@ public class GMController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		
+		pd.put("GM_UTIME", Tools.date2Str(new Date()));	//最后修改时间
+		
 		gmService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");

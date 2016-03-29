@@ -125,8 +125,7 @@
 				/static/login/** = anon
 				/static/js/myjs/** = authc
 				/static/js/** = anon
-				/uploadFiles/uploadImgs/** = anon
-				/uploadFiles/uploadImgs/**/** = anon
+				/uploadFiles/uploadImgs/**= anon
 				/code.do = anon
 				/login_login = anon
 				/app**/** = anon

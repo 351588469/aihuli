@@ -16,6 +16,7 @@
 		GMAI_CTIME,	
 		GMAI_UTIME,	
 		GMAI_GMAT_NAME,	
+		GMAI_GMAT_NUM,
 		GMAI_GM_ID,	
 		GMAITEM_ID
 	</sql>
@@ -29,6 +30,7 @@
 		#{GMAI_CTIME},	
 		#{GMAI_UTIME},	
 		#{GMAI_GMAT_NAME},	
+		#{GMAI_GMAT_NUM},
 		#{GMAI_GM_ID},	
 		#{GMAITEM_ID}
 	</sql>
@@ -66,7 +68,17 @@
 		where 
 		GMAITEM_ID = #{GMAITEM_ID}
 	</update>
-	
+	<!-- zzy修改 -->
+	<update id="zzyEdit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			GMAI_NUMBER = #{GMAI_NUMBER},
+			GMAI_SCORE = #{GMAI_SCORE},
+			GMAI_CONTENT = #{GMAI_CONTENT}
+		where 
+		GMAITEM_ID = #{GMAITEM_ID}
+	</update>
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
@@ -76,7 +88,15 @@
 		where 
 			GMAITEM_ID = #{GMAITEM_ID}
 	</select>
-	
+	<!--zzy通过ID获取数据 -->
+	<select id="zzyFindById" parameterType="String" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			GMAITEM_ID = #{0}
+	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -103,7 +123,22 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!--  -->
+	<select id="zzyList" parameterType="java.lang.String" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where GMAI_GM_ID = #{0}
+	</select>
+	<!-- 获取养老院某一类题目 -->
+	<select id="zzyListByType" parameterType="java.lang.String" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where GMAI_GMAT_ID= #{0}
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

@@ -1,6 +1,7 @@
 package com.team.util;
 
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,12 +13,14 @@ import javax.servlet.http.HttpServletRequest;
  * 修改时间：2014年9月20日
  * @version
  */
+@SuppressWarnings("rawtypes")
 public class PageData extends HashMap implements Map{
 	
 	private static final long serialVersionUID = 1L;
 	
 	Map map = null;
 	HttpServletRequest request;
+	@SuppressWarnings("unchecked")
 	public PageData(HttpServletRequest request){
 		this.request = request;
 		Map properties = request.getParameterMap();
@@ -45,7 +48,17 @@ public class PageData extends HashMap implements Map{
 		}
 		map = returnMap;
 	}
-	
+	public PageData(HttpServletRequest request,String type){
+		System.out.println("zzy:form/data");
+		Map<String,Object>returnMap=new HashMap<>();
+		Enumeration enu=request.getParameterNames();
+		while(enu.hasMoreElements()){
+			String paraName=(String)enu.nextElement();
+			System.out.println(paraName+": "+request.getParameter(paraName));
+			returnMap.put(paraName,request.getParameter(paraName));
+		}
+		map=returnMap;
+	}
 	public PageData() {
 		map = new HashMap();
 	}

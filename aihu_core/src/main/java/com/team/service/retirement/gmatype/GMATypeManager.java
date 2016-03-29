@@ -1,6 +1,7 @@
 package com.team.service.retirement.gmatype;
 
 import java.util.List;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -47,12 +48,18 @@ public interface GMATypeManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
+	/**
+	 * zzy通过id获取数据
+	 */
+	public PageData zzyFindById(String gmatid)throws Exception;
 	
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+
+
 	
 }
 

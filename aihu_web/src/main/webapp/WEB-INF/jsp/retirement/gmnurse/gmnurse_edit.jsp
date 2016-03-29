@@ -32,20 +32,47 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">项目所属养老院编号:</td>
-								<td><input type="text" name="GMN_GM_ID" id="GMN_GM_ID" value="${pd.GMN_GM_ID}" maxlength="32" placeholder="这里输入项目所属养老院编号" title="项目所属养老院编号" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">养老院:</td>
+								<td>
+									<input type="hidden" name="GMN_GM_ID" id="GMN_GM_ID" value="${pd.GMN_GM_ID}">
+									<input type="text" readonly="readonly"name="GMN_GM_NAME" id="GMN_GM_NAME" value="${pd.GMN_GM_NAME}"style="width:98%;"/>
+								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">护理项目名称:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">名称:</td>
 								<td><input type="text" name="GMN_NAME" id="GMN_NAME" value="${pd.GMN_NAME}" maxlength="50" placeholder="这里输入护理项目名称" title="护理项目名称" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">护理项目描述:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">描述:</td>
 								<td><input type="text" name="GMN_CONTENT" id="GMN_CONTENT" value="${pd.GMN_CONTENT}" maxlength="255" placeholder="这里输入护理项目描述" title="护理项目描述" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">状态（1有效、2 无效）:</td>
-								<td><input type="number" name="GMN_STATUS" id="GMN_STATUS" value="${pd.GMN_STATUS}" maxlength="32" placeholder="这里输入状态（1有效、2 无效）" title="状态（1有效、2 无效）" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">类别:</td>
+								<td>	
+									<input type="hidden" name="GMN_TYPE" id="GMN_TYPE" value="${pd.GMN_TYPE}"/>
+									<select  name="SELECT_TYPE" id="SELECT_TYPE" style="width:50%"
+									onchange="$('#GMN_TYPE').val(this.value)">
+									<c:if test="${pd.GMN_TYPE==''||pd.GMN_TYPE==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="1" <c:if test="${pd.GMN_TYPE=='1'}">selected</c:if>>定制项目</option>
+   									<option value="2" <c:if test="${pd.GMN_TYPE=='2'}">selected</c:if>>常规项目</option>
+   									</select>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">状态:</td>
+								<td>
+									<input type="hidden" name="GMN_STATUS" id="GMN_STATUS" value="${pd.GMN_STATUS}"/>
+									<select  name="SELECT_STATUS" id="SELECT_STATUS" style="width:50%"
+									onchange="$('#GMN_STATUS').val(this.value)">
+									<c:if test="${pd.GMN_STATUS==''||pd.GMN_STATUS==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+    								<option value="1" <c:if test="${pd.GMN_STATUS=='1'}">selected</c:if>>有效</option>
+   									<option value="2" <c:if test="${pd.GMN_STATUS=='2'}">selected</c:if>>无效</option>
+   									</select>
+								</td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">

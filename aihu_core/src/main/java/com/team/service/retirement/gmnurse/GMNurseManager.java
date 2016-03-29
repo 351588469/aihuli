@@ -1,6 +1,7 @@
 package com.team.service.retirement.gmnurse;
 
 import java.util.List;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -35,7 +36,16 @@ public interface GMNurseManager{
 	 * @throws Exception
 	 */
 	public List<PageData> list(Page page)throws Exception;
-	
+	/**
+	 * zzy
+	 * 列表
+	 */
+	public List<PageData> zzyList(String gmid)throws Exception;
+	/**
+	 * zzy
+	 * 常规项目列表
+	 */
+	public List<PageData> zzyRoutineList(String gmid)throws Exception;
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception
@@ -47,12 +57,22 @@ public interface GMNurseManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
+	/**
+	 * zzy
+	 * 通过id获取数据
+	 */
+	public PageData zzyFindById(String id)throws Exception;
 	
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	/**
+	 * zzy
+	 * 获取项目名称
+	 */
+	public String zzyFindNNameById(String enpid)throws Exception;
 	
 }
 

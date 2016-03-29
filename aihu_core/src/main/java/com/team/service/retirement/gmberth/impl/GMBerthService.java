@@ -1,8 +1,11 @@
 package com.team.service.retirement.gmberth.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.util.PageData;
@@ -69,7 +72,12 @@ public class GMBerthService implements GMBerthManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("GMBerthMapper.findById", pd);
 	}
-	
+	/**
+	 * 通过id获取数据
+	 */
+	public PageData zzyFindById(String id)throws Exception{
+		return (PageData)dao.findForObject("GMBerthMapper.zzyFindById",id);
+	}
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
@@ -78,5 +86,32 @@ public class GMBerthService implements GMBerthManager{
 		dao.delete("GMBerthMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
+	/**
+	 * zzy
+	 * 获取负责床位列表
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> zzyListOfBerth(String GMU_ID) throws Exception {
+		return (List<PageData>) dao.findForList("GMBerthMapper.zzyListOfBerth",GMU_ID);
+	}
+	/**
+	 * zzy
+	 * 获取负责老人列表
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> zzyListOfElder(String GMU_ID) throws Exception {
+		return (List<PageData>) dao.findForList("GMBerthMapper.zzyListOfElder",GMU_ID);
+	}
+	/**
+	 * zzy
+	 * 检查床位信息表中老人信息是否存在 
+	 * 返回GMBERTH_ID
+	 */
+	@Override
+	public String zzyCheckByElderName(PageData tpd) throws Exception{
+		return (String) dao.findForObject("GMBerthMapper.zzyCheckByElderName",tpd);
+	}
 }
 

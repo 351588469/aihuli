@@ -108,9 +108,25 @@
 		<if test="pd.GMB_GM_ID!= null and pd.GMB_GM_ID != ''">
 		and GMB_GM_ID=#{pd.GMB_GM_ID} and GMB_TYPE=#{pd.GMB_TYPE}
 		</if>
+		<if test="pd.GMB_TYPE!= null and pd.GMB_TYPE != ''">
+		and GMB_TYPE=#{pd.GMB_TYPE} 
+		</if>
 		<if test="pd.GMBERTH_ID!=null and pd.GMBERTH_ID!=''">
 		and GMB_FLOOR=#{pd.GMB_FLOOR} and GMB_LAYER=#{pd.GMB_LAYER} 
 		and GMB_ROOM=#{pd.GMB_ROOM} and GMB_TYPE=#{pd.GMB_TYPE}
+		</if>
+		<if test="pd.TERM_E_NAME!=null and pd.TERM_E_NAME!=''">
+		and GMB_E_ID in (select ELDER_ID from ELDER 
+			where E_NAME LIKE CONCAT(CONCAT('%', #{pd.TERM_E_NAME}), '%'))
+		</if>
+		<if test="pd.TERM_FLOOR!=null and pd.TERM_FLOOR!=''">
+		and TERM_FLOOR LIKE CONCAT(CONCAT('%', #{pd.TERM_FLOOR}), '%')
+		</if>
+		<if test="pd.TERM_LAYER!=null and pd.TERM_LAYER!=''">
+		and TERM_LAYER LIKE CONCAT(CONCAT('%', #{pd.TERM_LAYER}), '%')
+		</if>
+		<if test="pd.TERM_ROOM!=null and pd.TERM_ROOM!=''">
+		and TERM_ROOM LIKE CONCAT(CONCAT('%', #{pd.TERM_ROOM}), '%')
 		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and

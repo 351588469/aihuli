@@ -110,6 +110,11 @@ public class EDPlanController extends BaseController {
 		}
 		page.setPd(pd);
 		List<PageData>	varList = edplanService.list(page);	//列出EDPlan列表
+		for(int i=0;i<varList.size();i++){
+			PageData tpd=varList.get(i);
+			String eid=tpd.getString("EDP_E_ID");
+			
+		}
 		mv.setViewName("retirement/edplan/edplan_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

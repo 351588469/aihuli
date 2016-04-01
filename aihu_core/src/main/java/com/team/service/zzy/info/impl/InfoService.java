@@ -111,7 +111,7 @@ public class InfoService implements InfoManager{
 		Map<String,Object> map = new HashMap<String,Object>();
 		String result = "00";
 			//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
-		System.out.println("zzy:"+pd.toString());
+	//	System.out.println("zzy:"+pd.toString());
 				if(AppUtil.checkParam("appzzys_einfo", pd)){	//检查参数
 					PageData data=elderService.zzyFindById(pd.getString("e_id"));
 					if(data==null) result="02";

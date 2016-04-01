@@ -235,10 +235,10 @@
 												style="width:98%;" /></td>
 										</tr>
 										<tr>
-											<td style="width:75px;text-align: right;padding-top: 13px;">收住对象:</td>
+											<td style="width:75px;text-align: right;padding-top: 13px;">康娱设施:</td>
 											<td><input type="text" name="GM_RECEIVE" id="GM_RECEIVE"
 												value="${pd.GM_RECEIVE}" maxlength="255"
-												placeholder="这里输入收住对象" title="收住对象" style="width:98%;" /></td>
+												placeholder="这里输入康娱设施" title="康娱设施" style="width:98%;" /></td>
 										</tr>
 										<tr>
 											<td style="width:75px;text-align: right;padding-top: 13px;">收费标准:</td>

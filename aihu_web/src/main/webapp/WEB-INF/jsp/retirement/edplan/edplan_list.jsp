@@ -66,19 +66,15 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">老人编号</th>
-									<th class="center">计划申请职工编号</th>
-									<th class="center">计划所属养老院编号</th>
-									<th class="center">用药开始日期</th>
-									<th class="center">用药截止时间</th>
+									<th class="center">老人</th>
+									<th class="center">开始时间</th>
+									<th class="center">截止时间</th>
 									<th class="center">用药时间点</th>
 									<th class="center">用药时间说明</th>
 									<th class="center">药品名称</th>
 									<th class="center">药品剂量</th>
 									<th class="center">药品数量</th>
 									<th class="center">用药计划说明</th>
-									<th class="center">创建时间</th>
-									<th class="center">最后修改时间</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -95,8 +91,6 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.EDP_E_ID}</td>
-											<td class='center'>${var.EDP_GMU_ID}</td>
-											<td class='center'>${var.EDP_GM_ID}</td>
 											<td class='center'>${var.EDP_SDATE}</td>
 											<td class='center'>${var.EDP_EDATE}</td>
 											<td class='center'>${var.EDP_MHOUR}</td>
@@ -105,8 +99,6 @@
 											<td class='center'>${var.EDP_MDOSAGE}</td>
 											<td class='center'>${var.EDP_MCOUNT}</td>
 											<td class='center'>${var.EDP_DESC}</td>
-											<td class='center'>${var.EDP_CTIME}</td>
-											<td class='center'>${var.EDP_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

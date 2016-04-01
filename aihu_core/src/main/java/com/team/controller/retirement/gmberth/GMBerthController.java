@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
 import com.team.entity.system.User;
@@ -121,7 +122,7 @@ public class GMBerthController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		
+		HttpSession zzyHs=request.getSession();
 		//通过gmberth_id获取该房间内床位信息
 		if(pd.containsKey("GMBERTH_ID")){
 			PageData room=gmberthService.zzyFindById(pd.getString("GMBERTH_ID"));
@@ -132,7 +133,6 @@ public class GMBerthController extends BaseController {
 			mv.addObject("GMBERTH_ID",pd.get("GMBERTH_ID"));
 		}else{//通过gm_id获取房间信息
 			//Session取值
-			HttpSession zzyHs=request.getSession();
 			if(pd.get("GMB_GM_ID")!=""&&pd.get("GMB_GM_ID")!=null){//重新赋值
 				zzyHs.setAttribute("ZZY_GMID",pd.get("GMB_GM_ID"));
 			}else{
@@ -145,6 +145,14 @@ public class GMBerthController extends BaseController {
 		String keywords = pd.getString("keywords");				//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
+		}
+		//搜索信息
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_GMB");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+			pd.put("GMB_TYPE",4);
 		}
 		page.setPd(pd);
 		List<PageData>	varList = gmberthService.list(page);	//列出GMBerth列表
@@ -170,7 +178,7 @@ public class GMBerthController extends BaseController {
 			pd2.put("GMB_GMU_NAME",unames);
 			varList2.add(pd2);
 		}
-		if(!pd.containsKey("GMBERTH_ID"))
+		if(!pd.containsKey("GMBERTH_ID")&&(term==null||term==""))
 			mv.setViewName("retirement/gmberth/gmberth_list_room");
 		else 
 			mv.setViewName("retirement/gmberth/gmberth_list");
@@ -222,7 +230,76 @@ public class GMBerthController extends BaseController {
 		mv.addObject("user",user);
 		return mv;
 	}	
-	
+	/**
+	 * 去搜索页面
+	 */
+	@RequestMapping(value="/goSearch")
+	public ModelAndView goSearch(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("retirement/gmberth/gmberth_search_room");
+		mv.addObject("msg", "list");
+		mv.addObject("pd", pd);
+		HttpSession zzyHs=request.getSession();
+		//Session取搜索条件
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_GMB");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
+		//养老院编号及名称
+		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
+		mv.addObject("GM_ID",gmid);
+		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//创建用户
+		Session session = Jurisdiction.getSession();
+		User user=(User)session.getAttribute(Const.SESSION_USER);
+		mv.addObject("user",user);
+		return mv;
+	}
+	/**
+	 *搜索信息
+	 * @param request
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/zzySearch")
+	public ModelAndView zzySearch(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		PageData zzyPd=new PageData();
+		pd=this.getPageData();
+		//搜索信息
+		if(pd.containsKey("TERM_FLOOR")&&pd.getString("TERM_FLOOR")!=""){
+			zzyPd.put("TERM_FLOOR",pd.getString("TERM_FLOOR"));
+		}
+		if(pd.containsKey("TERM_LAYER")&&pd.getString("TERM_LAYER")!=""){
+			zzyPd.put("TERM_LAYER",pd.getString("TERM_LAYER"));
+		}
+		if(pd.containsKey("TERM_ROOM")&&pd.getString("TERM_ROOM")!=""){
+			zzyPd.put("TERM_ROOM",pd.getString("TERM_ROOM"));
+		}
+		if(pd.containsKey("TERM_E_NAME")&&pd.getString("TERM_E_NAME")!=""){
+			zzyPd.put("TERM_E_NAME",pd.getString("TERM_E_NAME"));
+		}
+			
+		Gson gson=new Gson();
+		HttpSession session=request.getSession();
+		session.setAttribute("ZZY_TERM_GMB",gson.toJson(zzyPd));
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	/**
+	 * 重置Session
+	 */
+	@RequestMapping(value="/resetSession")
+	public ModelAndView zzyResetSession(HttpServletRequest request,Page page)throws Exception{
+		HttpSession session=request.getSession();
+		session.removeAttribute("ZZY_TERM_GMB");
+		return list(page, request);
+	}
 	 /**去修改页面
 	 * @param
 	 * @throws Exception

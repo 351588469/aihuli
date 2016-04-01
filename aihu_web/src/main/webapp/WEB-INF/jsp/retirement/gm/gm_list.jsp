@@ -19,8 +19,18 @@
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 </head>
+<script type="text/javascript">
+	function zzySearch(){
+		var val=$('#id option:selected').val();
+		$('#nav-search-term').val(val);
+		if(val=='1'){
+			$('#nav-search-input').hide();
+			$('#search-i').hide();
+			$('#search-select-1').show();
+		}
+	}
+</script>
 <body class="no-skin">
-
 	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
 		<!-- /section:basics/sidebar -->
@@ -34,23 +44,30 @@
 						<form action="gm/list.do" method="post" name="Form" id="Form">
 						<table style="margin-top:5px;">
 							<tr>
-								<td>
+								<td style="vertical-align:top;padding-left:2px;">
+								 	<select class="chosen-select form-control" name="name" id="id" data-placeholder="请选择" style="vertical-align:top;width:120px;"
+								 		onchange="zzySearch();"
+								 	>
+									<option value="">搜索条件</option>
+									<option value="1"<c:if test="${pd.term=='1'}">selected</c:if>>审核状态</option>
+								  	</select>
+								  	<input type="hidden" id="nav-search-term" name="nav-search-term" value="${pd.term}"/>
+								  	<td>
 									<div class="nav-search">
 										<span class="input-icon">
-											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
-											<i class="ace-icon fa fa-search nav-search-icon"></i>
+											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords}" placeholder="这里输入关键词"/>
+											<select id="search-select-1" style="vertical-align:top;width:105px;display:none"
+												onchange="$('#nav-search-input').val(this.value)"
+											>	
+												<option value="">下拉选择</option>
+												<option value="1"<c:if test="${pd.keywords=='1'}">selected</c:if>>审核通过</option>
+												<option value="2"<c:if test="${pd.keywords=='2'}">selected</c:if>>审核未通过</option>
+												<option value="3"<c:if test="${pd.keywords=='3'}">selected</c:if>>待审核</option>
+											</select>
+											<i class="ace-icon fa fa-search nav-search-icon" id="search-i"></i>
 										</span>
+										
 									</div>
-								</td>
-								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastLoginStart" id="lastLoginStart"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期" title="开始日期"/></td>
-								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastLoginEnd" id="lastLoginEnd"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期" title="结束日期"/></td>
-								<td style="vertical-align:top;padding-left:2px;">
-								 	<select class="chosen-select form-control" name="name" id="id" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
-									<option value=""></option>
-									<option value="">全部</option>
-									<option value="">1</option>
-									<option value="">2</option>
-								  	</select>
 								</td>
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
@@ -101,9 +118,12 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<!-- 职工信息 -->
+													<!--  
+													<a href="gmuser/list.do?GMU_GM_ID=${var.GM_ID}"title="职工" ><img src="<%=basePath%>/static/images/zzy_work.png"/></a>
+													-->
 													<a href="gmuser/list.do?GMU_GM_ID=${var.GM_ID}"title="职工" ><img src="<%=basePath%>/static/images/zzy_work.png"/></a>
 													<!-- 老人信息 -->
-													<a href="elder/list.do?E_GM_ID=${var.GM_ID}"title="老人" ><img src="<%=basePath%>/static/images/zzy_old.png"/></a>
+													<a  href="elder/list.do?E_GM_ID=${var.GM_ID}"title="老人" ><img src="<%=basePath%>/static/images/zzy_old.png"/></a>
 													<!-- 房间信息 -->
 													<a href="gmberth/list.do?GMB_GM_ID=${var.GM_ID}"title="房间" ><img src="<%=basePath%>/static/images/zzy_room.png"/></a>
 													<!-- 评测信息 -->
@@ -181,6 +201,7 @@
 									<c:if test="${QX.del == 1 }">
 									<a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 									</c:if>
+									<a href="gm/excel.do" title="打印" ><img src="<%=basePath%>/static/images/zzy_print.png"/></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>
@@ -227,7 +248,14 @@
 			$("#Form").submit();
 		}
 		$(function() {
-		
+			//搜索展示
+			var term=$('#nav-search-term').val();
+			
+			if(term=="1"){
+				$('#nav-search-input').hide();
+				$('#search-i').hide();
+				$('#search-select-1').show();
+			}
 			//日期框
 			$('.date-picker').datepicker({
 				autoclose: true,
@@ -376,6 +404,9 @@
 		//导出excel
 		function toExcel(){
 			window.location.href='<%=basePath%>gm/excel.do';
+		}
+		function toPage(){
+			window.location.href='<%=basePath%>gmuser/list.do?GMU_GM_ID=${var.GM_ID}';
 		}
 	</script>
 

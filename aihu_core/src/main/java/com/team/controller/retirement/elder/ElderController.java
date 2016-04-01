@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
 import com.team.entity.system.User;
@@ -144,12 +145,17 @@ public class ElderController extends BaseController {
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
-		/**
-		 * 
-		 */
+		HttpSession zzyHs=request.getSession();
+		//Session取搜索条件
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_ELDER");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
 
 		//Session取值
-		HttpSession zzyHs=request.getSession();
+	
 		if(pd.get("E_GM_ID")!=""&&pd.get("E_GM_ID")!=null){//重新赋值
 			zzyHs.setAttribute("ZZY_GMID",pd.get("E_GM_ID"));
 		}else{
@@ -227,6 +233,84 @@ public class ElderController extends BaseController {
 		return mv;
 	}	
 	/**
+	 * 去搜索页面
+	 */
+	@RequestMapping(value="/goSearch")
+	public ModelAndView goSearch(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("retirement/elder/elder_search");
+		mv.addObject("msg", "list");
+		mv.addObject("pd", pd);
+		HttpSession zzyHs=request.getSession();
+		//Session取搜索条件
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_ELDER");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
+		//养老院编号及名称
+		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
+		mv.addObject("GM_ID",gmid);
+		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//创建用户
+		Session session = Jurisdiction.getSession();
+		User user=(User)session.getAttribute(Const.SESSION_USER);
+		mv.addObject("user",user);
+		return mv;
+	}
+	/**
+	 *搜索信息
+	 * @param request
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/zzySearch")
+	public ModelAndView zzySearch(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		PageData zzyPd=new PageData();
+		pd=this.getPageData();
+		//搜索信息
+		if(pd.containsKey("TERM_GENDER")&&pd.getString("TERM_GENDER")!=""){
+			zzyPd.put("TERM_GENDER",pd.getString("TERM_GENDER"));
+		}
+		if(pd.containsKey("TERM_INTAKE")&&pd.getString("TERM_INTAKE")!=""){
+			zzyPd.put("TERM_INTAKE",pd.getString("TERM_INTAKE"));
+		}
+		if(pd.containsKey("TERM_IDATE_START")&&pd.getString("TERM_IDATE_START")!=""){
+			zzyPd.put("TERM_IDATE_START",pd.getString("TERM_IDATE_START"));
+		}
+		if(pd.containsKey("TERM_IDATE_END")&&pd.getString("TERM_IDATE_END")!=""){
+			zzyPd.put("TERM_IDATE_END",pd.getString("TERM_IDATE_END"));
+		}
+		if(pd.containsKey("TERM_SDATE_START")&&pd.getString("TERM_SDATE_START")!=""){
+			zzyPd.put("TERM_SDATE_START",pd.getString("TERM_SDATE_START"));
+		}
+		if(pd.containsKey("TERM_SDATE_END")&&pd.getString("TERM_SDATE_END")!=""){
+			zzyPd.put("TERM_SDATE_END",pd.getString("TERM_SDATE_END"));
+		}
+		if(pd.containsKey("TERM_LDATE_START")&&pd.getString("TERM_LDATE_START")!=""){
+			zzyPd.put("TERM_LDATE_START",pd.getString("TERM_LDATE_START"));
+		}
+		if(pd.containsKey("TERM_LDATE_END")&&pd.getString("TERM_LDATE_END")!=""){
+			zzyPd.put("TERM_LDATE_END",pd.getString("TERM_LDATE_END"));
+		}
+		if(pd.containsKey("TERM_AGE_START")&&pd.getString("TERM_AGE_START")!=""){
+			zzyPd.put("TERM_AGE_START",pd.getString("TERM_AGE_START"));
+		}
+		if(pd.containsKey("TERM_AGE_END")&&pd.getString("TERM_AGE_END")!=""){
+			zzyPd.put("TERM_AGE_END",pd.getString("TERM_AGE_END"));
+		}
+		Gson gson=new Gson();
+		HttpSession session=request.getSession();
+		session.setAttribute("ZZY_TERM_ELDER",gson.toJson(zzyPd));
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	/**
 	 * zzy
 	 * 根据老人姓名检测老人信息是否存在
 	 */
@@ -282,7 +366,7 @@ public class ElderController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/excel")
-	public ModelAndView exportExcel() throws Exception{
+	public ModelAndView exportExcel(Page page,HttpServletRequest request) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"导出Elder到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
@@ -328,7 +412,23 @@ public class ElderController extends BaseController {
 		titles.add("最后修改时间");	//36
 		titles.add("养老院编号");	//37
 		dataMap.put("titles", titles);
-		List<PageData> varOList = elderService.listAll(pd);
+		//List<PageData> varOList = elderService.listAll(pd);
+		HttpSession zzyHs=request.getSession();
+		//Session取搜索条件
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_ELDER");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
+		//Session取值
+			pd.put("E_GM_ID",zzyHs.getAttribute("ZZY_GMID"));
+		page.setPd(pd);
+		List<PageData>	varOList;
+		if(!pd.containsKey("all"))
+			varOList=elderService.list(page);	//列出Elder列表
+		else 
+			varOList=elderService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();

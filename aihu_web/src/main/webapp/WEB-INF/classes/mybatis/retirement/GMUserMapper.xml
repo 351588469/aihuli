@@ -136,6 +136,18 @@
 		<if test="pd.GMU_GM_ID!= null and pd.GMU_GM_ID != ''">
 		and GMU_GM_ID=#{pd.GMU_GM_ID}
 		</if>
+		<if test="pd.KEY_BIRTHDAY_START!= null and pd.KEY_BIRTHDAY_START != ''">
+		and GMU_BIRTHDAY&gt;=#{pd.KEY_BIRTHDAY_START}
+		</if>
+		<if test="pd.KEY_BIRTHDAY_END!= null and pd.KEY_BIRTHDAY_END != ''">
+		and GMU_BIRTHDAY&lt;=#{pd.KEY_BIRTHDAY_END}
+		</if>
+		<if test="pd.KEY_GENDER!= null and pd.KEY_GENDER != ''">
+		and GMU_GENDER&gt;=#{pd.KEY_GENDER}
+		</if>
+		<if test="pd.KEY_DUTIES!= null and pd.KEY_DUTIES != ''">
+		and GMU_DUTIES=#{pd.KEY_DUTIES}
+		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(

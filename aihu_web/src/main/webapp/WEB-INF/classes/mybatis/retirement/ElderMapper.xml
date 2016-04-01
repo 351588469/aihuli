@@ -180,17 +180,43 @@
 		<include refid="tableName"></include>
 		where 1=1
 		<if test="pd.E_GM_ID!= null and pd.E_GM_ID != ''">
-		and E_GM_ID=#{pd.E_GM_ID}
+			and E_GM_ID=#{pd.E_GM_ID}
 		</if>
-		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
-			and
-				(
-				<!--	根据需求自己加检索条件
-					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or 
-					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-				-->
-				)
+		<if test="pd.KEY_E_GM_ID!= null and pd.KEY_E_GM_ID != ''">
+			and E_GM_ID=#{pd.KEY_E_GM_ID}
+		</if>
+		<if test="pd.TERM_GENDER!= null and pd.TERM_GENDER != ''">
+			and E_GENDER=#{pd.TERM_GENDER}
+		</if>
+		<if test="pd.TERM_INTAKE!= null and pd.TERM_INTAKE!= ''">
+			and E_INTAKE=#{pd.TERM_INTAKE} 
+		</if>
+		<if test="pd.TERM_IDATE_START!= null and pd.TERM_IDATE_START!= ''">
+			and E_IDATE&gt;=#{pd.TERM_IDATE_START} 
+		</if>
+		<if test="pd.TERM_IDATE_END!= null and pd.TERM_IDATE_END!= ''">
+			and E_IDATE&lt;=#{pd.TERM_IDATE_END} 
+		</if>
+
+		<if test="pd.TERM_LDATE_START!= null and pd.TERM_LDATE_START!= ''">
+			and E_LDATE&gt;=#{pd.KEY_E_LDATE_START} 
+		</if>
+		<if test="pd.TERM_LDATE_END!= null and pd.TERM_LDATE_END!= ''">
+			and E_LDATE&lt;=#{pd.TERM_LDATE_END} 
+		</if>
+		
+		<if test="pd.TERM_SDATE_START!= null and pd.TERM_SDATE_START!= ''">
+			and E_SDATE&gt;=#{pd.KEY_E_SDATE_START} 
+		</if>
+		<if test="pd.TERM_SDATE_END!= null and pd.TERM_SDATE_END!= ''">
+			and E_SDATE&lt;=#{pd.TERM_SDATE_END} 
+		</if>
+		
+		<if test="pd.TERM_AGE_START!= null and pd.TERM_AGE_START!= ''">
+			and E_AGE&gt;=#{pd.TERM_AGE_START} 
+		</if>
+		<if test="pd.TERM_AGE_END!= null and pd.TERM_AGE_END!= ''">
+			and E_AGE&lt;=#{pd.TERM_AGE_END} 
 		</if>
 	</select>
 	
@@ -200,6 +226,46 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		where 1=1
+		<if test="E_GM_ID!= null and E_GM_ID != ''">
+			and E_GM_ID=#{E_GM_ID}
+		</if>
+		<if test="TERM_GM_ID!= null and TERM_GM_ID != ''">
+			and E_GM_ID=#{TERM_GM_ID}
+		</if>
+		<if test="TERM_GENDER!= null and TERM_GENDER != ''">
+			and E_GENDER=#{TERM_GENDER}
+		</if>
+		<if test="TERM_INTAKE!= null and TERM_INTAKE!= ''">
+			and E_INTAKE=#{TERM_INTAKE} 
+		</if>
+		<if test="TERM_IDATE_START!= null and TERM_IDATE_START!= ''">
+			and E_IDATE&gt;=#{TERM_IDATE_START} 
+		</if>
+		<if test="TERM_IDATE_END!= null and TERM_IDATE_END!= ''">
+			and E_IDATE&lt;=#{TERM_IDATE_END} 
+		</if>
+
+		<if test="TERM_LDATE_START!= null and TERM_LDATE_START!= ''">
+			and E_LDATE&gt;=#{pd.KEY_E_LDATE_START} 
+		</if>
+		<if test="TERM_LDATE_END!= null and TERM_LDATE_END!= ''">
+			and E_LDATE&lt;=#{TERM_LDATE_END} 
+		</if>
+		
+		<if test="TERM_SDATE_START!= null and TERM_SDATE_START!= ''">
+			and E_SDATE&gt;=#{KEY_E_SDATE_START} 
+		</if>
+		<if test="TERM_SDATE_END!= null and TERM_SDATE_END!= ''">
+			and E_SDATE&lt;=#{TERM_SDATE_END} 
+		</if>
+		
+		<if test="TERM_AGE_START!= null and TERM_AGE_START!= ''">
+			and E_AGE&gt;=#{TERM_AGE_START} 
+		</if>
+		<if test="TERM_AGE_END!= null and TERM_AGE_END!= ''">
+			and E_AGE&lt;=#{TERM_AGE_END} 
+		</if>
 	</select>
 	
 	<!-- 批量删除 -->

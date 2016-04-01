@@ -55,7 +55,11 @@ public interface GMManager{
 	 * 通过id获取名称
 	 */
 	public String zzyFindNameById(String id)throws Exception;
-	
+	/**
+	 * zzy
+	 * 通过名称获取id 模糊搜索
+	 */
+	public String zzyFindIdByName(String name)throws Exception;
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

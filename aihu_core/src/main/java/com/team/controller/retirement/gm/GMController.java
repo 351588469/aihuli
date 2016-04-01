@@ -122,7 +122,14 @@ public class GMController extends BaseController {
 		pd = this.getPageData();
 		String keywords = pd.getString("keywords");				//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
-			pd.put("keywords", keywords.trim());
+			pd.put("keywords", keywords);
+		}
+		String term=pd.getString("nav-search-term");
+		if(null != term && !"".equals(term)){
+			if(term.equals("1")){//审核状态
+				pd.put("term",1);
+				pd.put("KEY_GM_CKSTATUS",keywords);
+			}
 		}
 		page.setPd(pd);
 		List<PageData>	varList = gmService.list(page);	//列出GM列表
@@ -221,8 +228,9 @@ public class GMController extends BaseController {
 		titles.add("审核状态(1审核通过2审核未通过3待审核)");	//16
 		titles.add("审核状态描述");	//17
 		titles.add("创建用户id(app_user)");	//18
-		titles.add("创建时间");	//19
-		titles.add("最后修改时间");	//20
+		titles.add("点赞数");//19
+		titles.add("创建时间");	//20
+		titles.add("最后修改时间");	//21
 		dataMap.put("titles", titles);
 		List<PageData> varOList = gmService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
@@ -235,7 +243,11 @@ public class GMController extends BaseController {
 			vpd.put("var5", varOList.get(i).getString("GM_CONCAT"));	//5
 			vpd.put("var6", varOList.get(i).getString("GM_NATURE"));	//6
 			vpd.put("var7", varOList.get(i).getString("GM_SQUARE"));	//7
-			vpd.put("var8", varOList.get(i).get("GM_BERTH_COUNT").toString());	//8
+			Integer berth_count=(Integer) varOList.get(i).get("GM_BERTH_COUNT");
+			if(berth_count!=null)
+				vpd.put("var8",berth_count.toString());	//8
+			else 
+				vpd.put("var8","0");	//8
 			vpd.put("var9", varOList.get(i).getString("GM_DESCRIPTION"));	//9
 			vpd.put("var10", varOList.get(i).getString("GM_RECEIVE"));	//10
 			vpd.put("var11", varOList.get(i).getString("GM_FEEDESC "));	//11
@@ -246,8 +258,9 @@ public class GMController extends BaseController {
 			vpd.put("var16", varOList.get(i).get("GM_CKSTATUS").toString());	//16
 			vpd.put("var17", varOList.get(i).getString("GM_CKDESC"));	//17
 			vpd.put("var18", varOList.get(i).getString("GM_AU_ID"));	//18
-			vpd.put("var19", varOList.get(i).getString("GM_CTIME"));	//19
-			vpd.put("var20", varOList.get(i).getString("GM_UTIME"));	//20
+			vpd.put("var19", varOList.get(i).get("GM_PRAISE").toString());	//19
+			vpd.put("var20", varOList.get(i).getString("GM_CTIME"));	//20
+			vpd.put("var21", varOList.get(i).getString("GM_UTIME"));	//21
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);

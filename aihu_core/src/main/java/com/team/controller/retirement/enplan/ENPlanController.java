@@ -113,6 +113,9 @@ public class ENPlanController extends BaseController {
 		}
 		page.setPd(pd);
 		List<PageData>	varList = enplanService.list(page);	//列出ENPlan列表
+		for(int i=0;i<varList.size();i++){
+			
+		}
 		mv.setViewName("retirement/enplan/enplan_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

@@ -116,9 +116,9 @@ public class GMAitemController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		//List<PageData>varList = gmaitemService.list(page);	//列出GMAitem列表
-		List<PageData>varList = gmaitemService.zzyListByType(pd.getString("GMATYPE_ID"));
-		
+		List<PageData>varList = new ArrayList<>();	//列出GMAitem列表
+		if(pd.containsKey("GMATYPE_ID")){
+		varList = gmaitemService.zzyListByType(pd.getString("GMATYPE_ID"));
 		String gmatype_id=(String)pd.getString("GMATYPE_ID");
 		PageData tpd=gmatypeService.zzyFindById(gmatype_id);
 		String gmid=(String) tpd.get("GMAT_GM_ID");
@@ -127,7 +127,9 @@ public class GMAitemController extends BaseController {
 		pd.put("GMAI_GMAT_NAME",tpd.get("GMAT_NAME"));
 		pd.put("GMAI_GM_ID",gmid);
 		pd.put("GMAI_GM_NAME",gm_name);
-		
+		}else{
+			varList = gmaitemService.list(page);
+		}
 		mv.setViewName("retirement/gmaitem/gmaitem_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

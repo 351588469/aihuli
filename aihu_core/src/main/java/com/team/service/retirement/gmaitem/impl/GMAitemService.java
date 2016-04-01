@@ -100,7 +100,10 @@ public class GMAitemService implements GMAitemManager{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<PageData>zzyList(String gmid)throws Exception{
-		return (List<PageData>)dao.findForList("GMAitemMapper.zzyList",gmid);
+		if(gmid!=""&&gmid!=null)
+			return (List<PageData>)dao.findForList("GMAitemMapper.zzyList",gmid);
+		else 
+			return (List<PageData>)dao.findForList("GMAitemMapper.listAll",null);
 	}
 	/**
 	 * zzy列表 一类题目
@@ -108,7 +111,10 @@ public class GMAitemService implements GMAitemManager{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PageData> zzyListByType(String gmatid) throws Exception {
-		return (List<PageData>)dao.findForList("GMAitemMapper.zzyListByType",gmatid);
+		if(gmatid!=""&&gmatid!=null)
+			return (List<PageData>)dao.findForList("GMAitemMapper.zzyListByType",gmatid);
+		else 
+			return (List<PageData>)dao.findForList("GMAitemMapper.listAll",null);
 	}
 	/**通过id获取数据
 	 * @param pd

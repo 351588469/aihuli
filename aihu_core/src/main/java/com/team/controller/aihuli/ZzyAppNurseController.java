@@ -38,7 +38,6 @@ public class ZzyAppNurseController extends BaseController{
 	private RecordManager recordService;
 	@Resource(name="toolService")
 	private ToolManager toolService;
-	
 	@Resource(name="gmaitemService")
 	private GMAitemManager gmaitemService;
 	/**

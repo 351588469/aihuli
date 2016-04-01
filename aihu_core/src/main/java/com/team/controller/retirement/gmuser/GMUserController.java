@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import oracle.net.aso.g;
 
 import org.apache.shiro.session.Session;
+import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.team.util.Const;
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
@@ -125,9 +127,16 @@ public class GMUserController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		
-		//Session取值
 		HttpSession zzyHs=request.getSession();
+		//Session取搜索条件
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_GMU");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
+		//Session取值
+		
 		if(pd.get("GMU_GM_ID")!=""&&pd.get("GMU_GM_ID")!=null){//重新赋值
 			zzyHs.setAttribute("ZZY_GMID",pd.get("GMU_GM_ID"));
 		}else{
@@ -144,6 +153,7 @@ public class GMUserController extends BaseController {
 		mv.setViewName("retirement/gmuser/gmuser_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
+		
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		/**
 		 * zzy
@@ -176,8 +186,73 @@ public class GMUserController extends BaseController {
 		User user=(User)session.getAttribute(Const.SESSION_USER);
 		mv.addObject("user",user);
 		return mv;
-	}	
-	
+	}
+	/**
+	 * 去搜索页面
+	 */
+	@RequestMapping(value="/goSearch")
+	public ModelAndView goSearch(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("retirement/gmuser/gmuser_search");
+		mv.addObject("msg", "list");
+		mv.addObject("pd", pd);
+		HttpSession zzyHs=request.getSession();
+		//Session取搜索条件
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_GMU");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
+		//养老院编号及名称
+		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
+		mv.addObject("GM_ID",gmid);
+		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//创建用户
+		Session session = Jurisdiction.getSession();
+		User user=(User)session.getAttribute(Const.SESSION_USER);
+		mv.addObject("user",user);
+		return mv;
+	}
+	/**
+	 *搜索信息
+	 * @param request
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/zzySearch")
+	public ModelAndView zzySearch(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		PageData zzyPd=new PageData();
+		pd=this.getPageData();
+		//搜索信息
+		if(pd.containsKey("TERM_BIRTHDAY_START")&&pd.getString("TERM_BIRTHDAY_START")!=""){
+			zzyPd.put("KEY_BIRTHDAY_START",pd.getString("TERM_BIRTHDAY_START"));
+			zzyPd.put("TERM_BIRTHDAY_START",pd.getString("TERM_BIRTHDAY_START"));
+		}
+		if(pd.containsKey("TERM_BIRTHDAY_END")&&pd.getString("TERM_BIRTHDAY_END")!=""){
+			zzyPd.put("KEY_BIRTHDAY_END",pd.getString("TERM_BIRTHDAY_END"));
+			zzyPd.put("TERM_BIRTHDAY_END",pd.getString("TERM_BIRTHDAY_END"));
+		}
+		if(pd.containsKey("TERM_GENDER")&&pd.getString("TERM_GENDER")!=""){
+			zzyPd.put("KEY_GENDER",pd.getString("TERM_GENDER"));
+			zzyPd.put("TERM_GENDER",pd.getString("TERM_GENDER"));
+		}
+		if(pd.containsKey("TERM_DUTIES")&&pd.getString("TERM_DUTIES")!=""){
+			zzyPd.put("KEY_DUTIES",pd.getString("TERM_DUTIES"));
+			zzyPd.put("TERM_DUTIES",pd.getString("TERM_DUTIES"));
+		}
+			
+		Gson gson=new Gson();
+		HttpSession session=request.getSession();
+		session.setAttribute("ZZY_TERM_GMU",gson.toJson(zzyPd));
+		System.out.println("zzy:session"+session.getAttribute("ZZY_TERM_GMU"));
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
+	}
 	 /**去修改页面
 	 * @param
 	 * @throws Exception

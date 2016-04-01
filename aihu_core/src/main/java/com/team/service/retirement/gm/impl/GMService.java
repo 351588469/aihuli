@@ -102,6 +102,13 @@ public class GMService implements GMManager{
 	public String zzyFindNameById(String id) throws Exception {
 		return (String) dao.findForObject("GMMapper.zzyFindNameById",id);
 	}
-	
+	/**
+	 * zzy
+	 * 通过名称获取Id 模糊搜索
+	 */
+	@Override
+	public String zzyFindIdByName(String name) throws Exception {
+		return (String) dao.findForObject("GMMapper.zzyFindIdByName",name);
+	}
 }
 

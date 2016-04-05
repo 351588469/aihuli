@@ -1,6 +1,7 @@
 package com.team.service.system.appuser;
 
 import java.util.List;
+import java.util.Map;
 
 import com.team.entity.Page;
 import com.team.util.PageData;
@@ -88,6 +89,10 @@ public interface AppuserManager {
 	 * @throws Exception
 	 */
 	public PageData getAppUserCount(String value)throws Exception;
-	
+	/**
+	 * zzy
+	 */
+	//注册用户
+	public Map<String,Object> zzyAddUser(PageData pd)throws Exception;
 }
 

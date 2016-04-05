@@ -1,6 +1,8 @@
 package com.team.service.system.appuser.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,7 +11,10 @@ import org.springframework.stereotype.Service;
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.service.system.appuser.AppuserManager;
+import com.team.util.AppUtil;
+import com.team.util.AppUtil2;
 import com.team.util.PageData;
+import com.team.util.UuidUtil;
 
 
 /**类名称：AppuserService
@@ -125,6 +130,20 @@ public class AppuserService implements AppuserManager{
 	public PageData getAppUserCount(String value)throws Exception{
 		return (PageData)dao.findForObject("AppuserMapper.getAppUserCount", value);
 	}
-	
+	//添加用户
+	@Override
+	public Map<String,Object> zzyAddUser(PageData pd) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+			//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+				if(AppUtil2.checkParam("appzzy2_uadd", pd)){	//检查参数
+					pd.put("USER_ID",UuidUtil.get32UUID());
+					dao.save("AppuserMapper.saveU", pd);
+					result="01";
+				}else result = "03";
+			//}else{result = "05";}
+			map.put("result", result);
+		return map;
+	}
 }
 

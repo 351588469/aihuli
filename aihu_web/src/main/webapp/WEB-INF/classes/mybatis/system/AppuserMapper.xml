@@ -26,8 +26,15 @@
 		END_TIME,
 		YEARS,
 		EMAIL,
-		NUMBER
+		NUMBER,
+		JOB,
+		SIGN,
+		ADDRESS,
+		BIRTH,
+		GENDER,
+		AVATER
 	</sql>
+	
 
 	<!-- 字段值 -->
 	<sql id="FieldValue">
@@ -47,7 +54,13 @@
 		#{END_TIME},
 		#{YEARS},
 		#{EMAIL},
-		#{NUMBER}
+		#{NUMBER},
+		#{JOB},
+		#{SIGN},
+		#{ADDRESS},
+		#{BIRTH},
+		#{GENDER},
+		#{AVATER}
 	</sql>
 
 	<!-- 角色表 -->
@@ -268,5 +281,4 @@
 		from
 		<include refid="tableName"></include>
 	</select>
-
 </mapper>

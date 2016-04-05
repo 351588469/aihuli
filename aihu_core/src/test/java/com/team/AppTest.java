@@ -1,5 +1,7 @@
 package com.team;
 
+import com.team.util.UuidUtil;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -33,6 +35,12 @@ public class AppTest
      */
     public void testApp()
     {
-        assertTrue( true );
+       // assertTrue( true );
+    	testUuid();
     }
+   public void testUuid(){
+	   String uuid=UuidUtil.get32UUID();
+	   System.out.println(uuid);
+   }
+    
 }

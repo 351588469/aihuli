@@ -55,4 +55,25 @@ public class Const2 {
 	//public static final String[] ZZY2_VT_ADD_PARAM_ARRAY = new String[]{"VT_NAME","VT_HTIME","VT_CITY","VT_ADDRESS","VT_DESCRIBE","VT_C_ID"};
 	public static final String[] ZZY2_VT_ADD_PARAM_ARRAY = new String[]{"name","htime","city","address","describe","userid"};
 	public static final String[] ZZY2_VT_ADD_VALUE_ARRAY = new String[]{"团体名称","成立时间","所在城市","通讯地址","团体描述","负责人编号"};
+	//团体关注
+	public static final String[] ZZY2_VT_CONCERN_PARAM_ARRAY = new String[]{"vtid","userid"};
+	public static final String[] ZZY2_VT_CONCERN_VALUE_ARRAY = new String[]{"团体编号","用户编号"};
+	//团体关注列表
+	public static final String[] ZZY2_VTC_LIST_PARAM_ARRAY = new String[]{"vtid"};
+	public static final String[] ZZY2_VTC_LIST_VALUE_ARRAY = new String[]{"团体编号"};
+	//团体话题发表
+	public static final String[] ZZY2_VTT_ADD_PARAM_ARRAY = new String[]{"vtid","userid","title","content"};
+	public static final String[] ZZY2_VTT_ADD_VALUE_ARRAY = new String[]{"团体编号","用户编号","标题","内容"};
+	//团体列表
+	public static final String[] ZZY2_VT_LIST_PARAM_ARRAY = new String[]{};
+	public static final String[] ZZY2_VT_LIST_VALUE_ARRAY = new String[]{};
+	//团体话题列表
+	public static final String[] ZZY2_VTT_LIST_PARAM_ARRAY = new String[]{"vtid"};
+	public static final String[] ZZY2_VTT_LIST_VALUE_ARRAY = new String[]{"团体编号"};
+	//团体话题评论列表
+	public static final String[] ZZY2_VTN_LIST_PARAM_ARRAY = new String[]{"vttid"};
+	public static final String[] ZZY2_VTN_LIST_VALUE_ARRAY = new String[]{"话题编号"};
+	//团体话题评论发表
+	public static final String[] ZZY2_VTN_ADD_PARAM_ARRAY = new String[]{};
+	public static final String[] ZZY2_VTN_ADD_VALUE_ARRAY = new String[]{};
 }

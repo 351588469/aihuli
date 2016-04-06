@@ -113,7 +113,17 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表(全部) -->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="VT_CITY!= null and VT_CITY != ''">
+		and VT_CITY=#{VT_CITY}
+		</if>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -124,5 +134,36 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- 关注数+1 -->
+	<update id="zzyAddConcern" parameterType="String">
+		update 
+		<include refid="tableName"></include>
+		set VT_CONCERN=VT_CONCERN+1
+		where 
+		VTEAM_ID = #{0}
+	</update>
+	<!-- 关注数-1 -->
+	<update id="zzyMinusConcern" parameterType="String">
+		update 
+		<include refid="tableName"></include>
+		set VT_CONCERN=VT_CONCERN-1
+		where 
+		VTEAM_ID = #{0}
+	</update>
+	<!-- 话题数+1 -->
+	<update id="zzyAddTheme" parameterType="String">
+		update 
+		<include refid="tableName"></include>
+		set VT_THEME=VT_THEME+1
+		where 
+		VTEAM_ID = #{0}
+	</update>
+	<!-- 话题数-1 -->
+	<update id="zzyMinusTheme" parameterType="String">
+		update 
+		<include refid="tableName"></include>
+		set VT_THEME=VT_THEME-1
+		where 
+		VTEAM_ID = #{0}
+	</update>
 </mapper>

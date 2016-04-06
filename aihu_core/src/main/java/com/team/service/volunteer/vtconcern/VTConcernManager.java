@@ -1,6 +1,8 @@
 package com.team.service.volunteer.vtconcern;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -41,7 +43,10 @@ public interface VTConcernManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**
+	 * 列表
+	 */
+	public List<PageData> zzyList(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -53,6 +58,13 @@ public interface VTConcernManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
+	/**
+	 * app zzy 修改
+	 */
+	public Map<String,Object>app_zzyUpdate(PageData pd)throws Exception;
+	/**
+	 * app zzy 关注列表
+	 */
+	public Map<String,Object>app_zzyList(PageData pd)throws Exception;
 }
 

@@ -17,6 +17,7 @@ import com.team.util.PageData;
 import com.team.util.Tools;
 import com.team.util.UuidUtil;
 import com.team.service.volunteer.vteam.VTeamManager;
+import com.team.service.volunteer.vtimg.VTImgManager;
 
 /** 
  * 说明： 义工
@@ -29,42 +30,9 @@ public class VTeamService implements VTeamManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	/**
-	 * 认证公益团体
-	 */
-	public Map<String,Object> zzyAdd(PageData pd,Map<Integer,String>fm)throws Exception{
-		PageData zzyPd=new PageData();
-		Map<String,Object> map = new HashMap<String,Object>();
-		String result = "00";
-		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
-			if(AppUtil2.checkParam("appzzy2_uadd", pd)){	//检查参数
-				String vteam_id=UuidUtil.get32UUID();
-				zzyPd.put("VTEAM_ID",vteam_id);
-				zzyPd.put("VT_NAME",pd.get("name"));
-				zzyPd.put("VT_HTIME",pd.get("htime"));
-				zzyPd.put("VT_CITY",pd.get("city"));
-				zzyPd.put("VT_ADDRESS",pd.get("address"));
-				zzyPd.put("VT_DESCRIBE",pd.get("describe"));
-				zzyPd.put("VT_C_ID",pd.get("userid"));
-				Iterator<Integer>it=fm.keySet().iterator();   
-				while(it.hasNext()){
-					Integer key=it.next();
-				    if(key==1)
-				    	zzyPd.put("VT_LOGO",fm.get(1));
-				    else{
-				    	PageData tpd=new PageData();
-				    	tpd.put("VTI_TYPE",1);
-				    	tpd.put("VTI_CTIME",Tools.date2Str(new Date()));
-				    	tpd.put("VTI_UTIME",Tools.date2Str(new Date()));
-				    }
-				}   
-				dao.save("VTeamMapper.save",zzyPd);
-				result="01";
-			}else result = "03";
-		//}else{result = "05";}
-		map.put("result", result);
-		return map;
-	}
+	@Resource(name="vtimgService")
+	private VTImgManager vtimgService;
+	
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -107,7 +75,13 @@ public class VTeamService implements VTeamManager{
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("VTeamMapper.listAll", pd);
 	}
-	
+	/**
+	 * 列表
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> zzyList(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("VTeamMapper.zzyList", pd);
+	}
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -122,6 +96,77 @@ public class VTeamService implements VTeamManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("VTeamMapper.deleteAll", ArrayDATA_IDS);
+	}
+	/**
+	 * 认证公益团体
+	 */
+	public Map<String,Object> app_zzyAdd(PageData pd,Map<Integer,String>fm)throws Exception{
+		PageData zzyPd=new PageData();
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+			if(AppUtil2.checkParam("appzzy2_vtadd", pd)){	//检查参数
+				String vteam_id=UuidUtil.get32UUID();
+				zzyPd.put("VTEAM_ID",vteam_id);
+				zzyPd.put("VT_NAME",pd.get("name"));
+				zzyPd.put("VT_HTIME",pd.get("htime"));
+				zzyPd.put("VT_CITY",pd.get("city"));
+				zzyPd.put("VT_ADDRESS",pd.get("address"));
+				zzyPd.put("VT_DESCRIBE",pd.get("describe"));
+				zzyPd.put("VT_C_ID",pd.get("userid"));
+				zzyPd.put("VT_THEME",0);
+				zzyPd.put("VT_CONCERN",0);
+				zzyPd.put("VT_STATUS",1);
+				zzyPd.put("VT_CTIME",Tools.date2Str(new Date()));
+		    	zzyPd.put("VT_UTIME",Tools.date2Str(new Date()));
+				Iterator<Integer>it=fm.keySet().iterator();   
+				while(it.hasNext()){
+					Integer key=it.next();
+				    if(key==1)
+				    	zzyPd.put("VT_LOGO",fm.get(1));
+				    else{
+				    	PageData tpd=new PageData();
+				    	tpd.put("VTIMG_ID",UuidUtil.get32UUID());
+				    	tpd.put("VTI_VT_ID",vteam_id);
+				    	tpd.put("VTI_SRC",fm.get(key));
+				    	tpd.put("VTI_TYPE",1);
+				    	tpd.put("VTI_CTIME",Tools.date2Str(new Date()));
+				    	tpd.put("VTI_UTIME",Tools.date2Str(new Date()));
+				    	vtimgService.save(tpd);
+				    }
+				}   
+				dao.save("VTeamMapper.save",zzyPd);
+				result="01";
+			}else result = "03";
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
+	}
+	/**
+	 * app zzy 团体列表
+	 */
+	public Map<String,Object> app_zzyList(PageData pd)throws Exception{
+		PageData zzyPd=new PageData();
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+			if(AppUtil2.checkParam("appzzy2_vtlist", pd)){	//检查参数
+				if(pd.containsKey("city"))zzyPd.put("VT_CITY",pd.get("city"));
+				List<PageData>list=zzyList(zzyPd);
+				map.put("pd",list);
+				result="01";
+			}else result = "03";
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
+	}
+	/**
+	 *zzy 修改话题数量
+	 */
+	@Override
+	public void zzyUpdateTheme(String vtid, Integer x) throws Exception {
+		if(x==1) dao.update("VTeamMapper.zzyAddTheme",vtid);
+		else if(x==-1)dao.update("VTeamMapper.zzyMinusTheme",vtid);
 	}
 	
 }

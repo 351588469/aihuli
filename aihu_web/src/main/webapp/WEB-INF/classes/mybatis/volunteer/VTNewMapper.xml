@@ -9,6 +9,7 @@
 	
 	<!-- 字段 -->
 	<sql id="Field">
+		VTN_VTT_ID,
 		VTN_P_ID,	
 		VTN_P_AVATER,	
 		VTN_P_NAME,	
@@ -25,6 +26,7 @@
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
+		#{VTN_VTT_ID},
 		#{VTN_P_ID},	
 		#{VTN_P_AVATER},	
 		#{VTN_P_NAME},	
@@ -80,7 +82,15 @@
 		where 
 			VTNEW_ID = #{VTNEW_ID}
 	</select>
-	
+		<!-- 通过ID获取数据 -->
+	<select id="zzyFindById" parameterType="String" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			VTNEW_ID = #{0}
+	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -107,7 +117,35 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表 -->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where VTN_VTT_ID=#{VTN_VTT_ID} 
+		order by VTN_UTIME desc
+	</select>
+	<!--有回复列表 -->
+	<select id="zzyList_1" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where VTN_VTT_ID=#{VTN_VTT_ID} 
+		and VTN_R_ID is not null
+		order by VTN_UTIME
+	</select>
+	<!--无回复 列表 -->
+	<select id="zzyList_2" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where VTN_VTT_ID=#{VTN_VTT_ID} 
+		and VTN_R_ID is null
+		order by VTN_UTIME desc
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

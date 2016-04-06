@@ -281,4 +281,13 @@
 		from
 		<include refid="tableName"></include>
 	</select>
+	<!-- 通过id获取数据 -->
+	<select id="zzyFindById" parameterType="String" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where
+		USER_ID = #{0}
+	</select>
 </mapper>

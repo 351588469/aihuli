@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.service.system.appuser.AppuserManager;
-import com.team.util.AppUtil;
 import com.team.util.AppUtil2;
 import com.team.util.PageData;
 import com.team.util.UuidUtil;
@@ -145,5 +144,11 @@ public class AppuserService implements AppuserManager{
 			map.put("result", result);
 		return map;
 	}
+
+	@Override
+	public PageData zzyFindById(String id) throws Exception {
+		return (PageData)dao.findForObject("AppuserMapper.zzyFindById",id);
+	}
+	
 }
 

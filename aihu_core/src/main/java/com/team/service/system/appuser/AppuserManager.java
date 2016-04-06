@@ -94,5 +94,7 @@ public interface AppuserManager {
 	 */
 	//注册用户
 	public Map<String,Object> zzyAddUser(PageData pd)throws Exception;
+	
+	public PageData zzyFindById(String id)throws Exception;
 }
 

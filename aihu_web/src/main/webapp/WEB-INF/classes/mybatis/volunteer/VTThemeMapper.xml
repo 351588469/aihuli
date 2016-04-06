@@ -107,7 +107,17 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表 -->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="VT_VTT_ID!= null and VT_VTT_ID != ''"><!-- 关键词检索 -->
+		 and VT_VTT_ID=#{VT_VTT_ID}
+		</if>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

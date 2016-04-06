@@ -96,7 +96,17 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表-->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="VTC_VT_ID!= null and VTC_VT_ID != ''">
+		and VTC_VT_ID=#{VTC_VT_ID}
+		</if>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -107,5 +117,19 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- 判断是否已关注 -->
+	<select id="zzyConfirm" parameterType="pd" resultType="String">
+		select VTCONCERN_ID from
+		<include refid="tableName"></include>
+		where
+		VTC_VT_ID=#{VTC_VT_ID} and 
+		VTC_USER_ID=#{VTC_USER_ID}
+	</select>
+	<!-- 删除-->
+	<delete id="zzyDelete" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			VTCONCERN_ID = #{0}
+	</delete>
 </mapper>

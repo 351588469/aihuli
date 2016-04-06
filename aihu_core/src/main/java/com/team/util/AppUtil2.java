@@ -33,6 +33,27 @@ public class AppUtil2  {
 		}else if(method=="appzzy2_vtadd"){// 团体注册
 			paramArray =Const2.ZZY2_VT_ADD_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VT_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_vtc"){// 团体关注
+			paramArray =Const2.ZZY2_VT_CONCERN_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VT_CONCERN_VALUE_ARRAY;
+		}else if(method=="appzzy2_vtclist"){// 团体关注列表
+			paramArray =Const2.ZZY2_VTC_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VTC_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vttadd"){// 团体话题发表
+			paramArray =Const2.ZZY2_VTT_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VTT_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_vtlist"){// 团体列表
+			paramArray =Const2.ZZY2_VT_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VT_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vttlist"){//团体话题列表
+			paramArray =Const2.ZZY2_VTT_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VTT_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vtnlist"){//团体话题列表
+			paramArray =Const2.ZZY2_VTN_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VTN_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vtnadd"){//团体话题列表
+			paramArray =Const2.ZZY2_VTN_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VTN_ADD_VALUE_ARRAY;
 		}
 		int size = paramArray.length;
 		for(int i=0;i<size;i++){

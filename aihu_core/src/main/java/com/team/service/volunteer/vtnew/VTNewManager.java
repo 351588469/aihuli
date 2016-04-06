@@ -1,6 +1,8 @@
 package com.team.service.volunteer.vtnew;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -41,18 +43,36 @@ public interface VTNewManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**
+	 * 列表
+	 */
+	public List<PageData> zzyList(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
-	
+	/**
+	 * 通过id获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData zzyFindById(String id)throws Exception;
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	/**
+	 * 话题评论发表
+	 */
+	public Map<String, Object> app_zzyAdd(PageData pd)throws Exception;
+	/**
+	 * 某话题的评论列表
+	 */
+	public Map<String, Object> app_zzyList(PageData pd)throws Exception;
+
+
 	
 }
 

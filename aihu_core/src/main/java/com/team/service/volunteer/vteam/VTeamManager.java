@@ -13,11 +13,7 @@ import com.team.util.PageData;
  * @version
  */
 public interface VTeamManager{
-	/**
-	 * zzy
-	 * 新增
-	 */
-	public Map<String,Object> zzyAdd(PageData pd,Map<Integer,String>fm)throws Exception;
+	
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -47,7 +43,10 @@ public interface VTeamManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**
+	 * 列表 zzy
+	 */
+	public List<PageData>zzyList(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -59,6 +58,22 @@ public interface VTeamManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	/**
+	 * app zzy
+	 * 新增
+	 */
+	public Map<String,Object> app_zzyAdd(PageData pd,Map<Integer,String>fm)throws Exception;
+	/**
+	 * app zzy
+	 * 列表
+	 */
+	public Map<String, Object> app_zzyList(PageData pd)throws Exception;
+	/**
+	 *zzy 修改话题数量
+	 */
+	public void zzyUpdateTheme(String vtid,Integer x)throws Exception;
+
+	
 	
 }
 

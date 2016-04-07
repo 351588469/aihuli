@@ -94,7 +94,15 @@
 		where 
 			VACTIVITY_ID = #{VACTIVITY_ID}
 	</select>
-	
+	<!-- 通过ID获取数据 -->
+	<select id="zzyFindById" parameterType="String" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			VACTIVITY_ID = #{0}
+	</select>
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -121,7 +129,17 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表 -->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="VA_CITY!= null and VA_CITY!= ''"><!-- 关键词检索 -->
+		and VA_CITY=#{VA_CITY}
+		</if>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -132,5 +150,14 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- 修改报名人数 -->
+	<update id="zzyUpdateEnroll" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 	
+		VA_ENROLL_M =VA_ENROLL_M+#{NUM},
+		VA_UTIME=#{VA_UTIME}
+		where 
+		VACTIVITY_ID = #{VACTIVITY_ID}
+	</update>
 </mapper>

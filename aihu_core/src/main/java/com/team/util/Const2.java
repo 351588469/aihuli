@@ -76,4 +76,20 @@ public class Const2 {
 	//团体话题评论发表
 	public static final String[] ZZY2_VTN_ADD_PARAM_ARRAY = new String[]{};
 	public static final String[] ZZY2_VTN_ADD_VALUE_ARRAY = new String[]{};
+	
+	//活动申报
+	public static final String[] ZZY2_VA_ADD_PARAM_ARRAY = new String[]{"topic","city","address","content","schedule","userid","vtid","limit","stime","etime"};
+	public static final String[] ZZY2_VA_ADD_VALUE_ARRAY = new String[]{"主题","所在城市","地址","活动内容","日程","用户编号","团体编号","人数上限","活动开始时间","活动结束时间"};
+	//活动列表
+	public static final String[] ZZY2_VA_LIST_PARAM_ARRAY = new String[]{};
+	public static final String[] ZZY2_VA_LIST_VALUE_ARRAY = new String[]{};
+	//活动报名列表
+	public static final String[] ZZY2_VAE_LIST_PARAM_ARRAY = new String[]{"vaid"};
+	public static final String[] ZZY2_VAE_LIST_VALUE_ARRAY = new String[]{"活动编号"};
+	//活动报名
+	public static final String[] ZZY2_VAE_PARAM_ARRAY = new String[]{"vaid","userid"};
+	public static final String[] ZZY2_VAE_VALUE_ARRAY = new String[]{"活动编号","用户编号"};
+	//活动评论发表
+	public static final String[] ZZY2_VAN_ADD_PARAM_ARRAY = new String[]{"vaid","userid","content"};
+	public static final String[] ZZY2_VAN_ADD_VALUE_ARRAY = new String[]{"活动编号","用户编号","内容"};
 }

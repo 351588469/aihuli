@@ -124,7 +124,6 @@
 		from 
 		<include refid="tableName"></include>
 		where VTN_VTT_ID=#{VTN_VTT_ID} 
-		order by VTN_UTIME desc
 	</select>
 	<!--有回复列表 -->
 	<select id="zzyList_1" parameterType="pd" resultType="pd">

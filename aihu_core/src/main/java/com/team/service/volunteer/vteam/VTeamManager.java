@@ -52,7 +52,10 @@ public interface VTeamManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
-	
+	/**
+	 * 通过id获取数据
+	 */
+	public PageData zzyFindById(String id)throws Exception;
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
@@ -72,8 +75,10 @@ public interface VTeamManager{
 	 *zzy 修改话题数量
 	 */
 	public void zzyUpdateTheme(String vtid,Integer x)throws Exception;
-
-	
+	/**
+	 * zzy 检验用户是否为团体负责人 只有负责人才能申报活动
+	 */
+	public boolean zzyCheckCreateUser(String vtid,String userid)throws Exception;
 	
 }
 

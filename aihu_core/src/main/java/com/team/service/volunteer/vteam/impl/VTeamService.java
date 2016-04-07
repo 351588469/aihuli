@@ -89,7 +89,13 @@ public class VTeamService implements VTeamManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("VTeamMapper.findById", pd);
 	}
-	
+	/**
+	 * 通过id获取数据
+	 */
+	@Override
+	public PageData zzyFindById(String id)throws Exception{
+		return (PageData)dao.findForObject("VTeamMapper.zzyFindById",id);
+	}
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
@@ -167,6 +173,16 @@ public class VTeamService implements VTeamManager{
 	public void zzyUpdateTheme(String vtid, Integer x) throws Exception {
 		if(x==1) dao.update("VTeamMapper.zzyAddTheme",vtid);
 		else if(x==-1)dao.update("VTeamMapper.zzyMinusTheme",vtid);
+	}
+
+	@Override
+	public boolean zzyCheckCreateUser(String vtid, String userid)
+			throws Exception {
+		PageData pd=zzyFindById(vtid);
+		if(pd==null)return false;
+		String uid=pd.getString("VT_C_ID");
+		if(uid!=null&&uid.equals(userid))return true;
+		return false;
 	}
 	
 }

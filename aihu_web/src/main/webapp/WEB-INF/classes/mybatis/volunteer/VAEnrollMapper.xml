@@ -47,7 +47,12 @@
 		where 
 			VAENROLL_ID = #{VAENROLL_ID}
 	</delete>
-	
+	<delete id="zzyDelete" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			VAENROLL_ID = #{0}
+	</delete>
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update
@@ -96,7 +101,14 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表(全部) -->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where VAE_VA_ID=#{VAE_VA_ID}
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -107,5 +119,13 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- 检查用户是否报名 -->
+	<select id="zzyCheck" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where VAE_VA_ID=#{VAE_VA_ID} and VAE_USER_ID=#{VAE_USER_ID}
+		limit 1
+	</select>
 </mapper>

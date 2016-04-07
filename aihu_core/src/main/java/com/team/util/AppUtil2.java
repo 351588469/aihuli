@@ -48,12 +48,29 @@ public class AppUtil2  {
 		}else if(method=="appzzy2_vttlist"){//团体话题列表
 			paramArray =Const2.ZZY2_VTT_LIST_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VTT_LIST_VALUE_ARRAY;
-		}else if(method=="appzzy2_vtnlist"){//团体话题列表
+		}else if(method=="appzzy2_vtnlist"){//团体话题评论列表
 			paramArray =Const2.ZZY2_VTN_LIST_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VTN_LIST_VALUE_ARRAY;
-		}else if(method=="appzzy2_vtnadd"){//团体话题列表
+		}else if(method=="appzzy2_vtnadd"){//团体话题评论发表
 			paramArray =Const2.ZZY2_VTN_ADD_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VTN_ADD_VALUE_ARRAY;
+		}
+		
+		else if(method=="appzzy2_vaadd"){//活动申报
+			paramArray =Const2.ZZY2_VA_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VA_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_valist"){//活动列表
+			paramArray =Const2.ZZY2_VA_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VA_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vaelist"){//活动报名列表
+			paramArray =Const2.ZZY2_VAE_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VAE_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vae"){//活动报名
+			paramArray =Const2.ZZY2_VAE_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VAE_VALUE_ARRAY;
+		}else if(method=="appzzy2_vanadd"){//活动评论发表
+			paramArray =Const2.ZZY2_VAN_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VAN_ADD_VALUE_ARRAY;
 		}
 		int size = paramArray.length;
 		for(int i=0;i<size;i++){

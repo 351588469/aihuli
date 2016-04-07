@@ -1,6 +1,5 @@
 package com.team.controller.app.volunteer;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.team.controller.base.BaseController;
 import com.team.service.system.appuser.AppuserManager;
 import com.team.service.volunteer.vactivity.VActivityManager;
+import com.team.service.volunteer.vaenroll.VAEnrollManager;
+import com.team.service.volunteer.vaimg.VAImgManager;
+import com.team.service.volunteer.vanew.VANewManager;
 import com.team.service.volunteer.vtconcern.VTConcernManager;
 import com.team.service.volunteer.vteam.VTeamManager;
 import com.team.service.volunteer.vtnew.VTNewManager;
@@ -43,12 +45,17 @@ public class ZzyAppVolunteerController extends BaseController{
 	private VTNewManager vtnewService;
 	@Resource(name="vactivityService")
 	private VActivityManager vactivityService;
+	@Resource(name="vanewService")
+	private VANewManager vanewService;
+	@Resource(name="vaimgService")
+	private VAImgManager vaimgService;
+	@Resource(name="vaenrollService")
+	private VAEnrollManager vaenrollService;
 	/**
-	 * uadd  vtadd vtlist vtc    vtclist  vttadd  vttlist vtnlist
-	 * 用户注册  团体认证     团体列表    团体关注     关注列表            话题发表    话题列表         评论列表
-	 * vaadd
-	 * 活动发布
-	 * @return
+	 * uadd  vtadd vtlist vtc    vtclist  vttadd  vttlist vtnlist vtnadd
+	 * 用户注册  团体认证     团体列表    团体关注     关注列表            话题发表    话题列表         评论列表        评论发表
+	 * vaadd valist vaelist vae   vanadd   vanlist  
+	 * 活动发布 活动列表      报名列表        活动报名 活动评论发表   活动评论列表
 	 */
 	@RequestMapping(value="/uadd")
 	@ResponseBody
@@ -223,7 +230,74 @@ public class ZzyAppVolunteerController extends BaseController{
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			//map=vtnewService.app_zzyList(pd);
+			map=vactivityService.app_zzyAdd(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 活动列表
+	 */
+	@RequestMapping(value="/valist")
+	@ResponseBody
+	public Object valist(){
+		Map<String,Object>map = null;
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			map=vactivityService.app_zzyList(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 活动报名列表
+	 */
+	@RequestMapping(value="/vaelist")
+	@ResponseBody
+	public Object vaelist(){
+		Map<String,Object>map = null;
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			map=vaenrollService.app_zzyList(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 活动报名
+	 * 若存有 cancel参数则为取消报名
+	 */
+	@RequestMapping(value="/vae")
+	@ResponseBody
+	public Object vae(){
+		Map<String,Object>map = null;
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			map=vaenrollService.app_zzyUpdate(pd);
+			System.out.println(map.toString());
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 活动评论发表
+	 */
+	@RequestMapping(value="/vanadd")
+	@ResponseBody
+	public Object vanadd(){
+		Map<String,Object>map = null;
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			map=vanewService.app_zzyAdd(pd);
+			System.out.println(map.toString());
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}

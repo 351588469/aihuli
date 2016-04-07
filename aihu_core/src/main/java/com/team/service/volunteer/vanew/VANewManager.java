@@ -1,6 +1,8 @@
 package com.team.service.volunteer.vanew;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -42,17 +44,27 @@ public interface VANewManager{
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
 	
+	public List<PageData>zzyList(PageData pd)throws Exception;
+	public List<PageData>zzyListNoReply(PageData pd)throws Exception;
+	public List<PageData>zzyListWithReply(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
-	
+	public PageData zzyFindById(String id)throws Exception;
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
+	/**
+	 * 发表活动评论
+	 */
+	public Map<String, Object> app_zzyAdd(PageData pd)throws Exception;
+	/**
+	 * 评论列表
+	 */
+	public Map<String,Object>app_zzyList(PageData pd)throws Exception;
 }
 

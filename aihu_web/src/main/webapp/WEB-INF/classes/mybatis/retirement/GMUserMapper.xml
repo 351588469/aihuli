@@ -143,7 +143,7 @@
 		and GMU_BIRTHDAY&lt;=#{pd.KEY_BIRTHDAY_END}
 		</if>
 		<if test="pd.KEY_GENDER!= null and pd.KEY_GENDER != ''">
-		and GMU_GENDER&gt;=#{pd.KEY_GENDER}
+		and GMU_GENDER=#{pd.KEY_GENDER}
 		</if>
 		<if test="pd.KEY_DUTIES!= null and pd.KEY_DUTIES != ''">
 		and GMU_DUTIES=#{pd.KEY_DUTIES}

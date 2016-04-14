@@ -5,12 +5,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.team.controller.base.BaseController;
+import com.team.controller.system.session.SessionController;
 import com.team.entity.Page;
 import com.team.entity.system.User;
 import com.team.service.retirement.elder.ElderManager;
@@ -58,6 +59,8 @@ public class GMBerthController extends BaseController {
 	private GMUserManager gmUserService;
 	@Resource(name="elderService")
 	private ElderManager elderService;
+	@Resource(name="sessionController")
+	private SessionController sessionController;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -253,6 +256,9 @@ public class GMBerthController extends BaseController {
 		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
 		mv.addObject("GM_ID",gmid);
 		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//养老院列表
+		List<PageData>gmlist=gmService.listAll(null,request.getSession());
+		mv.addObject("GM_LIST",gmlist);
 		//创建用户
 		Session session = Jurisdiction.getSession();
 		User user=(User)session.getAttribute(Const.SESSION_USER);
@@ -271,6 +277,11 @@ public class GMBerthController extends BaseController {
 		PageData zzyPd=new PageData();
 		pd=this.getPageData();
 		//搜索信息
+		if(pd.containsKey("TERM_GM_ID")&&pd.getString("TERM_GM_ID")!=""){
+			zzyPd.put("TERM_GM_ID",pd.getString("TERM_GM_ID"));
+			HttpSession zzyHs=request.getSession();
+			zzyHs.setAttribute("ZZY_GMID",pd.get("TERM_GM_ID"));
+		}
 		if(pd.containsKey("TERM_FLOOR")&&pd.getString("TERM_FLOOR")!=""){
 			zzyPd.put("TERM_FLOOR",pd.getString("TERM_FLOOR"));
 		}
@@ -290,15 +301,6 @@ public class GMBerthController extends BaseController {
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
-	}
-	/**
-	 * 重置Session
-	 */
-	@RequestMapping(value="/resetSession")
-	public ModelAndView zzyResetSession(HttpServletRequest request,Page page)throws Exception{
-		HttpSession session=request.getSession();
-		session.removeAttribute("ZZY_TERM_GMB");
-		return list(page, request);
 	}
 	 /**去修改页面
 	 * @param
@@ -436,5 +438,14 @@ public class GMBerthController extends BaseController {
 	public void initBinder(WebDataBinder binder){
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
+	}
+	
+	@RequestMapping(value="/resetSession")
+	@ResponseBody
+	public Object resetSession(HttpServletRequest request,Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"重置Session");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
+		sessionController.resetSession(request.getSession(),"retirement");
+		return list(page, request);
 	}
 }

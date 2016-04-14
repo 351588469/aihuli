@@ -167,6 +167,8 @@
 									</c:if>
 									<a href="gm/list.do"title="返回" ><img src="<%=basePath%>/static/images/zzy_back.png"/></a>
 									<a href="gmuser/excel.do" title="打印" ><img src="<%=basePath%>/static/images/zzy_print.png"/></a>
+									<a href="gmuser/excel.do?all=1" title="打印" ><img src="<%=basePath%>/static/images/zzy_printall.png"/></a>
+									<a href="gmuser/resetSession.do" title="重置" ><img src="<%=basePath%>/static/images/zzy_resetall.png"/></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>

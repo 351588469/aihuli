@@ -1,6 +1,7 @@
 package com.team.service.retirement.gmaitem;
 
 import java.util.List;
+import java.util.Map;
 
 import com.team.entity.Page;
 import com.team.util.PageData;
@@ -72,6 +73,10 @@ public interface GMAitemManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	/**
+	 * 获取题目列表
+	 */
+	public Map<String, Object> app_zzyList(String gmid)throws Exception;
 
 }
 

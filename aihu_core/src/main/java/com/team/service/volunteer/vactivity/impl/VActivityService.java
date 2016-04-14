@@ -7,17 +7,20 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import oracle.net.aso.p;
+
+
 
 import org.springframework.stereotype.Service;
 
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.util.AppUtil2;
+import com.team.util.Const2;
 import com.team.util.PageData;
 import com.team.util.Tools;
 import com.team.util.UuidUtil;
 import com.team.service.volunteer.vactivity.VActivityManager;
+import com.team.service.volunteer.vaimg.VAImgManager;
 import com.team.service.volunteer.vteam.VTeamManager;
 
 /** 
@@ -33,6 +36,8 @@ public class VActivityService implements VActivityManager{
 	private DaoSupport dao;
 	@Resource(name="vteamService")
 	private VTeamManager vteamService;
+	@Resource(name="vaimgService")
+	private VAImgManager vaimgService;
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -103,7 +108,7 @@ public class VActivityService implements VActivityManager{
 	 * 活动申报
 	 */
 	@Override
-	public Map<String, Object> app_zzyAdd(PageData pd) throws Exception {
+	public Map<String, Object> app_zzyAdd(PageData pd,Map<Integer,String>fm) throws Exception {
 		PageData zzyPd=new PageData();
 		Map<String,Object> map = new HashMap<String,Object>();
 		String result = "00";
@@ -111,7 +116,9 @@ public class VActivityService implements VActivityManager{
 			if(AppUtil2.checkParam("appzzy2_vaadd", pd)){	//检查参数
 				boolean flag=vteamService.zzyCheckCreateUser(pd.getString("vtid"), pd.getString("userid"));
 				if(flag==true){
-					zzyPd.put("VACTIVITY_ID",UuidUtil.get32UUID());
+					String vaid=UuidUtil.get32UUID();
+					String time=Tools.date2Str(new Date());
+					zzyPd.put("VACTIVITY_ID",vaid);
 					zzyPd.put("VA_TOPIC",pd.get("topic"));
 					zzyPd.put("VA_CITY",pd.getString("city"));
 					zzyPd.put("VA_ADDRESS",pd.getString("address"));
@@ -124,10 +131,11 @@ public class VActivityService implements VActivityManager{
 					zzyPd.put("VA_ENROLL_M",pd.get("limit"));
 					zzyPd.put("VA_STIME",pd.getString("stime"));
 					zzyPd.put("VA_ETIME",pd.getString("etime"));
-					zzyPd.put("VA_CTIME",Tools.date2Str(new Date()));
-					zzyPd.put("VA_UTIME",Tools.date2Str(new Date()));
+					zzyPd.put("VA_CTIME",time);
+					zzyPd.put("VA_UTIME",time);
 					zzyPd.put("VA_STATUS",1);
 					save(zzyPd);
+					vaimgService.zzyAdd(vaid, fm,Const2.ZZY2_VA_IMG_THEME);
 					result="01";
 				}else{
 					result="07";
@@ -156,6 +164,12 @@ public class VActivityService implements VActivityManager{
 					String vtid=tpd.getString("VA_VT_ID");
 					PageData vt=vteamService.zzyFindById(vtid);
 					tpd.put("VA_VT_NAME",vt.getString("VT_NAME"));
+					PageData zti=new PageData();
+					zti.put("VAI_VA_ID",tpd.getString("VACTIVITY_ID"));
+					zti.put("VAI_TYPE",Const2.ZZY2_VA_IMG_THEME);
+					List<PageData>imgs=vaimgService.zzyList(zti);
+					tpd.put("VAI_IMG_THEME",imgs);
+					
 				}
 				map.put("pd",list);
 				result="01";
@@ -172,6 +186,14 @@ public class VActivityService implements VActivityManager{
 		zzyPd.put("NUM",x);
 		zzyPd.put("VA_UTIME",Tools.date2Str(new Date()));
 		dao.update("VActivityMapper.zzyUpdateEnroll",zzyPd);
+	}
+	@Override
+	public void zzyUpdatePraise(String vaid, Integer x) throws Exception {
+		PageData zzyPd=new PageData();
+		zzyPd.put("VACTIVITY_ID",vaid);
+		zzyPd.put("NUM",x);
+		zzyPd.put("VA_UTIME",Tools.date2Str(new Date()));
+		dao.update("VActivityMapper.zzyUpdatePraise",zzyPd);
 	}
 	
 }

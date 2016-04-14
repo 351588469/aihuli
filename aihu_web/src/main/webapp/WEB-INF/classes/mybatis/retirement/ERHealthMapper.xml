@@ -110,6 +110,21 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
+	<!-- 列表(全部) -->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		 ERH_GTIME &gt;=#{SDATE} AND 
+		 ERH_GTIME &lt;=#{EDATE} AND 
+		 ERH_E_ID=#{ERH_E_ID} 		
+		 <if test="ERH_GMH_TYPE!= null and ERH_GMH_TYPE!= ''">
+		and ERH_GMH_TYPE=#{ERH_GMH_TYPE}
+		</if>
+		order by ERH_GTIME
+	</select>
 	<!--  -->
 	<select id="zzyPast" parameterType="pd" resultType="pd">
 		select

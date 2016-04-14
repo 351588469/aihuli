@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team.controller.base.BaseController;
+import com.team.service.retirement.gm.GMManager;
 import com.team.service.system.appuser.AppuserManager;
 import com.team.service.system.buttonrights.ButtonrightsManager;
 import com.team.service.system.fhbutton.FhbuttonManager;
@@ -56,6 +58,8 @@ public class LoginController extends BaseController {
 	private FhbuttonManager fhbuttonService;
 	@Resource(name="appuserService")
 	private AppuserManager appuserService;
+	@Resource(name="gmService")
+	private GMManager gmService;
 	
 	/**访问登录页
 	 * @return
@@ -258,7 +262,22 @@ public class LoginController extends BaseController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value="/login_default")
-	public ModelAndView defaultPage() throws Exception{
+	public ModelAndView defaultPage(HttpSession session) throws Exception{
+		
+		PageData tpd=new PageData();
+		tpd.put("USERNAME",Jurisdiction.getUsername());
+		PageData user=userService.findByUsername(tpd);
+		session.setAttribute("SYS_ZZY_USERID",user.getString("USER_ID"));
+		String roleid=user.getString("ROLE_ID");
+		if(roleid.equals("e30056b7828448318d699f985695219f")){//护理机构管理人员
+			session.setAttribute("SYS_ZZY_ROLE",2);
+			String gmid=gmService.zzyFindNameByAUId(user.getString("USER_ID"));
+			session.setAttribute("ZZY_GM_ID",gmid);
+		}
+		else 
+			session.setAttribute("SYS_ZZY_ROLE",1);
+		
+		
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd.put("userCount", Integer.parseInt(userService.getUserCount("").get("userCount").toString())-1);				//系统用户数

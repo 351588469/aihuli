@@ -36,11 +36,18 @@ public class AppTest
     public void testApp()
     {
        // assertTrue( true );
-    	testUuid();
+    	test();
     }
    public void testUuid(){
 	   String uuid=UuidUtil.get32UUID();
 	   System.out.println(uuid);
+   }
+   public void test(){
+	   String x="12.34";
+	   String  y=x.substring(0,x.indexOf("."));
+	   Integer z=Integer.parseInt(y);
+	   System.out.println(y);
+	   
    }
     
 }

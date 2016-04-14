@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
+import com.team.entity.system.User;
 import com.team.service.retirement.gm.GMManager;
+import com.team.service.system.user.UserManager;
+import com.team.service.system.user.impl.UserService;
 import com.team.util.AppUtil;
 import com.team.util.Const;
 import com.team.util.DateUtil;
@@ -47,13 +50,14 @@ public class GMController extends BaseController {
 	String menuUrl = "gm/list.do"; //菜单地址(权限用)
 	@Resource(name="gmService")
 	private GMManager gmService;
-	
+	@Resource(name="userService")
+	private UserManager userService;
 	/**保存
 	 * @param
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/save")
-	public ModelAndView save() throws Exception{
+	public ModelAndView save(HttpSession session) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"新增GM");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
@@ -68,7 +72,7 @@ public class GMController extends BaseController {
 		if(pd.get("GM_BERTH_COUNT").equals(""))pd.put("GM_BERTH_COUNT", null);
 		//pagedata中不存在但需要
 		if(!pd.containsKey("GM_CKSTATUS"))pd.put("GM_CKSTATUS",3);//3:待审核
-		gmService.save(pd);
+		gmService.save(pd,session);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -114,9 +118,11 @@ public class GMController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/list")
-	public ModelAndView list(Page page) throws Exception{
+	public ModelAndView list(Page page,HttpSession session) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"列表GM");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+
+	
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -132,7 +138,7 @@ public class GMController extends BaseController {
 			}
 		}
 		page.setPd(pd);
-		List<PageData>	varList = gmService.list(page);	//列出GM列表
+		List<PageData>	varList = gmService.list(page,session);	//列出GM列表
 		mv.setViewName("retirement/gm/gm_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
@@ -145,11 +151,24 @@ public class GMController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/goAdd")
-	public ModelAndView goAdd()throws Exception{
+	public ModelAndView goAdd(HttpSession session)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("retirement/gm/gm_edit");
+		/**
+		 * role 2 养老院管理人员 一个人员只能添一个
+		 */
+		Integer role=(Integer) session.getAttribute("SYS_ZZY_ROLE");
+		if(role==2){
+			PageData tpd=new PageData();
+			tpd.put("USERNAME",Jurisdiction.getUsername());
+			PageData user=userService.findByUsername(tpd);
+			String gmid=gmService.zzyFindNameByAUId(user.getString("USER_ID"));
+			if(gmid!=null)mv.setViewName("retirement/gm/gm_noedit");
+			else mv.setViewName("retirement/gm/gm_edit");
+		}else {
+			mv.setViewName("retirement/gm/gm_edit");
+		}
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -202,7 +221,7 @@ public class GMController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/excel")
-	public ModelAndView exportExcel() throws Exception{
+	public ModelAndView exportExcel(HttpSession session) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"导出GM到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
@@ -232,7 +251,7 @@ public class GMController extends BaseController {
 		titles.add("创建时间");	//20
 		titles.add("最后修改时间");	//21
 		dataMap.put("titles", titles);
-		List<PageData> varOList = gmService.listAll(pd);
+		List<PageData> varOList = gmService.listAll(pd,session);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();

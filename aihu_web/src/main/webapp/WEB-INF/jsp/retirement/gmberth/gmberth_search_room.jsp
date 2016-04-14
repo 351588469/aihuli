@@ -53,9 +53,25 @@
 					<div class="col-xs-12">
 					
 					<form action="gmberth/zzySearch.do" name="Form" id="Form" method="post">
-						<input type="hidden" name="GMBERTH_ID" id="GMBERTH_ID" value="${pd.GMBERTH_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">
+									养老院:
+									<input type="hidden" id="TERM_GM_ID" name="TERM_GM_ID"/>
+								</td>
+								<td>
+									<select  name="SELECT_GMID" id="SELECT_GMID" style="width:50%;"
+									onchange="$('#TERM_GM_ID').val(this.value)">
+									<c:if test="${pd.TERM_GM_ID==''||pd.TERM_GM_ID==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+									<c:forEach items="${GM_LIST}" var="staff" varStatus="vs">
+									<option value="${staff.GM_ID}" <c:if test="${staff.GM_ID==pd.TERM_GM_ID}">selected</c:if>>${staff.GM_NAME}</option>
+									</c:forEach>
+ 									</select>
+								</td>
+							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">楼栋:</td>
 								<td><input type="number" name="TERM_FLOOR" id="TERM_FLOOR" value="${pd.TERM_FLOOR}" maxlength="255" placeholder="这里输入楼栋" title="楼栋" style="width:98%;"/></td>

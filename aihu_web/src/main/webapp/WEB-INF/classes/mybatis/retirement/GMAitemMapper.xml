@@ -104,16 +104,22 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
-		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
-			and
-				(
-				<!--	根据需求自己加检索条件
-					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or 
-					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-				-->
-				)
+		<if test="pd.GMAI_GM_ID!= null and pd.GMAI_GM_ID != ''">
+			and GMAI_GM_ID=#{pd.GMAI_GM_ID}
 		</if>
+		<if test="pd.GMAI_GMAT_ID!= null and pd.GMAI_GMAT_ID != ''">
+			and GMAI_GMAT_ID=#{pd.GMAI_GMAT_ID}
+		</if>
+		<if test="pd.TERM_CONTENT!= null and pd.TERM_CONTENT != ''">
+			and GMAI_CONTENT LIKE  CONCAT('%','${pd.TERM_CONTENT}','%' ) 
+		</if>
+		<if test="pd.TERM_SCORE_START!= null and pd.TERM_SCORE_START!= ''">
+			and GMAI_SCORE&gt;=#{pd.TERM_SCORE_START} 
+		</if>
+		<if test="pd.TERM_SCORE_END!= null and pd.TERM_SCORE_END!= ''">
+			and GMAI_SCORE&lt;=#{pd.TERM_SCORE_END} 
+		</if>
+		order by GMAI_GMAT_NUM,GMAI_NUMBER
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -122,6 +128,23 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		where 1=1
+		<if test="GMAI_GM_ID!= null and GMAI_GM_ID != ''">
+			and GMAI_GM_ID=#{GMAI_GM_ID}
+		</if>
+		<if test="GMAI_GMAT_ID!= null and GMAI_GMAT_ID != ''">
+			and GMAI_GMAT_ID=#{GMAI_GMAT_ID}
+		</if>
+		<if test="TERM_CONTENT!= null and TERM_CONTENT != ''">
+			and GMAI_CONTENT LIKE  CONCAT('%','${TERM_CONTENT}','%' ) 
+		</if>
+		<if test="TERM_SCORE_START!= null and TERM_SCORE_START!= ''">
+			and GMAI_SCORE&gt;=#{TERM_SCORE_START} 
+		</if>
+		<if test="TERM_SCORE_END!= null and TERM_SCORE_END!= ''">
+			and GMAI_SCORE&lt;=#{TERM_SCORE_END} 
+		</if>
+		order by GMAI_GMAT_NUM,GMAI_NUMBER
 	</select>
 	<!--  -->
 	<select id="zzyList" parameterType="java.lang.String" resultType="pd">

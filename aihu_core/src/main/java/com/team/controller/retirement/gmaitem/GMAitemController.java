@@ -5,12 +5,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.session.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -19,12 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.team.controller.base.BaseController;
+import com.team.controller.system.session.SessionController;
 import com.team.entity.Page;
+import com.team.entity.system.User;
 import com.team.service.retirement.gm.impl.GMService;
 import com.team.service.retirement.gmaitem.GMAitemManager;
 import com.team.service.retirement.gmatype.GMATypeManager;
 import com.team.util.AppUtil;
+import com.team.util.Const;
 import com.team.util.Jurisdiction;
 import com.team.util.ObjectExcelView;
 import com.team.util.PageData;
@@ -46,6 +54,8 @@ public class GMAitemController extends BaseController {
 	private GMATypeManager gmatypeService;
 	@Resource(name="gmService")
 	private GMService gmService;
+	@Resource(name="sessionController")
+	private SessionController sessionController;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -105,7 +115,7 @@ public class GMAitemController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/list")
-	public ModelAndView list(Page page) throws Exception{
+	public ModelAndView list(Page page,HttpServletRequest request) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"列表GMAitem");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
@@ -115,21 +125,40 @@ public class GMAitemController extends BaseController {
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
+		HttpSession zzyHs=request.getSession();
+		//Session取搜索条件
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_GMAI");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
+		//Session取值
+		if(pd.get("GMAI_GM_ID")!=""&&pd.get("GMAI_GM_ID")!=null){//重新赋值
+			zzyHs.setAttribute("ZZY_GMID",pd.get("GMAI_GM_ID"));
+		}else{
+			pd.put("GMAI_GM_ID",zzyHs.getAttribute("ZZY_GMID"));
+		}
+		if(pd.get("GMAI_GMAT_ID")!=""&&pd.get("GMAI_GMAT_ID")!=null){//重新赋值
+			zzyHs.setAttribute("ZZY_GMATID",pd.get("GMAI_GMAT_ID"));
+		}else{
+			pd.put("GMAI_GMAT_ID",zzyHs.getAttribute("GMAI_GMAT_ID"));
+		}
 		page.setPd(pd);
 		List<PageData>varList = new ArrayList<>();	//列出GMAitem列表
-		if(pd.containsKey("GMATYPE_ID")){
-		varList = gmaitemService.zzyListByType(pd.getString("GMATYPE_ID"));
-		String gmatype_id=(String)pd.getString("GMATYPE_ID");
-		PageData tpd=gmatypeService.zzyFindById(gmatype_id);
-		String gmid=(String) tpd.get("GMAT_GM_ID");
-		String gm_name=gmService.zzyFindNameById(gmid);
-		pd.put("GMAI_GMAT_ID",gmatype_id);
-		pd.put("GMAI_GMAT_NAME",tpd.get("GMAT_NAME"));
-		pd.put("GMAI_GM_ID",gmid);
-		pd.put("GMAI_GM_NAME",gm_name);
-		}else{
-			varList = gmaitemService.list(page);
-		}
+		/*if(pd.containsKey("GMATYPE_ID")){
+			varList = gmaitemService.zzyListByType(pd.getString("GMATYPE_ID"));
+			String gmatype_id=(String)pd.getString("GMATYPE_ID");
+			PageData tpd=gmatypeService.zzyFindById(gmatype_id);
+			String gmid=(String) tpd.get("GMAT_GM_ID");
+			String gm_name=gmService.zzyFindNameById(gmid);
+			pd.put("GMAI_GMAT_ID",gmatype_id);
+			pd.put("GMAI_GMAT_NAME",tpd.get("GMAT_NAME"));
+			pd.put("GMAI_GM_ID",gmid);
+			pd.put("GMAI_GM_NAME",gm_name);
+		}else{*/
+		varList = gmaitemService.list(page);
+		
 		mv.setViewName("retirement/gmaitem/gmaitem_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
@@ -214,7 +243,7 @@ public class GMAitemController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/excel")
-	public ModelAndView exportExcel() throws Exception{
+	public ModelAndView exportExcel(HttpServletRequest request,Page page) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"导出GMAitem到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
@@ -222,27 +251,38 @@ public class GMAitemController extends BaseController {
 		pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("第几题");	//1
-		titles.add("题目所属类别编号");	//2
-		titles.add("题目最大或最小分值");	//3
-		titles.add("题目具体内容");	//4
-		titles.add("创建时间");	//5
-		titles.add("修改时间");	//6
-		titles.add("题目类别名称");	//7
-		titles.add("养老院编号");	//8
+		titles.add("养老院");	//1
+		titles.add("第几题");	//2
+		titles.add("类别");	//3
+		titles.add("最大最小分值");	//4
+		titles.add("内容");	//5
 		dataMap.put("titles", titles);
-		List<PageData> varOList = gmaitemService.listAll(pd);
+		
+		HttpSession zzyHs=request.getSession();
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_GMAI");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
+		//Session取值
+			pd.put("GMAI_GM_ID",zzyHs.getAttribute("ZZY_GMID"));
+			pd.put("GMAI_GMAT_ID",zzyHs.getAttribute("ZZY_GMATID"));
+		List<PageData> varOList;
+		if(!pd.containsKey("all"))
+			varOList= gmaitemService.list(page);	//列出Elder列表
+		else 
+			varOList= gmaitemService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-			vpd.put("var1", varOList.get(i).get("GMAI_NUMBER").toString());	//1
-			vpd.put("var2", varOList.get(i).getString("GMAI_GMAT_ID"));	//2
-			vpd.put("var3", varOList.get(i).get("GMAI_SCORE").toString());	//3
-			vpd.put("var4", varOList.get(i).getString("GMAI_CONTENT"));	//4
-			vpd.put("var5", varOList.get(i).getString("GMAI_CTIME"));	//5
-			vpd.put("var6", varOList.get(i).getString("GMAI_UTIME"));	//6
-			vpd.put("var7", varOList.get(i).getString("GMAI_GMAT_NAME"));	//7
-			vpd.put("var8", varOList.get(i).getString("GMAI_GM_ID"));	//8
+			String gmid=varOList.get(i).getString("GMAI_GM_ID");
+			String gmname=gmService.zzyFindNameById(gmid);
+			vpd.put("var1", gmname);//1
+			vpd.put("var2", varOList.get(i).get("GMAI_NUMBER").toString());	//2
+			vpd.put("var3", varOList.get(i).getString("GMAI_GMAT_NAME"));	//3
+			vpd.put("var4", varOList.get(i).get("GMAI_SCORE").toString());	//4
+			vpd.put("var5", varOList.get(i).getString("GMAI_CONTENT"));	//5
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -255,5 +295,79 @@ public class GMAitemController extends BaseController {
 	public void initBinder(WebDataBinder binder){
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
+	}
+	
+	@RequestMapping(value="/resetSession")
+	@ResponseBody
+	public Object resetSession(HttpServletRequest request,Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"重置Session");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
+		sessionController.resetSession(request.getSession(),"retirement");
+		return list(page,request);
+	}
+	/**
+	 * 去搜索页面
+	 */
+	@RequestMapping(value="/goSearch")
+	public ModelAndView goSearch(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("retirement/gmaitem/gmaitem_search");
+		mv.addObject("msg", "list");
+		mv.addObject("pd", pd);
+		HttpSession zzyHs=request.getSession();
+		//Session取搜索条件
+		String term=(String) zzyHs.getAttribute("ZZY_TERM_GMAI");
+		if(term!=null&&term!=""){
+			Gson gson=new Gson();
+			PageData tpd=gson.fromJson(term,PageData.class);
+			pd.putAll(tpd);
+		}
+		//养老院编号及名称
+		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
+		mv.addObject("GM_ID",gmid);
+		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//养老院列表
+		List<PageData>gmlist=gmService.listAll(null,request.getSession());
+		mv.addObject("GM_LIST",gmlist);
+		//创建用户
+		Session session = Jurisdiction.getSession();
+		User user=(User)session.getAttribute(Const.SESSION_USER);
+		mv.addObject("user",user);
+		return mv;
+	}
+	/**
+	 *搜索信息
+	 * @param request
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/zzySearch")
+	public ModelAndView zzySearch(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		PageData zzyPd=new PageData();
+		pd=this.getPageData();
+		//搜索信息
+		if(pd.containsKey("TERM_GM_ID")&&pd.getString("TERM_GM_ID")!=""){
+			zzyPd.put("TERM_GM_ID",pd.getString("TERM_GM_ID"));
+			HttpSession zzyHs=request.getSession();
+			zzyHs.setAttribute("ZZY_GMID",pd.get("TERM_GM_ID"));
+		}
+		if(pd.containsKey("TERM_CONTENT")&&pd.getString("TERM_CONTENT")!=""){
+			zzyPd.put("TERM_CONTENT",pd.getString("TERM_CONTENT"));
+		}
+		if(pd.containsKey("TERM_SCORE_START")&&pd.getString("TERM_SCORE_START")!=""){
+			zzyPd.put("TERM_SCORE_START",pd.getString("TERM_SCORE_START"));
+		}
+		if(pd.containsKey("TERM_SCORE_END")&&pd.getString("TERM_SCORE_END")!=""){
+			zzyPd.put("TERM_SCORE_END",pd.getString("TERM_SCORE_END"));
+		}
+		Gson gson=new Gson();
+		HttpSession session=request.getSession();
+		session.setAttribute("ZZY_TERM_GMAI",gson.toJson(zzyPd));
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
 	}
 }

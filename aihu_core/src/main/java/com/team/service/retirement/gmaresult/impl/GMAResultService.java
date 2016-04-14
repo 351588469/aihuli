@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
+import com.team.util.AppUtil2;
 import com.team.util.PageData;
 import com.team.util.Tools;
 import com.team.util.UuidUtil;
@@ -20,6 +21,7 @@ import com.team.service.retirement.elder.ElderManager;
 import com.team.service.retirement.gmaanlysis.GMAAnlysisManager;
 import com.team.service.retirement.gmaitem.GMAitemManager;
 import com.team.service.retirement.gmaresult.GMAResultManager;
+import com.team.service.system.appuser.AppuserManager;
 
 /** 
  * 说明： 评测结果
@@ -38,6 +40,8 @@ public class GMAResultService implements GMAResultManager{
 	private ElderManager elderService;
 	@Resource(name="gmaanlysisService")
 	private GMAAnlysisManager gmaanlysisService;
+	@Resource(name="appuserService")
+	private AppuserManager appuserService;
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -97,19 +101,28 @@ public class GMAResultService implements GMAResultManager{
 	}
 	/**
 	 *批量上传评测结果
+	 *json {gmai_id,gmar_score}
+	 * retirement:e_id,json
+	 * volunteer:userid,json
 	 */
 	@Override
 	public String zzySaveMult(PageData pd) throws Exception {
-		PageData zzyPd=new PageData();
 		String json=pd.getString("json");
-		String E_ID=pd.getString("e_id");
+		String E_ID = null,E_NAME = null;
+		if(pd.containsKey("e_id")&&pd.getString("e_id")!=""){
+			E_ID=pd.getString("e_id");
+			E_NAME=elderService.zzyFindNameById(E_ID);
+		}else if(pd.containsKey("userid")&&pd.getString("userid")!=""){
+			E_ID=pd.getString("userid");
+			PageData user=appuserService.zzyFindById(E_ID);
+			E_NAME=user.getString("USERNAME");
+		}
 		String GMU_ID=pd.getString("gmu_id");
 		Gson gson=new Gson();
 		@SuppressWarnings("unchecked")
 		List<Map<String,Object>>list=gson.fromJson(json,List.class);
 		List<Map<String,Object>>dl=new ArrayList<>();
 		String GMAR_CODE=UuidUtil.get32UUID();
-		String E_NAME=elderService.zzyFindNameById(E_ID);
 		Map<String,Map<String,Object>>resultMap=new HashMap<>();
 		for(int i=0;i<list.size();i++){
 			Map<String,Object>map=list.get(i);
@@ -178,5 +191,21 @@ public class GMAResultService implements GMAResultManager{
 		gmaanlysisService.save(zzyPd_a);
 		return Analysis;
 	}
+
+	@Override
+	public Map<String, Object> app_zzyAdd(PageData pd) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+			if(AppUtil2.checkParam("appzzy2_gmaradd", pd)){	//检查参数
+				String info=zzySaveMult(pd);
+				result="01";
+				map.put("info",info);
+			}else result = "03";
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
+	}
+
 }
 

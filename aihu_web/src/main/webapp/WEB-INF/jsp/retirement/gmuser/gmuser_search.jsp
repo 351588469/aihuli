@@ -30,6 +30,23 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">
+									养老院:
+									<input type="hidden" id="TERM_GM_ID" name="TERM_GM_ID"/>
+								</td>
+								<td>
+									<select  name="SELECT_GMID" id="SELECT_GMID" style="width:50%;"
+									onchange="$('#TERM_GM_ID').val(this.value)">
+									<c:if test="${pd.TERM_GM_ID==''||pd.TERM_GM_ID==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+									<c:forEach items="${GM_LIST}" var="staff" varStatus="vs">
+									<option value="${staff.GM_ID}" <c:if test="${staff.GM_ID==pd.TERM_GM_ID}">selected</c:if>>${staff.GM_NAME}</option>
+									</c:forEach>
+ 									</select>
+								</td>
+							</tr>
+							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">性别:</td>
 								<td>
 									<input type="hidden" name="TERM_GENDER" id="TERM_GENDER" value="${pd.TERM_GENDER}"/>

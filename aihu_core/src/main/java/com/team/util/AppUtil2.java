@@ -30,6 +30,9 @@ public class AppUtil2  {
 		}else if(method=="appzzy2_uadd"){// 注册
 			paramArray =Const2.ZZY2_USER_ADD_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_USER_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_uinfo"){// 信息
+			paramArray =Const2.ZZY2_USER_INFO_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_USER_INFO_VALUE_ARRAY;
 		}else if(method=="appzzy2_vtadd"){// 团体注册
 			paramArray =Const2.ZZY2_VT_ADD_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VT_ADD_VALUE_ARRAY;
@@ -71,7 +74,49 @@ public class AppUtil2  {
 		}else if(method=="appzzy2_vanadd"){//活动评论发表
 			paramArray =Const2.ZZY2_VAN_ADD_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VAN_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_vanlist"){//活动评论发表
+			paramArray =Const2.ZZY2_VAN_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VAN_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vapadd"){//活动评论发表
+			paramArray =Const2.ZZY2_VAP_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VAP_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_vaiadd"){//活动图片上传
+			paramArray =Const2.ZZY2_VAI_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VAI_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_vailist"){//活动图片列表
+			paramArray =Const2.ZZY2_VAI_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VAI_LIST_VALUE_ARRAY;
 		}
+		
+		else if(method=="appzzy2_vdadd"){//捐赠发布
+			paramArray =Const2.ZZY2_VD_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VD_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_vdlist"){//捐赠列表
+			paramArray =Const2.ZZY2_VD_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VD_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vdpadd"){//捐赠发布
+			paramArray =Const2.ZZY2_VDP_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VDP_ADD_VALUE_ARRAY;
+		}
+		
+		else if(method=="appzzy2_gmlist"){//养老院列表
+			paramArray =Const2.ZZY2_GM_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_GM_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_gmnlist"){//养老院评论列表
+			paramArray =Const2.ZZY2_GMN_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_GMN_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_gmhadd"){//健康管家记录添加
+			paramArray =Const2.ZZY2_GMH_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_GMH_ADD_VALUE_ARRAY;
+		}else if(method=="appzzy2_gmaradd"){//健康管家记录添加
+			paramArray =Const2.ZZY2_GMAR_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_GMAR_ADD_VALUE_ARRAY;
+		}
+		
+		else if(method=="appzzy2_vfadd"){//意见反馈
+			paramArray =Const2.ZZY2_VF_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VF_ADD_VALUE_ARRAY;
+		} 
 		int size = paramArray.length;
 		for(int i=0;i<size;i++){
 			String param = paramArray[i];

@@ -155,7 +155,17 @@
 		update
 		<include refid="tableName"></include>
 		set 	
-		VA_ENROLL_M =VA_ENROLL_M+#{NUM},
+		VA_ENROLL =VA_ENROLL+#{NUM},
+		VA_UTIME=#{VA_UTIME}
+		where 
+		VACTIVITY_ID = #{VACTIVITY_ID}
+	</update>
+	<!-- 修改点赞人数 -->
+	<update id="zzyUpdatePraise" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 	
+		VA_PRAISE=VA_PRAISE+#{NUM},
 		VA_UTIME=#{VA_UTIME}
 		where 
 		VACTIVITY_ID = #{VACTIVITY_ID}

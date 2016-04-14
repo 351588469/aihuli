@@ -1,6 +1,8 @@
 package com.team.service.retirement.gmaresult;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -57,6 +59,10 @@ public interface GMAResultManager{
 	 * 批量上传评测结果
 	 */
 	public String zzySaveMult(PageData pd)throws Exception;
+	/**
+	 * volunteer 上传评测结果
+	 */
+	public Map<String, Object> app_zzyAdd(PageData pd)throws Exception;
 	
 }
 

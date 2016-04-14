@@ -1,6 +1,7 @@
 package com.team.service.volunteer.vdimg;
 
 import java.util.List;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -41,7 +42,7 @@ public interface VDImgManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	public List<PageData> zzyList(String vdid)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -53,6 +54,8 @@ public interface VDImgManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+
+
 	
 }
 

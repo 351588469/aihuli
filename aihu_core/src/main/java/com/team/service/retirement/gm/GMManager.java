@@ -3,6 +3,8 @@ package com.team.service.retirement.gm;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -18,7 +20,7 @@ public interface GMManager{
 	 * @param pd
 	 * @throws Exception
 	 */
-	public void save(PageData pd)throws Exception;
+	public void save(PageData pd,HttpSession session)throws Exception;
 	
 	/**删除
 	 * @param pd
@@ -36,14 +38,14 @@ public interface GMManager{
 	 * @param page
 	 * @throws Exception
 	 */
-	public List<PageData> list(Page page)throws Exception;
+	public List<PageData> list(Page page,HttpSession session)throws Exception;
 	
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception
 	 */
-	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	public List<PageData> listAll(PageData pd,HttpSession session)throws Exception;
+	public List<PageData> zzyList(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -60,6 +62,12 @@ public interface GMManager{
 	 * 通过名称获取id 模糊搜索
 	 */
 	public String zzyFindIdByName(String name)throws Exception;
+	/**
+	 * 创建用户
+	 * @param string
+	 * @return
+	 */
+	public String zzyFindNameByAUId(String string)throws Exception;
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
@@ -72,5 +80,15 @@ public interface GMManager{
 	 * 创建人获取养老院名称和编号列表
 	 */
 	public List<Map<String,Object>> listByCreator()throws Exception;
+	/**
+	 * 养老院列表
+	 */
+	public Map<String,Object>app_zzyList(PageData pd)throws Exception;
+	/**
+	 * 更新点赞
+	 */
+	public void zzyUpdatePraise(String gmid,Integer x)throws Exception;
+
+	
 }
 

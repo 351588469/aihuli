@@ -61,7 +61,7 @@ public interface VActivityManager{
 	/**
 	 * 活动申报
 	 */
-	public Map<String,Object>app_zzyAdd(PageData pd)throws Exception;
+	public Map<String,Object>app_zzyAdd(PageData pd,Map<Integer,String>fm)throws Exception;
 	/**
 	 * 活动列表
 	 */
@@ -70,5 +70,11 @@ public interface VActivityManager{
 	 * 更新报名人数
 	 */
 	public void zzyUpdateEnroll(String vaid,Integer x)throws Exception;
+	/**
+	 * 更新点赞人数
+	 */
+	public void zzyUpdatePraise(String vaid,Integer x)throws Exception;
+
+
 }
 

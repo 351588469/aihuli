@@ -29,7 +29,7 @@ public class VANewService implements VANewManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	@Resource(name="appuesrService")
+	@Resource(name="appuserService")
 	private AppuserManager appuserService;
 	/**新增
 	 * @param pd
@@ -146,7 +146,7 @@ public class VANewService implements VANewManager{
 		String result = "00";
 		PageData zzyPd=new PageData();
 			//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
-				if(AppUtil2.checkParam("appzzy2_vtnlist", pd)){	//检查参数
+				if(AppUtil2.checkParam("appzzy2_vanlist", pd)){	//检查参数
 					zzyPd.put("VAN_VA_ID",pd.get("vaid"));
 					Map<String,Object>tl=new HashMap<String,Object>();
 					tl.put("first", zzyListNoReply(zzyPd));

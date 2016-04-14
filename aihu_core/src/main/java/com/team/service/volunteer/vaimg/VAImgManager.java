@@ -1,6 +1,8 @@
 package com.team.service.volunteer.vaimg;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -41,7 +43,11 @@ public interface VAImgManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	public List<PageData> zzyList(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -53,6 +59,17 @@ public interface VAImgManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	/**
+	 * 活动图片上传
+	 */
+	public void zzyAdd(String vaid, Map<Integer, String> fm,Integer type)throws Exception;
+	public Map<String, Object> app_zzyAdd(PageData pd, Map<Integer, String> fm)throws Exception;
+	/**
+	 * 活动图片列表
+	 */
+	public Map<String, Object> app_zzyList(PageData pd)throws Exception;
+
+
 	
 }
 

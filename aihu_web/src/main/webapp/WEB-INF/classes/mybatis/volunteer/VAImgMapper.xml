@@ -97,7 +97,15 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表(全部) -->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where VAI_VA_ID=#{VAI_VA_ID} AND
+		VAI_TYPE=#{VAI_TYPE}
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

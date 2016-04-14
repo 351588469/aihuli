@@ -109,10 +109,7 @@
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
-													<!-- 用药计划 -->
-													<a href="edplan/list.do"title="用药计划" ><img src="<%=basePath%>/static/images/zzy_edp.png"/></a>
-													<!-- 护理计划 -->
-													<a href="enplan/list.do"title="护理计划" ><img src="<%=basePath%>/static/images/zzy_enp.png"/></a>
+													
 													
 													
 												</div>
@@ -176,6 +173,9 @@
 									<a href="gm/list.do"title="返回" ><img src="<%=basePath%>/static/images/zzy_back.png"/></a>
 									<a href="elder/excel.do" title="打印" ><img src="<%=basePath%>/static/images/zzy_print.png"/></a>
 									<a href="elder/excel.do?all=1" title="打印全部" ><img src="<%=basePath%>/static/images/zzy_printall.png"/></a>
+									<c:if test="${QX.del == 1 }">
+									<a href="elder/resetSession.do"title="重置" ><img src="<%=basePath%>/static/images/zzy_resetall.png"/></a>
+									</c:if>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>

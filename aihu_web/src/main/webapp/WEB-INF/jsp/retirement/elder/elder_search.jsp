@@ -30,9 +30,20 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">养老院名称:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">
+									养老院:
+									<input type="hidden" id="TERM_GM_ID" name="TERM_GM_ID"/>
+								</td>
 								<td>
-									<input type="text" name="TERM_GM_NAME" id="TERM_GM_NAME" value="${pd.TERM_GM_NAME}" maxlength="255" placeholder="这里输入名称" title="养老院名称" style="width:98%;"/>
+									<select  name="SELECT_GMID" id="SELECT_GMID" style="width:50%;"
+									onchange="$('#TERM_GM_ID').val(this.value)">
+									<c:if test="${pd.TERM_GM_ID==''||pd.TERM_GM_ID==null}">
+									<option value="">下拉选择</option>
+									</c:if>
+									<c:forEach items="${GM_LIST}" var="staff" varStatus="vs">
+									<option value="${staff.GM_ID}" <c:if test="${staff.GM_ID==pd.TERM_GM_ID}">selected</c:if>>${staff.GM_NAME}</option>
+									</c:forEach>
+ 									</select>
 								</td>
 							</tr>
 							<tr>
@@ -89,9 +100,9 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">年龄范围:</td>
 								<td>
-									<input class="span10 date-picker" name="TERM_AGE_START" id="TERM_AGE_START" value="${pd.TERM_AGE_START}" type="number" placeholder="起始年龄" title="起始年龄" style="width:40%;"/>
+									<input  name="TERM_AGE_START" id="TERM_AGE_START" value="${pd.TERM_AGE_START}" type="number" placeholder="起始年龄" title="起始年龄" style="width:40%;"/>
 									至
-									<input class="span10 date-picker" name="TERM_AGE_END" id="TERM_AGE_END" value="${pd.TERM_AGE_END}" type="number" placeholder="截止年龄" title="截止年龄" style="width:40%;"/>
+									<input  name="TERM_AGE_END" id="TERM_AGE_END" value="${pd.TERM_AGE_END}" type="number" placeholder="截止年龄" title="截止年龄" style="width:40%;"/>
 								</td>
 							</tr>
 							<tr>

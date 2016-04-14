@@ -1,6 +1,8 @@
 package com.team.service.volunteer.gmpraise;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -53,6 +55,14 @@ public interface GMPraiseManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	/**
+	 * 点赞
+	 */
+	public Map<String, Object> app_zzyAdd(PageData pd)throws Exception;
+	/**
+	 * 检测用户是否点赞
+	 */
+	public PageData zzyCheck(PageData pd)throws Exception;
 	
 }
 

@@ -107,5 +107,14 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- 检查用户是否点赞 -->
+	<select id="zzyCheck" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			VAP_VA_ID=#{VAP_VA_ID} and VAP_USER_ID=#{VAP_USER_ID}
+		limit 1
+	</select>
 </mapper>

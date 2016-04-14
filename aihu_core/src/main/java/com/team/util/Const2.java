@@ -34,6 +34,9 @@ public class Const2 {
 	public static final String NO_INTERCEPTOR_PATH = ".*/((uploadFiles)|(login)|(logout)|(code)|(app)|(weixin)|(static)|(main)|(websocket)).*";	//不对匹配该值的访问路径拦截（正则）
 	public static ApplicationContext WEB_APP_CONTEXT = null; //该值会在web容器启动时由WebAppContextListener初始化
 	
+	public static final String ZZY2_GM_ID="6994a259dc2c425a8d9ad0099c570d5f";//app volunteer养老院编号
+	public static final Integer ZZY2_VA_IMG_REVIEW=1;
+	public static final Integer ZZY2_VA_IMG_THEME=2;
 	/**
 	 * APP Constants
 	 */
@@ -51,6 +54,9 @@ public class Const2 {
 	//用户注册
 	public static final String[] ZZY2_USER_ADD_PARAM_ARRAY = new String[]{"USERNAME","PHONE","ADDRESS","BIRTH","GENDER","JOB","SIGN"};
 	public static final String[] ZZY2_USER_ADD_VALUE_ARRAY = new String[]{"用户名","联系电话","联系地址","出生年月","性别","从事工作","签名"};
+	//用户信息
+	public static final String[] ZZY2_USER_INFO_PARAM_ARRAY = new String[]{"userid"};
+	public static final String[] ZZY2_USER_INFO_VALUE_ARRAY = new String[]{"用户编号"};
 	//团体注册
 	//public static final String[] ZZY2_VT_ADD_PARAM_ARRAY = new String[]{"VT_NAME","VT_HTIME","VT_CITY","VT_ADDRESS","VT_DESCRIBE","VT_C_ID"};
 	public static final String[] ZZY2_VT_ADD_PARAM_ARRAY = new String[]{"name","htime","city","address","describe","userid"};
@@ -92,4 +98,43 @@ public class Const2 {
 	//活动评论发表
 	public static final String[] ZZY2_VAN_ADD_PARAM_ARRAY = new String[]{"vaid","userid","content"};
 	public static final String[] ZZY2_VAN_ADD_VALUE_ARRAY = new String[]{"活动编号","用户编号","内容"};
+	//活动评论列表
+	public static final String[] ZZY2_VAN_LIST_PARAM_ARRAY = new String[]{"vaid"};
+	public static final String[] ZZY2_VAN_LIST_VALUE_ARRAY = new String[]{"活动编号"};
+	//活动点赞
+	public static final String[] ZZY2_VAP_ADD_PARAM_ARRAY = new String[]{"vaid","userid"};
+	public static final String[] ZZY2_VAP_ADD_VALUE_ARRAY = new String[]{"活动编号","用户编号"};
+	//活动图片上传
+	public static final String[] ZZY2_VAI_ADD_PARAM_ARRAY = new String[]{"vaid"};
+	public static final String[] ZZY2_VAI_ADD_VALUE_ARRAY = new String[]{"活动编号"};
+	//活动图片列表
+	public static final String[] ZZY2_VAI_LIST_PARAM_ARRAY = new String[]{"vaid"};
+	public static final String[] ZZY2_VAI_LIST_VALUE_ARRAY = new String[]{"活动编号"};
+	//捐赠发布
+	public static final String[] ZZY2_VD_ADD_PARAM_ARRAY = new String[]{"title","target","content","userid"};
+	public static final String[] ZZY2_VD_ADD_VALUE_ARRAY = new String[]{"标题","捐赠对象","内容","用户编号"};
+	//捐赠列表
+	public static final String[] ZZY2_VD_LIST_PARAM_ARRAY = new String[]{};
+	public static final String[] ZZY2_VD_LIST_VALUE_ARRAY = new String[]{};
+	//捐赠点赞
+	public static final String[] ZZY2_VDP_ADD_PARAM_ARRAY = new String[]{"vdid","userid"};
+	public static final String[] ZZY2_VDP_ADD_VALUE_ARRAY = new String[]{};
+	//养老院列表
+	public static final String[] ZZY2_GM_LIST_PARAM_ARRAY = new String[]{};
+	public static final String[] ZZY2_GM_LIST_VALUE_ARRAY = new String[]{};
+	//养老院评论列表
+	public static final String[] ZZY2_GMN_LIST_PARAM_ARRAY = new String[]{"gmid"};
+	public static final String[] ZZY2_GMN_LIST_VALUE_ARRAY = new String[]{"养老院编号"};
+	//养老院评论发表
+	public static final String[] ZZY2_GMN_ADD_PARAM_ARRAY = new String[]{"gmid","userid","content"};
+	public static final String[] ZZY2_GMN_ADD_VALUE_ARRAY = new String[]{"养老院编号","用户编号","评论内容"};
+	//健康管家记录添加
+	public static final String[] ZZY2_GMH_ADD_PARAM_ARRAY = new String[]{"userid","value"};
+	public static final String[] ZZY2_GMH_ADD_VALUE_ARRAY = new String[]{"用户编号","键值串"};
+	//评测结果添加
+	public static final String[] ZZY2_GMAR_ADD_PARAM_ARRAY = new String[]{"userid","json"};
+	public static final String[] ZZY2_GMAR_ADD_VALUE_ARRAY = new String[]{"用户编号","键值串"};
+	//意见反馈
+	public static final String[] ZZY2_VF_ADD_PARAM_ARRAY = new String[]{"userid","content"};
+	public static final String[] ZZY2_VF_ADD_VALUE_ARRAY = new String[]{"用户编号","内容"};
 }

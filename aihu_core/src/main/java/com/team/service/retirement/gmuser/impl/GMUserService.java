@@ -54,6 +54,7 @@ public class GMUserService implements GMUserManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
+		
 		return (List<PageData>)dao.findForList("GMUserMapper.datalistPage", page);
 	}
 	

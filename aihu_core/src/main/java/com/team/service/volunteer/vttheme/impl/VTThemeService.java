@@ -110,7 +110,8 @@ public class VTThemeService implements VTThemeManager{
 			//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
 				if(AppUtil2.checkParam("appzzy2_vttadd", pd)){	//检查参数
 					PageData zzyPd=new PageData();
-					zzyPd.put("VTTHEME_ID",UuidUtil.get32UUID());
+					String vtid=UuidUtil.get32UUID();
+					zzyPd.put("VTTHEME_ID",vtid);
 					zzyPd.put("VTT_VT_ID",pd.getString("vtid"));
 					zzyPd.put("VTT_TITLE",pd.getString("title"));
 					zzyPd.put("VTT_CONTENT",pd.getString("content"));
@@ -126,6 +127,7 @@ public class VTThemeService implements VTThemeManager{
 					save(zzyPd);
 					//团体表话题数量+1
 					vteamService.zzyUpdateTheme(pd.getString("vtid"),1);
+					
 					result="01";
 				}else result = "03";
 			//}else{result = "05";}

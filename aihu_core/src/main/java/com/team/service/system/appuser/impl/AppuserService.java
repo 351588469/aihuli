@@ -149,6 +149,21 @@ public class AppuserService implements AppuserManager{
 	public PageData zzyFindById(String id) throws Exception {
 		return (PageData)dao.findForObject("AppuserMapper.zzyFindById",id);
 	}
+
+	@Override
+	public Map<String, Object> zzyUserInfo(PageData pd) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+			//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+				if(AppUtil2.checkParam("appzzy2_uinfo", pd)){	//检查参数
+					PageData user=zzyFindById(pd.getString("userid"));
+					map.put("pd",user);
+					result="01";
+				}else result = "03";
+			//}else{result = "05";}
+			map.put("result", result);
+		return map;
+	}
 	
 }
 

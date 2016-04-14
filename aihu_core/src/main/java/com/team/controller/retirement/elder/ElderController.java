@@ -5,12 +5,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.team.controller.base.BaseController;
+import com.team.controller.system.session.SessionController;
 import com.team.entity.Page;
 import com.team.entity.system.User;
 import com.team.service.retirement.elder.ElderManager;
@@ -54,6 +55,8 @@ public class ElderController extends BaseController {
 	private GMManager gmService;
 	@Resource(name="gmberthService")
 	private GMBerthManager gmberthService;
+	@Resource(name="sessionController")
+	private SessionController sessionController;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -255,6 +258,9 @@ public class ElderController extends BaseController {
 		String gmid=(String) zzyHs.getAttribute("ZZY_GMID");
 		mv.addObject("GM_ID",gmid);
 		mv.addObject("GM_NAME",gmService.zzyFindNameById(gmid));
+		//养老院列表
+		List<PageData>gmlist=gmService.listAll(null,request.getSession());
+		mv.addObject("GM_LIST",gmlist);
 		//创建用户
 		Session session = Jurisdiction.getSession();
 		User user=(User)session.getAttribute(Const.SESSION_USER);
@@ -273,6 +279,11 @@ public class ElderController extends BaseController {
 		PageData zzyPd=new PageData();
 		pd=this.getPageData();
 		//搜索信息
+		if(pd.containsKey("TERM_GM_ID")&&pd.getString("TERM_GM_ID")!=""){
+			zzyPd.put("TERM_GM_ID",pd.getString("TERM_GM_ID"));
+			HttpSession zzyHs=request.getSession();
+			zzyHs.setAttribute("ZZY_GMID",pd.get("TERM_GM_ID"));
+		}
 		if(pd.containsKey("TERM_GENDER")&&pd.getString("TERM_GENDER")!=""){
 			zzyPd.put("TERM_GENDER",pd.getString("TERM_GENDER"));
 		}
@@ -374,9 +385,10 @@ public class ElderController extends BaseController {
 		pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
+		
 		titles.add("老人姓名");	//1
 		titles.add("老人性别");	//2
-		titles.add("入住状态(1入住2退住3试住)");	//3
+		titles.add("入住状态");	//3
 		titles.add("身份证");	//4
 		titles.add("入住时间");	//5
 		titles.add("阳历生日");	//6
@@ -388,29 +400,7 @@ public class ElderController extends BaseController {
 		titles.add("监护人姓名");	//12
 		titles.add("监护人关系");	//13
 		titles.add("监护人电话");	//14
-		titles.add("身高");	//15
-		titles.add("体重");	//16
-		titles.add("血型");	//17
-		titles.add("视力");	//18
-		titles.add("听力");	//19
-		titles.add("记忆力");	//20
-		titles.add("神智");	//21
-		titles.add("大小便");	//22
-		titles.add("血压(收缩压/舒张压)");	//23
-		titles.add("脉搏");	//24
-		titles.add("药物过敏史");	//25
-		titles.add("常服药名");	//26
-		titles.add("慢性病史");	//27
-		titles.add("其他健康情况");	//28
-		titles.add("评估分数");	//29
-		titles.add("评估等级");	//30
-		titles.add("最近一次评估表");	//31
-		titles.add("老人头像");	//32
-		titles.add("老人密码");	//33
-		titles.add("创建职工");	//34
-		titles.add("创建时间");	//35
-		titles.add("最后修改时间");	//36
-		titles.add("养老院编号");	//37
+		titles.add("养老院");	//37
 		dataMap.put("titles", titles);
 		//List<PageData> varOList = elderService.listAll(pd);
 		HttpSession zzyHs=request.getSession();
@@ -432,9 +422,16 @@ public class ElderController extends BaseController {
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
+			String gmid=varOList.get(i).getString("E_GM_ID");
+			String gmname=gmService.zzyFindNameById(gmid);
 			vpd.put("var1", varOList.get(i).getString("E_NAME"));	//1
 			vpd.put("var2", varOList.get(i).getString("E_GENDER"));	//2
-			vpd.put("var3", varOList.get(i).get("E_INTAKE").toString());	//3
+			String intake=varOList.get(i).get("E_INTAKE").toString();
+			String y_intake="";
+			if(intake.equals("1"))y_intake="入住";
+			else if(intake.equals("2"))y_intake="退住";
+			if(intake.equals("3"))y_intake="试住";
+			vpd.put("var3", y_intake);	//3
 			vpd.put("var4", varOList.get(i).getString("E_IDENTITY"));	//4
 			vpd.put("var5", varOList.get(i).getString("E_IDATE"));	//5
 			vpd.put("var6", varOList.get(i).getString("E_SDATE"));	//6
@@ -446,29 +443,7 @@ public class ElderController extends BaseController {
 			vpd.put("var12", varOList.get(i).getString("E_G_NAME"));	//12
 			vpd.put("var13", varOList.get(i).getString("E_G_REL"));	//13
 			vpd.put("var14", varOList.get(i).getString("E_G_TEL"));	//14
-			vpd.put("var15", varOList.get(i).getString("E_HEIGHT"));	//15
-			vpd.put("var16", varOList.get(i).getString("E_WEIGHT"));	//16
-			vpd.put("var17", varOList.get(i).getString("E_BTYPE"));	//17
-			vpd.put("var18", varOList.get(i).getString("E_VISSION"));	//18
-			vpd.put("var19", varOList.get(i).getString("E_HEARING"));	//19
-			vpd.put("var20", varOList.get(i).getString("E_MEMORY"));	//20
-			vpd.put("var21", varOList.get(i).getString("E_MIND"));	//21
-			vpd.put("var22", varOList.get(i).getString("E_RELIEVE"));	//22
-			vpd.put("var23", varOList.get(i).getString("E_STOLIC"));	//23
-			vpd.put("var24", varOList.get(i).getString("E_PULSE"));	//24
-			vpd.put("var25", varOList.get(i).getString("E_D_ALLERGY"));	//25
-			vpd.put("var26", varOList.get(i).getString("E_D_COMMON"));	//26
-			vpd.put("var27", varOList.get(i).getString("E_D_CHRONIC"));	//27
-			vpd.put("var28", varOList.get(i).getString("E_HNOTE"));	//28
-			vpd.put("var29", varOList.get(i).get("E_A_SCORE").toString());	//29
-			vpd.put("var30", varOList.get(i).get("E_A_LEVEL").toString());	//30
-			vpd.put("var31", varOList.get(i).getString("E_A_LEVELLIST"));	//31
-			vpd.put("var32", varOList.get(i).getString("E_AVATER"));	//32
-			vpd.put("var33", varOList.get(i).getString("E_PWD"));	//33
-			vpd.put("var34", varOList.get(i).getString("E_GMU_ID"));	//34
-			vpd.put("var35", varOList.get(i).getString("E_CTIME"));	//35
-			vpd.put("var36", varOList.get(i).getString("E_UTIME"));	//36
-			vpd.put("var36", varOList.get(i).getString("E_GM_ID"));	//37
+			vpd.put("var15",gmname);	//37
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
@@ -481,5 +456,14 @@ public class ElderController extends BaseController {
 	public void initBinder(WebDataBinder binder){
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
+	}
+	 
+	@RequestMapping(value="/resetSession")
+	@ResponseBody
+	public Object resetSession(HttpServletRequest request,Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"重置Session");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
+		sessionController.resetSession(request.getSession(),"retirement");
+		return list(page, request);
 	}
 }

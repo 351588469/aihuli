@@ -116,6 +116,7 @@ public class VTConcernService implements VTConcernManager{
 					dao.delete("VTConcernMapper.zzyDelete",vtcid);
 					//团体表关注数-1
 					dao.update("VTeamMapper.zzyMinusConcern",pd.get("vtid"));
+					map.put("info","取消关注成功");
 				}else{//用户未关注
 					//vtconcern表保存
 					zzyPd.put("VTCONCERN_ID",UuidUtil.get32UUID());
@@ -127,6 +128,7 @@ public class VTConcernService implements VTConcernManager{
 					dao.save("VTConcernMapper.save",zzyPd);
 					//vteam表 vt_concern+1
 					dao.update("VTeamMapper.zzyAddConcern",pd.get("vtid"));
+					map.put("info","关注成功");
 				}
 				result="01";
 			}else result = "03";

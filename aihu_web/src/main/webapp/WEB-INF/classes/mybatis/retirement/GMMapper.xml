@@ -11,6 +11,7 @@
 	<sql id="Field">
 		GM_NAME,	
 		GM_AVATER,	
+		GM_CITY,
 		GM_ADDRESS,	
 		GM_TEL,	
 		GM_CONCAT,	
@@ -37,6 +38,7 @@
 	<sql id="FieldValue">
 		#{GM_NAME},	
 		#{GM_AVATER},	
+		#{GM_CITY},
 		#{GM_ADDRESS},	
 		#{GM_TEL},	
 		#{GM_CONCAT},	
@@ -85,6 +87,7 @@
 		set 
 			GM_NAME = #{GM_NAME},
 			GM_AVATER = #{GM_AVATER},
+			GM_CITY=#{GM_CITY},
 			GM_ADDRESS = #{GM_ADDRESS},
 			GM_TEL = #{GM_TEL},
 			GM_CONCAT = #{GM_CONCAT},
@@ -124,6 +127,15 @@
 		where 
 			GM_ID=#{0}
 	</select>
+	<!-- 通过AUID获取名称 -->
+	<select id="zzyFindNameByAUId" parameterType="java.lang.String" resultType="java.lang.String">
+		select GM_NAME
+		from
+		<include refid="tableName"></include>
+		where 
+			GM_AU_ID=#{0}
+		limit 1
+	</select>
 	<!-- 通过名称获取 ID-->
 	<select id="zzyFindIdByName" parameterType="java.lang.String" resultType="java.lang.String">
 		select GM_ID
@@ -133,6 +145,7 @@
 			GM_NAME like CONCAT(CONCAT('%', #{0}),'%')
 		limit 1
 	</select>
+	
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -143,6 +156,9 @@
 		<if test="pd.KEY_GM_CKSTATUS!= null and pd.KEY_GM_CKSTATUS!= ''"><!-- 关键词检索 -->
 			and GM_CKSTATUS=#{pd.KEY_GM_CKSTATUS}
 		</if>
+		<if test="pd.SYS_ZZY_ROLE==2">
+			and GM_AU_ID=#{pd.GM_AU_ID}
+		</if>
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -151,8 +167,22 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		where 1=1
+		<if test="SYS_ZZY_ROLE==2">
+			and GM_AU_ID=#{GM_AU_ID}
+		</if>
 	</select>
-	
+	<!-- 列表 -->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="GM_CITY!= null and GM_CITY!=''">
+			and GM_CITY=#{GM_CITY}
+		</if>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -163,9 +193,18 @@
                  #{item}
 		</foreach>
 	</delete>
-	
 	<!-- 列表(创建人__名称，编号) -->
 	<select id="listCreator"  resultType="java.util.Map">
 		select GM_ID,GM_NAME from GM;
 	</select>
+	<!-- 修改点赞人数 -->
+	<update id="zzyUpdatePraise" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 	
+		GM_PRAISE=GM_PRAISE+#{NUM},
+		GM_UTIME=#{GM_UTIME}
+		where 
+		GM_ID = #{GM_ID}
+	</update>
 </mapper>

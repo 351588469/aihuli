@@ -96,5 +96,7 @@ public interface AppuserManager {
 	public Map<String,Object> zzyAddUser(PageData pd)throws Exception;
 	
 	public PageData zzyFindById(String id)throws Exception;
+	//获取用户信息
+	public Map<String, Object> zzyUserInfo(PageData pd)throws Exception;
 }
 

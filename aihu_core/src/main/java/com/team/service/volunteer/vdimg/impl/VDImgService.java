@@ -61,7 +61,10 @@ public class VDImgService implements VDImgManager{
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("VDImgMapper.listAll", pd);
 	}
-	
+	@SuppressWarnings("unchecked")
+	public List<PageData> zzyList(String vdid)throws Exception{
+		return (List<PageData>)dao.findForList("VDImgMapper.zzyList",vdid);
+	}
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

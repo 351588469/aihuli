@@ -12,6 +12,7 @@
 		VD_TITLE,	
 		VD_TARGET,	
 		VD_CONTENT,	
+		VD_CITY,
 		VD_USER_ID,	
 		VD_USER_AVATER,	
 		VD_USER_NAME,	
@@ -27,6 +28,7 @@
 		#{VD_TITLE},	
 		#{VD_TARGET},	
 		#{VD_CONTENT},	
+		#{VD_CITY},
 		#{VD_USER_ID},	
 		#{VD_USER_AVATER},	
 		#{VD_USER_NAME},	
@@ -106,7 +108,17 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
-	
+	<!-- 列表-->
+	<select id="zzyList" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="VD_CITY!= null and VD_CITY != ''">
+			and VD_CITY=#{VD_CITY}
+		</if>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
@@ -117,5 +129,14 @@
                  #{item}
 		</foreach>
 	</delete>
-	
+	<!-- 修改点赞人数 -->
+	<update id="zzyUpdatePraise" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 	
+		VD_PRAISE=VD_PRAISE+#{NUM},
+		VD_UTIME=#{VD_UTIME}
+		where 
+		VDONATION_ID = #{VDONATION_ID}
+	</update>
 </mapper>

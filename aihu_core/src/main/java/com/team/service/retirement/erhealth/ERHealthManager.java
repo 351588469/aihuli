@@ -1,6 +1,8 @@
 package com.team.service.retirement.erhealth;
 
 import java.util.List;
+import java.util.Map;
+
 import com.team.entity.Page;
 import com.team.util.PageData;
 
@@ -39,6 +41,7 @@ public interface ERHealthManager{
 	 * @throws Exception
 	 */
 	public List<PageData> list(Page page)throws Exception;
+	public List<PageData>zzyList(PageData pd)throws Exception;
 	/**
 	 * 历史
 	 */
@@ -60,6 +63,13 @@ public interface ERHealthManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
+	/**
+	 * app新增健康记录
+	 */
+	public Map<String,Object> app_zzyAddNoGM(PageData pd)throws Exception;
+	/**
+	 * app历史健康记录
+	 */
+	public Map<String, Object> app_zzyListNoGM(PageData pd)throws Exception;
 }
 

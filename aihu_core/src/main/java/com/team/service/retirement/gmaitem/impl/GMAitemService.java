@@ -1,7 +1,9 @@
 package com.team.service.retirement.gmaitem.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -135,6 +137,21 @@ public class GMAitemService implements GMAitemManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("GMAitemMapper.deleteAll", ArrayDATA_IDS);
+	}
+	/**
+	 * 题目列表
+	 */
+	@Override
+	public Map<String, Object> app_zzyList(String gmid) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+			List<PageData>list=zzyList(gmid);
+			map.put("pd",list);
+			result="01"; 	 	
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
 	}
 	
 }

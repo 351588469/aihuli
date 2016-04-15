@@ -64,9 +64,21 @@ public interface VDonationManager{
 	 */
 	public Map<String, Object> app_zzyList(PageData pd)throws Exception;
 	/**
+	 * 我的捐赠列表
+	 */
+	public Map<String, Object> app_zzyList_byUserId(String userid)throws Exception;
+	/**
+	 * 我的捐赠数量
+	 */
+	public Integer zzyCount_byUserId(String userid)throws Exception;
+	/**
 	 * 更新点赞数
 	 */
 	public void zzyUpdatePraise(String vdid, Integer x)throws Exception;
+
+	
+
+
 
 	
 	

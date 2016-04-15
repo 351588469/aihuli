@@ -131,6 +131,31 @@
 		<if test="VT_CITY!= null and VT_CITY != ''">
 		and VT_CITY=#{VT_CITY}
 		</if>
+		<if test="VT_STATUS!= null and VT_STATUS != ''">
+		and VT_STATUS=#{VT_STATUS}
+		</if>
+	</select>
+	<select id="zzyListWithMultId"  resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			VTEAM_ID in
+		<foreach item="item" index="index" collection="list"  open="(" separator="," close=")">
+          #{item}
+         </foreach>
+	</select>
+	<select id="zzyCountWithMultId"  resultType="java.lang.Integer">
+		select
+		count(*)
+		from 
+		<include refid="tableName"></include>
+		where 
+			VTEAM_ID in
+		<foreach item="item" index="index" collection="list"  open="(" separator="," close=")">
+          #{item}
+         </foreach>
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
@@ -174,4 +199,13 @@
 		where 
 		VTEAM_ID = #{0}
 	</update>
+	<select id="zzyCheckAdd" parameterType="String" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		VT_C_ID=#{0}
+		limit 1
+	</select>
 </mapper>

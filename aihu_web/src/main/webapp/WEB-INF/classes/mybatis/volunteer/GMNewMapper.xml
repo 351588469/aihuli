@@ -126,6 +126,27 @@
 		<include refid="tableName"></include>
 		where GMN_GM_ID=#{GMN_GM_ID}
 	</select>
+	<!--有回复列表 -->
+	<select id="zzyListWithReply" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where GMN_GM_ID=#{GMN_GM_ID}
+		and GMN_R_ID is not null
+		order by GMN_UTIME
+	</select>
+	<!--无回复 列表 -->
+	<select id="zzyListNoReply" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where GMN_GM_ID=#{GMN_GM_ID} 
+		and GMN_R_ID is null
+		order by GMN_UTIME desc
+	</select>
+	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

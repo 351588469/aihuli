@@ -132,4 +132,10 @@
 		where 
 			VTCONCERN_ID = #{0}
 	</delete>
+	<select id="zzyVTIDList" parameterType="String" resultType="String">
+		select VTC_VT_ID from
+		<include refid="tableName"></include>
+		where
+		VTC_USER_ID=#{0}
+	</select>
 </mapper>

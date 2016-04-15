@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.service.system.appuser.AppuserManager;
+import com.team.service.volunteer.vactivity.VActivityManager;
+import com.team.service.volunteer.vdonation.VDonationManager;
+import com.team.service.volunteer.vteam.VTeamManager;
 import com.team.util.AppUtil2;
 import com.team.util.PageData;
 import com.team.util.UuidUtil;
@@ -23,7 +26,12 @@ public class AppuserService implements AppuserManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
-	
+	@Resource(name="vactivityService")
+	private VActivityManager vactivityService;
+	@Resource(name="vdonationService")
+	private VDonationManager vdonationService;
+	@Resource(name="vteamService")
+	private VTeamManager vteamService;
 	/**列出某角色下的所有会员
 	 * @param pd
 	 * @return
@@ -156,8 +164,28 @@ public class AppuserService implements AppuserManager{
 		String result = "00";
 			//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
 				if(AppUtil2.checkParam("appzzy2_uinfo", pd)){	//检查参数
-					PageData user=zzyFindById(pd.getString("userid"));
-					map.put("pd",user);
+					String userid=pd.getString("userid");
+					PageData user=zzyFindById(userid);
+					Integer n_va=vactivityService.zzyCount_byUserId(userid);
+					Integer n_vt=vteamService.zzyCount_byUserId(userid);
+					Integer n_vd=vdonationService.zzyCount_byUserId(userid);
+					PageData y=new PageData();
+					//y.put("user",user);
+					y.putAll(user);
+					y.put("n_va",n_va);
+					y.put("n_vt",n_vt);
+					y.put("n_vd",n_vd);
+					PageData tpd=(PageData) dao.findForObject("VTeamMapper.zzyCheckAdd",userid);
+					if(tpd!=null){
+						Integer status=(Integer) tpd.get("VT_STATUS");
+						y.put("vt_status",status);
+						if(status==1)y.put("vt_info","审核中");
+						else if(status==2)y.put("vt_info","审核通过");
+					}else{
+						y.put("vt_status",-1);
+						y.put("vt_info","尚未认证团体");
+					}
+					map.put("pd",y);
 					result="01";
 				}else result = "03";
 			//}else{result = "05";}

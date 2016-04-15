@@ -140,6 +140,29 @@
 		and VA_CITY=#{VA_CITY}
 		</if>
 	</select>
+	<select id="zzyListWithMultId" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			VACTIVITY_ID in
+		<foreach item="item" index="index" collection="list"  open="(" separator="," close=")">
+          #{item}
+         </foreach>
+	</select>
+	<!-- 活动数量 -->
+	<select id="zzyCountWithMultId" resultType="java.lang.Integer">
+		select
+		count(*)
+		from 
+		<include refid="tableName"></include>
+		where 
+			VACTIVITY_ID in
+		<foreach item="item" index="index" collection="list"  open="(" separator="," close=")">
+          #{item}
+         </foreach>
+	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

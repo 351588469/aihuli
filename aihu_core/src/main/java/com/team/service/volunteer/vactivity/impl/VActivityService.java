@@ -1,14 +1,12 @@
 package com.team.service.volunteer.vactivity.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-
-
-
 
 import org.springframework.stereotype.Service;
 
@@ -178,7 +176,32 @@ public class VActivityService implements VActivityManager{
 		map.put("result", result);
 		return map;
 	}
-
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> app_zzyList_byUserId(String userid) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+				List<String>vaids=new ArrayList<>();
+				vaids=(List<String>) dao.findForList("VAEnrollMapper.zzyVAIDList",userid);
+				//System.out.println(vaids.toString());
+				List<PageData>list=new ArrayList<>();
+				if(vaids.size()>0)
+					list=(List<PageData>) dao.findForList("VActivityMapper.zzyListWithMultId",vaids);
+				map.put("pd",list);
+				result="01";
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public Integer zzyCount_byUserId(String userid) throws Exception {
+		List<String>vaids=new ArrayList<>();
+		vaids=(List<String>) dao.findForList("VAEnrollMapper.zzyVAIDList",userid);
+		if(vaids.size()==0)return 0;
+		return (Integer) dao.findForObject("VActivityMapper.zzyCountWithMultId",vaids);
+	}
 	@Override
 	public void zzyUpdateEnroll(String vaid, Integer x) throws Exception {
 		PageData zzyPd=new PageData();
@@ -195,6 +218,8 @@ public class VActivityService implements VActivityManager{
 		zzyPd.put("VA_UTIME",Tools.date2Str(new Date()));
 		dao.update("VActivityMapper.zzyUpdatePraise",zzyPd);
 	}
+
+	
 	
 }
 

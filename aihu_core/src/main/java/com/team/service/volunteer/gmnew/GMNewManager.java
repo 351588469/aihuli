@@ -44,6 +44,9 @@ public interface GMNewManager{
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
 	public List<PageData>zzyList(PageData pd)throws Exception;
+	
+	public List<PageData>zzyListNoReply(PageData pd)throws Exception;
+	public List<PageData>zzyListWithReply(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

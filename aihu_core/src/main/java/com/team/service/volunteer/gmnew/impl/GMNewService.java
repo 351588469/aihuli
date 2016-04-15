@@ -76,6 +76,14 @@ public class GMNewService implements GMNewManager{
 	public List<PageData> zzyList(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("GMNewMapper.zzyList", pd);
 	}
+	@SuppressWarnings("unchecked")
+	public List<PageData>zzyListWithReply(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("GMNewMapper.zzyListWithReply",pd);
+	}
+	@SuppressWarnings("unchecked")
+	public List<PageData>zzyListNoReply(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("GMNewMapper.zzyListNoReply",pd);
+	}
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
@@ -105,8 +113,11 @@ public class GMNewService implements GMNewManager{
 		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
 			if(AppUtil2.checkParam("appzzy2_gmnlist", pd)){	//检查参数
 				zzyPd.put("GMN_GM_ID",pd.getString("gmid"));
-				List<PageData>list=zzyList(zzyPd);
-				map.put("pd",list);
+				Map<String,Object>tl=new HashMap<String,Object>();
+				tl.put("first", zzyListNoReply(zzyPd));
+				tl.put("second", zzyListWithReply(zzyPd));
+				map.put("pd",tl);
+				result = "01";
 			}else result = "03";
 		//}else{result = "05";}
 		map.put("result", result);

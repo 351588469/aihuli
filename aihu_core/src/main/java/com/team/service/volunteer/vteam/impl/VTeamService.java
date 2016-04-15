@@ -106,10 +106,14 @@ public class VTeamService implements VTeamManager{
 	/**
 	 * 认证公益团体
 	 */
-	public Map<String,Object> app_zzyAdd(PageData pd,Map<Integer,String>fm)throws Exception{
+	public Map<String,Object> app_zzyAdd(PageData pd,Map<Integer,String>fm,boolean flag)throws Exception{
 		PageData zzyPd=new PageData();
 		Map<String,Object> map = new HashMap<String,Object>();
 		String result = "00";
+		if(flag){
+			map.put("result","06");
+			map.put("info","一个用户只能认证一个团体！");
+		}
 		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
 			if(AppUtil2.checkParam("appzzy2_vtadd", pd)){	//检查参数
 				String vteam_id=UuidUtil.get32UUID();
@@ -158,6 +162,7 @@ public class VTeamService implements VTeamManager{
 		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
 			if(AppUtil2.checkParam("appzzy2_vtlist", pd)){	//检查参数
 				if(pd.containsKey("city"))zzyPd.put("VT_CITY",pd.get("city"));
+				pd.put("VT_STATUS",2);
 				List<PageData>list=zzyList(zzyPd);
 				map.put("pd",list);
 				result="01";
@@ -165,6 +170,33 @@ public class VTeamService implements VTeamManager{
 		//}else{result = "05";}
 		map.put("result", result);
 		return map;
+	}
+	/**
+	 * app zzy 团体列表 用户关注
+	 */
+	public Map<String,Object> app_zzyList_byUserid(String userid)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+		@SuppressWarnings("unchecked")
+		List<String>vaids=(List<String>) dao.findForList("VTConcernMapper.zzyVTIDList",userid);
+		@SuppressWarnings("unchecked")
+		List<PageData>list=(List<PageData>) dao.findForList("VTeamMapper.zzyListWithMultId",vaids);
+		map.put("pd",list);
+		result="01";
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
+	}
+	/**
+	 * 用户关注团体数量
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public Integer zzyCount_byUserId(String userid) throws Exception {
+		List<String>vaids=(List<String>) dao.findForList("VTConcernMapper.zzyVTIDList",userid);
+		if(vaids.size()==0)return 0;
+		return (Integer) dao.findForObject("VTeamMapper.zzyCountWithMultId",vaids);
 	}
 	/**
 	 *zzy 修改话题数量
@@ -183,6 +215,13 @@ public class VTeamService implements VTeamManager{
 		String uid=pd.getString("VT_C_ID");
 		if(uid!=null&&uid.equals(userid))return true;
 		return false;
+	}
+
+	@Override
+	public boolean zzyCheckAdd(String userid)throws Exception{
+		PageData pd=(PageData) dao.findForObject("VTeamMapper.zzyCheckAdd",userid);
+		if(pd!=null)return true;
+		else return false;
 	}
 	
 }

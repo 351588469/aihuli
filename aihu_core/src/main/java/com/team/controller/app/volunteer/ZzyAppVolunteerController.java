@@ -5,6 +5,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import oracle.net.aso.p;
+
+import org.apache.poi.ss.formula.functions.Odd;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -151,8 +154,10 @@ public class ZzyAppVolunteerController extends BaseController{
 			pd.put("address",request.getParameter("address"));
 			pd.put("describe",request.getParameter("describe"));
 			pd.put("userid",request.getParameter("userid"));
+			//检测用户是否有正在认证的团队
+			boolean flag=vteamService.zzyCheckAdd(request.getParameter("userid"));
 			fm=toolService.zzyUploadImg(request);
-			map=vteamService.app_zzyAdd(pd,fm);
+			map=vteamService.app_zzyAdd(pd,fm,flag);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
@@ -168,6 +173,9 @@ public class ZzyAppVolunteerController extends BaseController{
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
+			if(pd.containsKey("userid")&&pd.getString("userid")!="")
+				map=vteamService.app_zzyList_byUserid(pd.getString("userid"));
+			else
 			map=vteamService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -309,7 +317,10 @@ public class ZzyAppVolunteerController extends BaseController{
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			map=vactivityService.app_zzyList(pd);
+			if(pd.containsKey("userid")&&pd.getString("userid")!="")
+				map=vactivityService.app_zzyList_byUserId(pd.getString("userid"));
+			else
+				map=vactivityService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
@@ -469,7 +480,10 @@ public class ZzyAppVolunteerController extends BaseController{
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			map=vdonationService.app_zzyList(pd);
+			if(pd.containsKey("userid")&&pd.getString("userid")!="")
+				map=vdonationService.app_zzyList_byUserId(pd.getString("userid"));
+			else 
+				map=vdonationService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}

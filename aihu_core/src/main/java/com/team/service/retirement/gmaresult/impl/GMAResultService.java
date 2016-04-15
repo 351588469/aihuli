@@ -109,15 +109,18 @@ public class GMAResultService implements GMAResultManager{
 	public String zzySaveMult(PageData pd) throws Exception {
 		String json=pd.getString("json");
 		String E_ID = null,E_NAME = null;
+		String GMU_ID=null;
 		if(pd.containsKey("e_id")&&pd.getString("e_id")!=""){
 			E_ID=pd.getString("e_id");
 			E_NAME=elderService.zzyFindNameById(E_ID);
+			 GMU_ID=pd.getString("gmu_id");
 		}else if(pd.containsKey("userid")&&pd.getString("userid")!=""){
 			E_ID=pd.getString("userid");
 			PageData user=appuserService.zzyFindById(E_ID);
 			E_NAME=user.getString("USERNAME");
+			//GMU_ID=E_ID;
 		}
-		String GMU_ID=pd.getString("gmu_id");
+	
 		Gson gson=new Gson();
 		@SuppressWarnings("unchecked")
 		List<Map<String,Object>>list=gson.fromJson(json,List.class);

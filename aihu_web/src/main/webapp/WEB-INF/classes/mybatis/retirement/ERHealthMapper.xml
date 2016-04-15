@@ -117,8 +117,8 @@
 		from 
 		<include refid="tableName"></include>
 		where
-		 ERH_GTIME &gt;=#{SDATE} AND 
-		 ERH_GTIME &lt;=#{EDATE} AND 
+		 ERH_UTIME &gt;=#{SDATE} AND 
+		 ERH_UTIME &lt;=#{EDATE} AND 
 		 ERH_E_ID=#{ERH_E_ID} 		
 		 <if test="ERH_GMH_TYPE!= null and ERH_GMH_TYPE!= ''">
 		and ERH_GMH_TYPE=#{ERH_GMH_TYPE}

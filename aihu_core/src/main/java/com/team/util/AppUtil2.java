@@ -102,13 +102,22 @@ public class AppUtil2  {
 		else if(method=="appzzy2_gmlist"){//养老院列表
 			paramArray =Const2.ZZY2_GM_LIST_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_GM_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_gmpadd"){//养老院点赞
+			paramArray =Const2.ZZY2_GMP_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_GMP_ADD_VALUE_ARRAY;
 		}else if(method=="appzzy2_gmnlist"){//养老院评论列表
 			paramArray =Const2.ZZY2_GMN_LIST_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_GMN_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_gmnadd"){//养老院评论列表
+			paramArray =Const2.ZZY2_GMN_ADD_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_GMN_ADD_VALUE_ARRAY;
 		}else if(method=="appzzy2_gmhadd"){//健康管家记录添加
 			paramArray =Const2.ZZY2_GMH_ADD_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_GMH_ADD_VALUE_ARRAY;
-		}else if(method=="appzzy2_gmaradd"){//健康管家记录添加
+		}else if(method=="appzzy2_gmhlist"){//健康管家记录添加
+			paramArray =Const2.ZZY2_GMH_LIST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_GMH_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_gmaradd"){//评测结果添加
 			paramArray =Const2.ZZY2_GMAR_ADD_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_GMAR_ADD_VALUE_ARRAY;
 		}

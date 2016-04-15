@@ -66,6 +66,9 @@ public interface VActivityManager{
 	 * 活动列表
 	 */
 	public Map<String, Object> app_zzyList(PageData pd)throws Exception;
+	public Map<String,Object>app_zzyList_byUserId(String userid)throws Exception;
+	//活动数量
+	public Integer zzyCount_byUserId(String userid)throws Exception;
 	/**
 	 * 更新报名人数
 	 */
@@ -74,6 +77,8 @@ public interface VActivityManager{
 	 * 更新点赞人数
 	 */
 	public void zzyUpdatePraise(String vaid,Integer x)throws Exception;
+
+	
 
 
 }

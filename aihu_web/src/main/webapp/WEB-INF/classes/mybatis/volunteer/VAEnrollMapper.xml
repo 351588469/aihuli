@@ -128,4 +128,11 @@
 		where VAE_VA_ID=#{VAE_VA_ID} and VAE_USER_ID=#{VAE_USER_ID}
 		limit 1
 	</select>
+	<!-- 获取用户参与的活动id列表 -->
+	<select id="zzyVAIDList" parameterType="String" resultType="String">
+		select VAE_VA_ID
+		from 
+		<include refid="tableName"></include>
+		where VAE_USER_ID=#{0}
+	</select>
 </mapper>

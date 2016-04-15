@@ -118,6 +118,9 @@
 		<if test="VD_CITY!= null and VD_CITY != ''">
 			and VD_CITY=#{VD_CITY}
 		</if>
+		<if test="VD_USER_ID!= null and VD_USER_ID != ''">
+			and VD_USER_ID=#{VD_USER_ID}
+		</if>
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

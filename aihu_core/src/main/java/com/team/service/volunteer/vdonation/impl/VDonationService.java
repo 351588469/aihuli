@@ -167,7 +167,34 @@ public class VDonationService implements VDonationManager{
 		map.put("result", result);
 		return map;
 	}
-
+	@Override
+	public Map<String, Object> app_zzyList_byUserId(String userid)
+			throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+			PageData zzyPd=new PageData();
+			zzyPd.put("VD_USER_ID",userid);
+			List<PageData>list=zzyList(zzyPd);
+			for(int i=0;i<list.size();i++){
+				PageData tpd=list.get(i);
+				String vdid=tpd.getString("VDONATION_ID");
+				List<PageData>imgs=vdimgService.zzyList(vdid);
+				tpd.put("VD_IMGS",imgs);
+			}
+			map.put("pd",list);
+			result="01";
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
+	}
+	@Override
+	public Integer zzyCount_byUserId(String userid) throws Exception {
+		PageData zzyPd=new PageData();
+		zzyPd.put("VD_USER_ID",userid);
+		List<PageData>list=zzyList(zzyPd);
+		return list.size();
+	}
 	@Override
 	public void zzyUpdatePraise(String vdid, Integer x) throws Exception {
 		PageData zzyPd=new PageData();
@@ -176,6 +203,9 @@ public class VDonationService implements VDonationManager{
 		zzyPd.put("VD_UTIME",Tools.date2Str(new Date()));
 		dao.update("VDonationMapper.zzyUpdatePraise",zzyPd);
 	}
+
+
+
 	
 }
 

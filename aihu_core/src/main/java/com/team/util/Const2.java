@@ -122,6 +122,9 @@ public class Const2 {
 	//养老院列表
 	public static final String[] ZZY2_GM_LIST_PARAM_ARRAY = new String[]{};
 	public static final String[] ZZY2_GM_LIST_VALUE_ARRAY = new String[]{};
+	//养老院点赞
+	public static final String[] ZZY2_GMP_ADD_PARAM_ARRAY = new String[]{"userid","gmid"};
+	public static final String[] ZZY2_GMP_ADD_VALUE_ARRAY = new String[]{"用户编号","养老院编号"};
 	//养老院评论列表
 	public static final String[] ZZY2_GMN_LIST_PARAM_ARRAY = new String[]{"gmid"};
 	public static final String[] ZZY2_GMN_LIST_VALUE_ARRAY = new String[]{"养老院编号"};
@@ -131,6 +134,10 @@ public class Const2 {
 	//健康管家记录添加
 	public static final String[] ZZY2_GMH_ADD_PARAM_ARRAY = new String[]{"userid","value"};
 	public static final String[] ZZY2_GMH_ADD_VALUE_ARRAY = new String[]{"用户编号","键值串"};
+	//健康管家历史记录
+	public static final String[] ZZY2_GMH_LIST_PARAM_ARRAY = new String[]{"userid","type"};
+	public static final String[] ZZY2_GMH_LIST_VALUE_ARRAY = new String[]{"用户编号","类别"};
+	
 	//评测结果添加
 	public static final String[] ZZY2_GMAR_ADD_PARAM_ARRAY = new String[]{"userid","json"};
 	public static final String[] ZZY2_GMAR_ADD_VALUE_ARRAY = new String[]{"用户编号","键值串"};

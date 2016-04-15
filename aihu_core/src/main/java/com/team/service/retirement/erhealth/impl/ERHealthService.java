@@ -191,6 +191,7 @@ public class ERHealthService implements ERHealthManager{
 		
 				zzyPd.put("ERH_E_ID",pd.getString("userid"));
 				zzyPd.put("ERH_GMH_TYPE",type);
+				System.out.println("zzy:zzyPd:"+zzyPd.toString());
 				List<PageData>list=zzyList(zzyPd);
 				map.put("pd",list);
 				result="01"; 	 	

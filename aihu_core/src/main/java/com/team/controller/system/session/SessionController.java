@@ -7,9 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.team.controller.base.BaseController;
-
 @Controller
 @RequestMapping(value="/SYSsession")
 public class SessionController  extends BaseController{
@@ -22,11 +20,15 @@ public class SessionController  extends BaseController{
 			String sessionName=(String)e.nextElement(); 
 			//System.out.println("存在的session有："+sessionName); 
 			if(sessionName.substring(0,3).equals("ZZY")){
-				if(sessionName.equals("ZZY_GM_ID")){
+				System.out.println("zzySessionName:"+sessionName);
+				if(sessionName.equals("ZZY_GMID")){
 					Integer role=(Integer) session.getAttribute("SYS_ZZY_ROLE");
+					//System.out.println("zzy:role"+role.toString());
 					if(role==null||role!=2){
 						session.removeAttribute(sessionName); 
 					}
+				}else{
+					session.removeAttribute(sessionName); 
 				}
 			}
 		}

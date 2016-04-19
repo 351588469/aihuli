@@ -352,9 +352,9 @@
 		//保存
 		function save(){
 			if($("#GMU_GM_ID").val()==""){
-				$("#SELECT_GM_ID").tips({
+				$("#GMU_GM_ID").tips({
 					side:3,
-		            msg:'请选择养老院',
+		            msg:'请先选择养老院',
 		            bg:'#AE81FF',
 		            time:2
 		        });

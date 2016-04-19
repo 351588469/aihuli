@@ -66,5 +66,9 @@ public interface VTConcernManager{
 	 * app zzy 关注列表
 	 */
 	public Map<String,Object>app_zzyList(PageData pd)throws Exception;
+	/**
+	 * 用户是否关注
+	 */
+	public Map<String, Object> app_zzyTest(PageData pd)throws Exception;
 }
 

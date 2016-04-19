@@ -152,6 +152,18 @@ public class AppuserService implements AppuserManager{
 			map.put("result", result);
 		return map;
 	}
+	//添加用户
+	@Override
+	public Map<String,Object> zzyUpdateUser(PageData pd) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+			//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+			editU(pd);
+			result="01";
+			//}else{result = "05";}
+			map.put("result", result);
+		return map;
+	}
 
 	@Override
 	public PageData zzyFindById(String id) throws Exception {
@@ -181,6 +193,7 @@ public class AppuserService implements AppuserManager{
 						y.put("vt_status",status);
 						if(status==1)y.put("vt_info","审核中");
 						else if(status==2)y.put("vt_info","审核通过");
+						y.put("vt_id",tpd.get("VTEAM_ID"));
 					}else{
 						y.put("vt_status",-1);
 						y.put("vt_info","尚未认证团体");

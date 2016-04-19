@@ -4,10 +4,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
-import oracle.net.aso.p;
-
-import org.apache.poi.ss.formula.functions.Odd;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -86,8 +82,8 @@ public class ZzyAppVolunteerController extends BaseController{
 	@Resource(name="vfeedbackService")
 	private VFeedbackManager vfeedbackService;
 	/**
-	 * uadd  uinfo  vtadd vtlist vtc    vtclist  vttadd  vttlist vtnlist vtnadd
-	 * 用户注册  用户信息    团体认证     团体列表   团体关注     关注列表         话题发表        话题列表         评论列表        评论发表
+	 * uadd  uinfo  vtadd vtlist vtctest     vtctest  vtclist  vttadd  vttlist vtnlist vtnadd
+	 * 用户注册  用户信息    团体认证     团体列表  用户是否关注团体      团体                   关注列表         话题发表        话题列表         评论列表        评论发表
 	 * vaadd valist vaelist vae   vanadd   vanlist  vapadd vaiadd   vailist
 	 * 活动发布 活动列表      报名列表        活动报名 活动评论发表   活动评论列表    活动点赞     活动图片上传   图片列表
 	 * vdadd vdlist vdpadd
@@ -100,7 +96,7 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/uadd")
 	@ResponseBody
 	public Object uadd(HttpServletRequest request){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		Map<Integer,String>fm=new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -120,13 +116,68 @@ public class ZzyAppVolunteerController extends BaseController{
 			map=appuserService.zzyAddUser(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	@RequestMapping(value="/uedit")
+	@ResponseBody
+	public Object uedit(HttpServletRequest request){
+		Map<String,Object>map = new HashMap<>();
+		Map<Integer,String>fm=new HashMap<>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			//form-data无法通过框架中方法遍历获取参数
+			pd.put("USER_ID",request.getParameter("userid"));
+			pd.put("USERNAME",request.getParameter("username"));
+			//pd.put("PHONE",request.getParameter("phone"));
+			pd.put("ADDRESS",request.getParameter("address"));
+			pd.put("BIRTH",request.getParameter("birth"));
+			pd.put("GENDER",request.getParameter("gender"));
+			pd.put("JOB",request.getParameter("job"));
+			pd.put("SIGN",request.getParameter("sign"));
+			fm=toolService.zzyUploadImg(request);
+			if(fm.containsKey(1)){
+				pd.put("AVATER",fm.get(1));
+			}
+			map=appuserService.zzyUpdateUser(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+			map.put("result","00");
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 修改用户信息，无文件
+	 */
+	@RequestMapping(value="/uedit2")
+	@ResponseBody
+	public Object uedit2(){
+		Map<String,Object>map = new HashMap<>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		PageData zzyPd=new PageData();
+		try {
+			//form-data无法通过框架中方法遍历获取参数
+			zzyPd.put("USER_ID",pd.get("userid"));
+			zzyPd.put("USERNAME",pd.get("username"));
+			zzyPd.put("ADDRESS",pd.get("address"));
+			zzyPd.put("BIRTH",pd.get("birth"));
+			zzyPd.put("GENDER",pd.get("gender"));
+			zzyPd.put("JOB",pd.get("job"));
+			zzyPd.put("SIGN",pd.get("sign"));
+			map=appuserService.zzyUpdateUser(zzyPd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	@RequestMapping(value="/uinfo")
 	@ResponseBody
 	public Object uinfo(HttpServletRequest request){
-		Map<String,Object>map = null;
+		Map<String,Object>map = new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
@@ -142,7 +193,7 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vtadd")
 	@ResponseBody
 	public Object vtadd(HttpServletRequest request){
-		Map<String,Object>map = null;
+		Map<String,Object>map = new HashMap<>();
 		Map<Integer,String>fm=new HashMap<Integer,String>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -160,6 +211,7 @@ public class ZzyAppVolunteerController extends BaseController{
 			map=vteamService.app_zzyAdd(pd,fm,flag);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -169,7 +221,7 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vtlist")
 	@ResponseBody
 	public Object vtlist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
@@ -179,6 +231,7 @@ public class ZzyAppVolunteerController extends BaseController{
 			map=vteamService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -188,13 +241,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vtc")
 	@ResponseBody
 	public Object vtc(){
-		Map<String,Object>map = null;
+		Map<String,Object>map = new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vtconcernService.app_zzyUpdate(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -204,13 +258,31 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vtclist")
 	@ResponseBody
 	public Object vtclist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map = new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vtconcernService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 用户是否关注团体
+	 */
+	@RequestMapping(value="/vtctest")
+	@ResponseBody
+	public Object vtctest(){
+		Map<String,Object>map = new HashMap<>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			map=vtconcernService.app_zzyTest(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -220,13 +292,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vttadd")
 	@ResponseBody
 	public Object vttadd(){
-		Map<String,Object>map = null;
+		Map<String,Object>map = new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vtthemeService.app_zzyAdd(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -236,13 +309,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vttlist")
 	@ResponseBody
 	public Object vttlist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map = new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vtthemeService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -252,13 +326,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vtnadd")
 	@ResponseBody
 	public Object vtnadd(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vtnewService.app_zzyAdd(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -268,13 +343,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vtnlist")
 	@ResponseBody
 	public Object vtnlist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vtnewService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -284,7 +360,7 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vaadd")
 	@ResponseBody
 	public Object vaadd(HttpServletRequest request){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		Map<Integer,String>fm=new HashMap<Integer,String>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -304,6 +380,7 @@ public class ZzyAppVolunteerController extends BaseController{
 			map=vactivityService.app_zzyAdd(pd,fm);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -313,7 +390,7 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/valist")
 	@ResponseBody
 	public Object valist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
@@ -323,6 +400,7 @@ public class ZzyAppVolunteerController extends BaseController{
 				map=vactivityService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -332,13 +410,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vaelist")
 	@ResponseBody
 	public Object vaelist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vaenrollService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -349,14 +428,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vae")
 	@ResponseBody
 	public Object vae(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vaenrollService.app_zzyUpdate(pd);
-			System.out.println(map.toString());
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -366,14 +445,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vanadd")
 	@ResponseBody
 	public Object vanadd(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vanewService.app_zzyAdd(pd);
-			System.out.println(map.toString());
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -383,14 +462,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vanlist")
 	@ResponseBody
 	public Object vanlist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vanewService.app_zzyList(pd);
-			System.out.println(map.toString());
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -400,14 +479,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vapadd")
 	@ResponseBody
 	public Object vapadd(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vapraiseService.app_zzyAdd(pd);
-			System.out.println(map.toString());
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -417,7 +496,7 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vaiadd")
 	@ResponseBody
 	public Object vaiadd(HttpServletRequest request){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		Map<Integer,String>fm=new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -428,6 +507,7 @@ public class ZzyAppVolunteerController extends BaseController{
 			map=vaimgService.app_zzyAdd(pd,fm);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -437,13 +517,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vailist")
 	@ResponseBody
 	public Object vailist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vaimgService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -453,7 +534,7 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vdadd")
 	@ResponseBody
 	public Object vdadd(HttpServletRequest request){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		Map<Integer,String>fm=new HashMap<Integer,String>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -467,6 +548,7 @@ public class ZzyAppVolunteerController extends BaseController{
 			map=vdonationService.app_zzyAdd(pd,fm);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -476,7 +558,7 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vdlist")
 	@ResponseBody
 	public Object vdlist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
@@ -486,6 +568,7 @@ public class ZzyAppVolunteerController extends BaseController{
 				map=vdonationService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -495,13 +578,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vdpadd")
 	@ResponseBody
 	public Object vdpadd(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vdpraiseService.app_zzyAdd(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -511,13 +595,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/gmlist")
 	@ResponseBody
 	public Object gmlist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=gmService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -527,13 +612,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/gmnlist")
 	@ResponseBody
 	public Object gmnlist(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=gmnewService.app_zzyList(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -543,13 +629,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/gmnadd")
 	@ResponseBody
 	public Object gmnadd(){
-		Map<String,Object>map = null;
+		Map<String,Object>map =new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=gmnewService.app_zzyAdd(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -559,13 +646,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/gmpadd")
 	@ResponseBody
 	public Object gmpdd(){
-		Map<String,Object>map=null;
+		Map<String,Object>map=new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=gmpraiseService.app_zzyAdd(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -575,13 +663,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/gmhadd")
 	@ResponseBody
 	public Object gmhadd(){
-		Map<String,Object>map=null;
+		Map<String,Object>map=new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=erhealthService.app_zzyAddNoGM(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -591,13 +680,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/gmhlist")
 	@ResponseBody
 	public Object gmhlist(){
-		Map<String,Object>map=null;
+		Map<String,Object>map=new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=erhealthService.app_zzyListNoGM(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -607,11 +697,12 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/gmailist")
 	@ResponseBody
 	public Object gmailist(){
-		Map<String,Object>map=null;
+		Map<String,Object>map=new HashMap<>();
 		try {
 			map=gmaitemService.app_zzyList(Const2.ZZY2_GM_ID);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -621,13 +712,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/gmaradd")
 	@ResponseBody
 	public Object gmaradd(){
-		Map<String,Object>map=null;
+		Map<String,Object>map=new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=gmaresultService.app_zzyAdd(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -637,13 +729,14 @@ public class ZzyAppVolunteerController extends BaseController{
 	@RequestMapping(value="/vfadd")
 	@ResponseBody
 	public Object vfadd(){
-		Map<String,Object>map=null;
+		Map<String,Object>map=new HashMap<>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
 			map=vfeedbackService.app_zzyAdd(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
+			map.put("result","00");
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}

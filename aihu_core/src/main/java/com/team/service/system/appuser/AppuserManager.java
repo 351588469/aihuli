@@ -94,9 +94,14 @@ public interface AppuserManager {
 	 */
 	//注册用户
 	public Map<String,Object> zzyAddUser(PageData pd)throws Exception;
+	//更新信息
+	public Map<String, Object> zzyUpdateUser(PageData pd)throws Exception;
+	
 	
 	public PageData zzyFindById(String id)throws Exception;
 	//获取用户信息
 	public Map<String, Object> zzyUserInfo(PageData pd)throws Exception;
+
+	
 }
 

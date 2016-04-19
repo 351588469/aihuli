@@ -39,6 +39,9 @@ public class AppUtil2  {
 		}else if(method=="appzzy2_vtc"){// 团体关注
 			paramArray =Const2.ZZY2_VT_CONCERN_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VT_CONCERN_VALUE_ARRAY;
+		}else if(method=="appzzy2_vtctest"){// 用户是否关注团体
+			paramArray =Const2.ZZY2_VTC_TEST_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VTC_TEST_VALUE_ARRAY;
 		}else if(method=="appzzy2_vtclist"){// 团体关注列表
 			paramArray =Const2.ZZY2_VTC_LIST_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VTC_LIST_VALUE_ARRAY;

@@ -64,6 +64,9 @@ public class Const2 {
 	//团体关注
 	public static final String[] ZZY2_VT_CONCERN_PARAM_ARRAY = new String[]{"vtid","userid"};
 	public static final String[] ZZY2_VT_CONCERN_VALUE_ARRAY = new String[]{"团体编号","用户编号"};
+	//用户是否关注团体
+	public static final String[] ZZY2_VTC_TEST_PARAM_ARRAY = new String[]{"vtid","userid"};
+	public static final String[] ZZY2_VTC_TEST_VALUE_ARRAY = new String[]{"团体编号","用户编号"};
 	//团体关注列表
 	public static final String[] ZZY2_VTC_LIST_PARAM_ARRAY = new String[]{"vtid"};
 	public static final String[] ZZY2_VTC_LIST_VALUE_ARRAY = new String[]{"团体编号"};

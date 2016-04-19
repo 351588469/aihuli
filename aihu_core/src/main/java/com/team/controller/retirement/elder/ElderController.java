@@ -461,8 +461,8 @@ public class ElderController extends BaseController {
 	@RequestMapping(value="/resetSession")
 	@ResponseBody
 	public Object resetSession(HttpServletRequest request,Page page) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"重置Session");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
+		//logBefore(logger, Jurisdiction.getUsername()+"重置Session");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
 		sessionController.resetSession(request.getSession(),"retirement");
 		return list(page, request);
 	}

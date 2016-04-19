@@ -377,6 +377,16 @@
 		$(top.hangge());
 		//保存
 		function save(){
+			if($("#E_GM_ID").val()==""){
+				$("#E_GM_ID").tips({
+					side:3,
+		            msg:'请返回选择养老院',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#E_GM_ID").focus();
+			return false;
+			}
 			if($("#E_NAME").val()==""){
 				$("#E_NAME").tips({
 					side:3,

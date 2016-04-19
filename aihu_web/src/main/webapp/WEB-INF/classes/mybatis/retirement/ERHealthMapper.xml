@@ -123,7 +123,7 @@
 		 <if test="ERH_GMH_TYPE!= null and ERH_GMH_TYPE!= ''">
 		and ERH_GMH_TYPE=#{ERH_GMH_TYPE}
 		</if>
-		order by ERH_GTIME
+		order by ERH_UTIME
 	</select>
 	<!--  -->
 	<select id="zzyPast" parameterType="pd" resultType="pd">

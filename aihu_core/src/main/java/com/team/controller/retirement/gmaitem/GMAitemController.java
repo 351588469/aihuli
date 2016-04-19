@@ -179,13 +179,15 @@ public class GMAitemController extends BaseController {
 		
 		String gmatype_id=(String)pd.getString("GMATYPE_ID");
 		PageData tpd=gmatypeService.zzyFindById(gmatype_id);
-		String gmid=(String) tpd.get("GMAT_GM_ID");
-		String gm_name=gmService.zzyFindNameById(gmid);
-		pd.put("GMAI_GMAT_ID",gmatype_id);
-		pd.put("GMAI_GMAT_NAME",tpd.get("GMAT_NAME"));
-		pd.put("GMAI_GM_ID",gmid);
-		pd.put("GMAI_GM_NAME",gm_name);
-		
+		String gmid="",gm_name="";
+		if(tpd!=null){
+			gmid=(String) tpd.get("GMAT_GM_ID");
+			gm_name=gmService.zzyFindNameById(gmid);
+			pd.put("GMAI_GMAT_ID",gmatype_id);
+			pd.put("GMAI_GMAT_NAME",tpd.get("GMAT_NAME"));
+			pd.put("GMAI_GM_ID",gmid);
+			pd.put("GMAI_GM_NAME",gm_name);
+		}
 		mv.setViewName("retirement/gmaitem/gmaitem_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);

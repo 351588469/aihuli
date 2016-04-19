@@ -190,6 +190,11 @@
 		ROLE_ID = #{ROLE_ID},
 		BZ = #{BZ},
 		PHONE = #{PHONE},
+		ADDRESS=#{ADDRESS},
+		BIRTH=#{BIRTH},
+		GENDER=#{GENDER},
+		JOB=#{JOB},
+		SIGN=#{SIGN},
 		SFID = #{SFID},
 		START_TIME = #{START_TIME},
 		END_TIME = #{END_TIME},
@@ -197,6 +202,9 @@
 		STATUS = #{STATUS},
 		EMAIL = #{EMAIL},
 		NUMBER = #{NUMBER}
+		<if test="AVATER!= null and AVATER!= ''">
+			,AVATER=#{AVATER}
+		</if>
 		<if test="PASSWORD != null and PASSWORD != ''">
 			,PASSWORD = #{PASSWORD}
 		</if>

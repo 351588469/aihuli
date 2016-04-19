@@ -2,7 +2,6 @@ package com.team.service.volunteer.vtconcern.impl;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -155,6 +154,28 @@ public class VTConcernService implements VTConcernManager{
 		map.put("result", result);
 		return map;
 	}
-	
+	@Override
+	public Map<String, Object> app_zzyTest(PageData pd) throws Exception {
+		PageData zzyPd=new PageData();
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+			if(AppUtil2.checkParam("appzzy2_vtctest", pd)){	//检查参数
+				zzyPd.put("VTC_VT_ID",pd.getString("vtid"));
+				zzyPd.put("VTC_USER_ID",pd.getString("userid"));
+				String vtcid=(String) dao.findForObject("VTConcernMapper.zzyConfirm",zzyPd);
+				if(vtcid!=null&& vtcid!=""){//用户已经关注
+					map.put("pd",1);
+					map.put("info","已关注");
+				}else{
+					map.put("pd",0);
+					map.put("info","未关注");
+				}
+				result="01";
+			}else result = "03";
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
+	}
 }
 

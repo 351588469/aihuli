@@ -120,13 +120,13 @@
 			where E_NAME LIKE CONCAT(CONCAT('%', #{pd.TERM_E_NAME}), '%'))
 		</if>
 		<if test="pd.TERM_FLOOR!=null and pd.TERM_FLOOR!=''">
-		and TERM_FLOOR LIKE CONCAT(CONCAT('%', #{pd.TERM_FLOOR}), '%')
+		and GMB_FLOOR LIKE CONCAT(CONCAT('%', #{pd.TERM_FLOOR}), '%')
 		</if>
 		<if test="pd.TERM_LAYER!=null and pd.TERM_LAYER!=''">
-		and TERM_LAYER LIKE CONCAT(CONCAT('%', #{pd.TERM_LAYER}), '%')
+		and GMB_LAYER LIKE CONCAT(CONCAT('%', #{pd.TERM_LAYER}), '%')
 		</if>
 		<if test="pd.TERM_ROOM!=null and pd.TERM_ROOM!=''">
-		and TERM_ROOM LIKE CONCAT(CONCAT('%', #{pd.TERM_ROOM}), '%')
+		and GMB_ROOM LIKE CONCAT(CONCAT('%', #{pd.TERM_ROOM}), '%')
 		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and

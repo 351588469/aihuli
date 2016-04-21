@@ -72,14 +72,12 @@
 									<th class="center">关键词</th>
 									<th class="center">详情</th>
 									<th class="center">日程</th>
-									<th class="center">举办方团体编号</th>
 									<th class="center">点赞数量</th>
 									<th class="center">报名人数</th>
-									<th class="center">报名人数上限</th>
-									<th class="center">活动开始时间</th>
-									<th class="center">活动结束时间</th>
-									<th class="center">记录生成时间</th>
-									<th class="center">记录更新时间</th>
+									<th class="center">人数上限</th>
+									<th class="center">开始时间</th>
+									<th class="center">结束时间</th>
+									<th class="center">记录时间</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -101,13 +99,11 @@
 											<td class='center'>${var.VA_KEYWORD}</td>
 											<td class='center'>${var.VA_CONTENT}</td>
 											<td class='center'>${var.VA_SCHEDULE}</td>
-											<td class='center'>${var.VA_VT_ID}</td>
 											<td class='center'>${var.VA_PRAISE}</td>
 											<td class='center'>${var.VA_ENROLL}</td>
 											<td class='center'>${var.VA_ENROLL_M}</td>
 											<td class='center'>${var.VA_STIME}</td>
 											<td class='center'>${var.VA_ETIME}</td>
-											<td class='center'>${var.VA_CTIME}</td>
 											<td class='center'>${var.VA_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">

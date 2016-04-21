@@ -66,16 +66,10 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">团体编号</th>
 									<th class="center">标题</th>
 									<th class="center">内容</th>
-									<th class="center">发表人编号</th>
-									<th class="center">发表人姓名</th>
-									<th class="center">发表人头像</th>
-									<th class="center">点赞数量</th>
-									<th class="center">话题状态</th>
-									<th class="center">记录生成时间</th>
-									<th class="center">记录更新时间</th>
+									<th class="center">发表人</th>
+									<th class="center">时间</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -91,15 +85,9 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.VTTHEME_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.VTT_VT_ID}</td>
 											<td class='center'>${var.VTT_TITLE}</td>
 											<td class='center'>${var.VTT_CONTENT}</td>
-											<td class='center'>${var.VTT_P_ID}</td>
 											<td class='center'>${var.VTT_P_NAME}</td>
-											<td class='center'>${var.VTT_P_AVATER}</td>
-											<td class='center'>${var.VTT_PRAISE}</td>
-											<td class='center'>${var.VTT_STATUS}</td>
-											<td class='center'>${var.VTT_CTIME}</td>
 											<td class='center'>${var.VTT_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">

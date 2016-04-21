@@ -150,7 +150,7 @@ public class VTNewService implements VTNewManager{
 	
 	/**
 	 * 某话题的评论列表
-	 * @throws Exception 
+	 * @throws Exception n
 	 */
 	@Override
 	public Map<String, Object> app_zzyList(PageData pd) throws Exception {

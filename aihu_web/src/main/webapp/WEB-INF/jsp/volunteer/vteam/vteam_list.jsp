@@ -66,18 +66,13 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
+									<th class="center">状态</th>
 									<th class="center">名称</th>
 									<th class="center">图标</th>
-									<th class="center">所在城市</th>
 									<th class="center">详细地址</th>
 									<th class="center">描述</th>
-									<th class="center">负责人编号</th>
-									<th class="center">关注人数</th>
-									<th class="center">话题数量</th>
+									<th class="center">负责人</th>
 									<th class="center">成立时间</th>
-									<th class="center">记录生成时间</th>
-									<th class="center">记录更新时间</th>
-									<th class="center">状态</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -93,18 +88,19 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.VTEAM_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center'>${var.VT_STATUS}</td>
 											<td class='center'>${var.VT_NAME}</td>
-											<td class='center'>${var.VT_LOGO}</td>
-											<td class='center'>${var.VT_CITY}</td>
+											<td class='center'>
+												<c:if test="${var.VT_LOGO!=''}">
+													<a target="_blank" href="<%=basePath%>uploadFiles/uploadImgs/${var.VT_LOGO}">
+													<img src="<%=basePath%>uploadFiles/uploadImgs/${var.VT_LOGO}" style="width:30px;height:30px">
+													</a>
+												</c:if>
+											</td>
 											<td class='center'>${var.VT_ADDRESS}</td>
 											<td class='center'>${var.VT_DESCRIBE}</td>
-											<td class='center'>${var.VT_C_ID}</td>
-											<td class='center'>${var.VT_CONCERN}</td>
-											<td class='center'>${var.VT_THEME}</td>
+											<td class='center'>${var.VT_C_NAME}</td>
 											<td class='center'>${var.VT_HTIME}</td>
-											<td class='center'>${var.VT_CTIME}</td>
-											<td class='center'>${var.VT_UTIME}</td>
-											<td class='center'>${var.VT_STATUS}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

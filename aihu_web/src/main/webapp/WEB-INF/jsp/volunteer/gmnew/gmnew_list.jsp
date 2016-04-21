@@ -66,18 +66,10 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">养老院编号</th>
-									<th class="center">评论用户编号</th>
-									<th class="center">评论用户姓名</th>
-									<th class="center">发表人头像</th>
-									<th class="center">回复消息编号</th>
-									<th class="center">回复人编号</th>
-									<th class="center">回复人姓名</th>
-									<th class="center">回复人头像</th>
+									<th class="center">评论用户</th>
+									<th class="center">回复用户</th>
 									<th class="center">内容</th>
-									<th class="center">状态</th>
-									<th class="center">记录生成时间</th>
-									<th class="center">记录更新时间</th>
+									<th class="center">时间</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -93,17 +85,9 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.GMNEW_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.GMN_GM_ID}</td>
-											<td class='center'>${var.GMN_P_ID}</td>
 											<td class='center'>${var.GMN_P_NAME}</td>
-											<td class='center'>${var.GMN_P_AVATER}</td>
-											<td class='center'>${var.GMN_R_ID}</td>
-											<td class='center'>${var.GMN_R_PID}</td>
 											<td class='center'>${var.GMN_R_PNAME}</td>
-											<td class='center'>${var.GMN_R_PAVATER}</td>
 											<td class='center'>${var.GMN_CONTENT}</td>
-											<td class='center'>${var.GMN_STATUS}</td>
-											<td class='center'>${var.GMN_CTIME}</td>
 											<td class='center'>${var.GMN_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">

@@ -15,6 +15,7 @@ import com.team.service.volunteer.vactivity.VActivityManager;
 import com.team.service.volunteer.vdonation.VDonationManager;
 import com.team.service.volunteer.vteam.VTeamManager;
 import com.team.util.AppUtil2;
+import com.team.util.MD5;
 import com.team.util.PageData;
 import com.team.util.UuidUtil;
 
@@ -102,7 +103,10 @@ public class AppuserService implements AppuserManager{
 	public void editU(PageData pd)throws Exception{
 		dao.update("AppuserMapper.editU", pd);
 	}
-	
+	@Override
+	public void zzyEditU(PageData pd)throws Exception{
+		dao.update("AppuserMapper.zzyEditU", pd);
+	}
 	/**通过id获取数据
 	 * @param pd
 	 * @return
@@ -145,6 +149,12 @@ public class AppuserService implements AppuserManager{
 			//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
 				if(AppUtil2.checkParam("appzzy2_uadd", pd)){	//检查参数
 					pd.put("USER_ID",UuidUtil.get32UUID());
+					String userid=zzyFindIdByTel(pd.getString("PHONE"));
+					if(userid!=null&&userid!=""){
+						map.put("result","06");
+						map.put("info","一个手机号只能注册一个账户！");
+						return map;
+					}
 					dao.save("AppuserMapper.saveU", pd);
 					result="01";
 				}else result = "03";
@@ -204,6 +214,60 @@ public class AppuserService implements AppuserManager{
 			//}else{result = "05";}
 			map.put("result", result);
 		return map;
+	}
+
+	@Override
+	public Map<String, Object> zzyResetPassword(PageData pd) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		PageData zzyPd=new PageData();
+		String userid=zzyFindIdByTel(pd.getString("tel"));
+		if(userid==null||userid==""){
+			map.put("result","06");
+			Map<String,Object>tm=new HashMap<>();
+			tm.put("info", "查无相关信息！");
+			map.put("pd",tm);
+			return map;
+		}
+		zzyPd.put("USER_ID",userid);
+		zzyPd.put("PASSWORD",MD5.md5(pd.getString("pwd")));
+		zzyEditU(zzyPd);
+		map.put("result","01");
+		return map;
+	}
+
+	public String zzyFindIdByTel(String tel) throws Exception {
+		return (String)dao.findForObject("AppuserMapper.zzyFindIdByTel",tel);
+	}
+	/**
+	 * tel
+	 */
+	@Override
+	public Map<String, Object> zzyLogin(PageData pd) throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		String userid=zzyFindIdByTel(pd.getString("tel"));
+		if(userid==null||userid==""){
+			map.put("result","06");
+			Map<String,Object>tm=new HashMap<>();
+			tm.put("info", "查无相关信息！");
+			map.put("pd",tm);
+			return map;
+		}
+		PageData User=zzyFindById(userid);
+		String pwd_t=User.getString("PASSWORD");
+		if(pwd_t.equals(MD5.md5(pd.getString("pwd")))){
+			map.put("result","01");
+			Map<String,Object>tm=new HashMap<>();
+			tm.put("info", "登录成功！");
+			tm.put("user",User);
+			map.put("pd",tm);
+			return map;
+		}else{
+			Map<String,Object>tm=new HashMap<>();
+			tm.put("info", "密码错误！");
+			map.put("result","06");
+			map.put("pd",tm);
+			return map;
+		}
 	}
 	
 }

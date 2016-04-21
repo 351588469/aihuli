@@ -63,7 +63,7 @@ public interface AppuserManager {
 	 * @throws Exception
 	 */
 	public void editU(PageData pd)throws Exception;
-	
+	public void zzyEditU(PageData pd)throws Exception;
 	/**通过id获取数据
 	 * @param pd
 	 * @return
@@ -101,7 +101,12 @@ public interface AppuserManager {
 	public PageData zzyFindById(String id)throws Exception;
 	//获取用户信息
 	public Map<String, Object> zzyUserInfo(PageData pd)throws Exception;
-
+	//重置密码
+	public Map<String, Object> zzyResetPassword(PageData pd)throws Exception;
+	//根据手机获取用户编号
+	public String zzyFindIdByTel(String tel) throws Exception;
+	//用户登录
+	public Map<String, Object> zzyLogin(PageData pd)throws Exception;
 	
 }
 

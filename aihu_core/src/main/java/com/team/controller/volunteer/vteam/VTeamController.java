@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.team.controller.base.BaseController;
 import com.team.entity.Page;
+import com.team.service.system.appuser.AppuserManager;
 import com.team.service.volunteer.vteam.VTeamManager;
 import com.team.util.AppUtil;
 import com.team.util.Jurisdiction;
@@ -40,7 +41,8 @@ public class VTeamController extends BaseController {
 	String menuUrl = "vteam/list.do"; //菜单地址(权限用)
 	@Resource(name="vteamService")
 	private VTeamManager vteamService;
-	
+	@Resource(name="appuserService")
+	private AppuserManager appuserService;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -113,6 +115,13 @@ public class VTeamController extends BaseController {
 		}
 		page.setPd(pd);
 		List<PageData>	varList = vteamService.list(page);	//列出VTeam列表
+		for(int i=0;i<varList.size();i++){
+			PageData tpd=varList.get(i);
+			String userid=tpd.getString("VT_C_ID");
+			PageData user=appuserService.zzyFindById(userid);
+			if(user!=null)
+			tpd.put("VT_C_NAME",user.getString("USERNAME"));
+		}
 		mv.setViewName("volunteer/vteam/vteam_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

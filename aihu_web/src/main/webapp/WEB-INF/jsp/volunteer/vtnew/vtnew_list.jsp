@@ -66,17 +66,9 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">发表人编号</th>
-									<th class="center">发表人头像</th>
 									<th class="center">发表人姓名</th>
-									<th class="center">回复消息编号</th>
-									<th class="center">回复人编号</th>
-									<th class="center">回复人头像</th>
 									<th class="center">回复人姓名</th>
-									<th class="center">消息内容</th>
-									<th class="center">状态</th>
-									<th class="center">记录生成时间</th>
-									<th class="center">记录更新时间</th>
+									<th class="center">内容</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -92,17 +84,9 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.VTNEW_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.VTN_P_ID}</td>
-											<td class='center'>${var.VTN_P_AVATER}</td>
 											<td class='center'>${var.VTN_P_NAME}</td>
-											<td class='center'>${var.VTN_R_ID}</td>
-											<td class='center'>${var.VTN_R_PID}</td>
-											<td class='center'>${var.VTN_R_PAVATER}</td>
 											<td class='center'>${var.VTN_R_PNAME}</td>
 											<td class='center'>${var.VTN_CONTENT}</td>
-											<td class='center'>${var.VTN_STATUS}</td>
-											<td class='center'>${var.VTN_CTIME}</td>
-											<td class='center'>${var.VTN_UTIME}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

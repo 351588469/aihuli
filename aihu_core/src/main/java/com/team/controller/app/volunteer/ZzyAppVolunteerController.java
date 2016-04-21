@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +32,10 @@ import com.team.service.volunteer.vttheme.VTThemeManager;
 import com.team.service.zzy.tool.ToolManager;
 import com.team.util.AppUtil;
 import com.team.util.Const2;
+import com.team.util.MD5;
 import com.team.util.PageData;
+import com.team.util.Tools;
+import com.team.util.ZzyValidate;
 
 /**
  * Volunteer 2.0
@@ -93,6 +97,22 @@ public class ZzyAppVolunteerController extends BaseController{
 	 * vfadd
 	 * 意见反馈
 	 */
+	@RequestMapping(value="/login")
+	@ResponseBody
+	public Object login(HttpServletRequest request){
+		Map<String,Object>map =new HashMap<>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			System.out.println("zzy:"+pd.toString());
+			System.out.println("zzy:"+pd.getString("tel"));
+			map=appuserService.zzyLogin(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+			map.put("result","00");
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
 	@RequestMapping(value="/uadd")
 	@ResponseBody
 	public Object uadd(HttpServletRequest request){
@@ -103,17 +123,53 @@ public class ZzyAppVolunteerController extends BaseController{
 		try {
 			//form-data无法通过框架中方法遍历获取参数
 			pd.put("USERNAME",request.getParameter("username"));
-			pd.put("PHONE",request.getParameter("phone"));
-			pd.put("ADDRESS",request.getParameter("address"));
-			pd.put("BIRTH",request.getParameter("birth"));
-			pd.put("GENDER",request.getParameter("gender"));
-			pd.put("JOB",request.getParameter("job"));
-			pd.put("SIGN",request.getParameter("sign"));
+			pd.put("PHONE",request.getParameter("tel"));
+			pd.put("PASSWORD", MD5.md5(request.getParameter("pwd")));
+			//pd.put("ADDRESS",request.getParameter("address"));
+			//pd.put("BIRTH",request.getParameter("birth"));
+			//pd.put("GENDER",request.getParameter("gender"));
+			//pd.put("JOB",request.getParameter("job"));
+			//pd.put("SIGN",request.getParameter("sign"));
 			fm=toolService.zzyUploadImg(request);
 			if(fm.containsKey(1)){
 				pd.put("AVATER",fm.get(1));
 			}
 			map=appuserService.zzyAddUser(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+			map.put("result","00");
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	@RequestMapping(value="/usmsg")
+	@ResponseBody
+	public Object usmsg(){
+		Map<String,Object>map =new HashMap<>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			String code=Tools.getRandomNum()+"";
+			Map<String,Object>status=ZzyValidate.sendMsg(pd.getString("tel"), code);
+			Map<String,Object>tpd=new HashMap<>();
+			tpd.put("status",status);
+			tpd.put("code",code);
+			map.put("pd", tpd);
+			map.put("result","01");
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+			map.put("result","00");
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	//重置密码
+	@RequestMapping(value="/urpwd")
+	@ResponseBody
+	public Object urpwd(HttpServletRequest request){
+		Map<String,Object>map = new HashMap<>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			map=appuserService.zzyResetPassword(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 			map.put("result","00");
@@ -131,7 +187,7 @@ public class ZzyAppVolunteerController extends BaseController{
 			//form-data无法通过框架中方法遍历获取参数
 			pd.put("USER_ID",request.getParameter("userid"));
 			pd.put("USERNAME",request.getParameter("username"));
-			//pd.put("PHONE",request.getParameter("phone"));
+			pd.put("PHONE",request.getParameter("tel"));
 			pd.put("ADDRESS",request.getParameter("address"));
 			pd.put("BIRTH",request.getParameter("birth"));
 			pd.put("GENDER",request.getParameter("gender"));

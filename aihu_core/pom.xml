@@ -20,7 +20,8 @@
 	</properties>
 
 	<dependencies>
-
+	
+		<!-- zzy end -->
 		<!-- spring start -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -499,6 +500,14 @@
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/../aihu_web/src/main/webapp/WEB-INF/lib/com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar</systemPath>
+		</dependency>
+			<!-- zzy start -->
+		<dependency>
+			<groupId>phone-code</groupId>
+			<artifactId>validate</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/../aihu_web/src/main/webapp/WEB-INF/lib/CCP_REST_SDK_JAVA_v2.6.3r.jar</systemPath>
 		</dependency>
 	</dependencies>
 

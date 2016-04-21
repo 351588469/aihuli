@@ -52,8 +52,8 @@ public class Const2 {
 	 * zzy
 	 */
 	//用户注册
-	public static final String[] ZZY2_USER_ADD_PARAM_ARRAY = new String[]{"USERNAME","PHONE","ADDRESS","BIRTH","GENDER","JOB","SIGN"};
-	public static final String[] ZZY2_USER_ADD_VALUE_ARRAY = new String[]{"用户名","联系电话","联系地址","出生年月","性别","从事工作","签名"};
+	public static final String[] ZZY2_USER_ADD_PARAM_ARRAY = new String[]{"USERNAME","PHONE","PASSWORD"};
+	public static final String[] ZZY2_USER_ADD_VALUE_ARRAY = new String[]{"用户名","联系电话","密码"};
 	//用户信息
 	public static final String[] ZZY2_USER_INFO_PARAM_ARRAY = new String[]{"userid"};
 	public static final String[] ZZY2_USER_INFO_VALUE_ARRAY = new String[]{"用户编号"};

@@ -188,6 +188,17 @@ public class VActivityService implements VActivityManager{
 				List<PageData>list=new ArrayList<>();
 				if(vaids.size()>0)
 					list=(List<PageData>) dao.findForList("VActivityMapper.zzyListWithMultId",vaids);
+				for(int i=0;i<list.size();i++){
+					PageData tpd=list.get(i);
+					String vtid=tpd.getString("VA_VT_ID");
+					PageData vt=vteamService.zzyFindById(vtid);
+					tpd.put("VA_VT_NAME",vt.getString("VT_NAME"));
+					PageData zti=new PageData();
+					zti.put("VAI_VA_ID",tpd.getString("VACTIVITY_ID"));
+					zti.put("VAI_TYPE",Const2.ZZY2_VA_IMG_THEME);
+					List<PageData>imgs=vaimgService.zzyList(zti);
+					tpd.put("VAI_IMG_THEME",imgs);
+				}
 				map.put("pd",list);
 				result="01";
 		//}else{result = "05";}

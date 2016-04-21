@@ -34,7 +34,7 @@
 								<button type="button" class="close" data-dismiss="alert">
 									<i class="ace-icon fa fa-times"></i>
 								</button>
-								<i class="ace-icon fa fa-check green"></i> 欢迎使用爱护理关怀平台&nbsp;&nbsp; 
+								<i class="ace-icon fa fa-check green"></i> 欢迎使用zzy爱护理关怀平台&nbsp;&nbsp; 
 							</div>
 
 							<div id="main" style="width: 600px; height: 300px;"></div>

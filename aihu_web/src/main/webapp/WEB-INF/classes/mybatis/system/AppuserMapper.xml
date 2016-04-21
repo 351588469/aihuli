@@ -185,23 +185,61 @@
 	<update id="editU" parameterType="pd">
 		update
 		<include refid="tableName"></include>
-		set USERNAME = #{USERNAME},
-		NAME = #{NAME},
-		ROLE_ID = #{ROLE_ID},
-		BZ = #{BZ},
-		PHONE = #{PHONE},
-		ADDRESS=#{ADDRESS},
-		BIRTH=#{BIRTH},
-		GENDER=#{GENDER},
-		JOB=#{JOB},
-		SIGN=#{SIGN},
-		SFID = #{SFID},
-		START_TIME = #{START_TIME},
-		END_TIME = #{END_TIME},
-		YEARS = #{YEARS},
-		STATUS = #{STATUS},
-		EMAIL = #{EMAIL},
-		NUMBER = #{NUMBER}
+		set USER_ID = #{USER_ID}
+		<if test="USERNAME!= null and USERNAME!= ''">
+			,USERNAME = #{USERNAME}
+		</if>
+		<if test="NAME!= null and NAME!= ''">
+			,NAME=#{NAME}
+		</if>
+		<if test="ROLE_ID!= null and ROLE_ID!= ''">
+			,ROLE_ID=#{ROLE_ID}
+		</if>
+		<if test="BZ!= null and BZ!= ''">
+			,BZ=#{BZ}
+		</if>
+		<if test="PHONE!= null and PHONE!= ''">
+			,PHONE=#{PHONE}
+		</if>
+		<if test="ADDRESS!= null and ADDRESS!= ''">
+			,ADDRESS=#{ADDRESS}
+		</if>
+		<if test="BIRTH!= null and BIRTH!= ''">
+			,BIRTH=#{BIRTH}
+		</if>
+		<if test="GENDER!= null and GENDER!= ''">
+			,GENDER=#{GENDER}
+		</if>
+		<if test="JOB!= null and JOB!= ''">
+			,JOB=#{JOB}
+		</if>
+		<if test="SIGN!= null and SIGN!= ''">
+			,SIGN=#{SIGN}
+		</if>
+		<if test="JOB!= null and JOB!= ''">
+			,JOB=#{JOB}
+		</if>
+		<if test="SFID!= null and SFID!= ''">
+			,SFID = #{SFID}
+		</if>
+		<if test="START_TIME!= null and START_TIME!= ''">
+			,START_TIME = #{START_TIME}
+		</if>
+		<if test="END_TIME!= null and END_TIME!= ''">
+			,END_TIME = #{END_TIME}
+		</if>
+		<if test="YEARS!= null and YEARS!= ''">
+			,YEARS=#{YEARS}
+		</if>
+		<if test="STATUS!= null and STATUS!= ''">
+			,STATUS=#{STATUS}
+		</if>
+		<if test="EMAIL!= null and EMAIL!= ''">
+			,EMAIL = #{EMAIL}
+		</if>
+		<if test="NUMBER!= null and NUMBER!= ''">
+			,NUMBER = #{NUMBER}
+		</if>
 		<if test="AVATER!= null and AVATER!= ''">
 			,AVATER=#{AVATER}
 		</if>
@@ -211,7 +249,16 @@
 		where
 		USER_ID = #{USER_ID}
 	</update>
-
+	<update id="zzyEditU" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set USER_ID = #{USER_ID}
+		<if test="PASSWORD!= null and PASSWORD!= ''">
+			,PASSWORD=#{PASSWORD}
+		</if>
+		where
+		USER_ID = #{USER_ID}
+	</update>
 	<!-- 通过ID获取数据 -->
 	<select id="findByUiId" parameterType="pd" resultType="pd">
 		select
@@ -297,5 +344,13 @@
 		<include refid="tableName"></include>
 		where
 		USER_ID = #{0}
+	</select>
+	<select id="zzyFindIdByTel" parameterType="String" resultType="String">
+		select
+		USER_ID
+		from
+		<include refid="tableName"></include>
+		where PHONE=#{0} limit 1
+		
 	</select>
 </mapper>

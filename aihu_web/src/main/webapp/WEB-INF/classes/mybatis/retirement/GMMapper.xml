@@ -182,6 +182,9 @@
 		<if test="GM_CITY!= null and GM_CITY!=''">
 			and GM_CITY=#{GM_CITY}
 		</if>
+		<if test="GM_CKSTATUS!= null and GM_CKSTATUS!=''">
+			and GM_CKSTATUS=#{GM_CKSTATUS}
+		</if>
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

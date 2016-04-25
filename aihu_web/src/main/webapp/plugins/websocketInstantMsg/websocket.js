@@ -68,7 +68,7 @@ function toUserMsg(toU){
 			function initWebSocket() {
 				if (window.WebSocket) {
 					websocket = new WebSocket(encodeURI('ws://'+wimadress));
-					
+					//websocket = new WebSocket(encodeURI('ws://localhost:7080/aihu_web');
 					websocket.onopen = function() {
 						//连接成功
 						win.setTitle(title + '&nbsp;&nbsp;(已连接)   【现在全局对话】');

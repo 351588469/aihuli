@@ -262,7 +262,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>gmaitem/goAdd.do?GMATYPE_ID=${pd.GMATYPE_ID}';
+			 diag.URL = '<%=basePath%>gmaitem/goAdd.do?GMATYPE_ID=${pd.GMAI_GMAT_ID}';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件

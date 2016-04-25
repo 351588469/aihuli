@@ -12,8 +12,8 @@ public class ZzyValidate {
 				String token ="702472b80602417babd826c5547f8d4f";
 				String appid ="8a48b551528c18940152916bebee094f";
 				//String appid ="8a48b551516c09cd01517b66e90f1ca6";//一幢大卡
-				//String url ="app.cloopen.com";
-				String url ="sandboxapp.cloopen.com";
+				String url ="app.cloopen.com";
+				//String url ="sandboxapp.cloopen.com";
 				String port ="8883";
 				//String smsmodelid="54909";//一幢大卡
 				String smsmodelid="66361";

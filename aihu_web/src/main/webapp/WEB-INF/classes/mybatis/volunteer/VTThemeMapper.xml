@@ -114,8 +114,8 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
-		<if test="VT_VTT_ID!= null and VT_VTT_ID != ''"><!-- 关键词检索 -->
-		 and VT_VTT_ID=#{VT_VTT_ID}
+		<if test="VTT_VT_ID!= null and VTT_VT_ID != ''"><!-- 关键词检索 -->
+		 and VTT_VT_ID=#{VTT_VT_ID}
 		</if>
 	</select>
 	<!-- 批量删除 -->

@@ -184,14 +184,14 @@ public class ERHealthService implements ERHealthManager{
 				if(pd.get("page")!=null&&pd.getString("page")!=""){
 					page=Integer.parseInt((String)pd.get("page"));
 				}else page=1;
-					String edate=DateUtil.getAfterDayDate(-(page-1)*30);
-					String sdate=DateUtil.getAfterDayDate(-(page)*30);
+					String edate=DateUtil.getAfterDayDate(-(page-1)*15);
+					String sdate=DateUtil.getAfterDayDate(-(page)*15);
 					zzyPd.put("SDATE",sdate);
 					zzyPd.put("EDATE",edate);
 		
 				zzyPd.put("ERH_E_ID",pd.getString("userid"));
 				zzyPd.put("ERH_GMH_TYPE",type);
-				System.out.println("zzy:zzyPd:"+zzyPd.toString());
+				//System.out.println("zzy:zzyPd:"+zzyPd.toString());
 				List<PageData>list=zzyList(zzyPd);
 				map.put("pd",list);
 				result="01"; 	 	

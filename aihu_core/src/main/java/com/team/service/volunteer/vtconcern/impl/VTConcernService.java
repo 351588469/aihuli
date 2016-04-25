@@ -168,7 +168,7 @@ public class VTConcernService implements VTConcernManager{
 					map.put("pd",1);
 					map.put("info","已关注");
 				}else{
-					map.put("pd",0);
+					map.put("pd",2);
 					map.put("info","未关注");
 				}
 				result="01";

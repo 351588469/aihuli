@@ -36,7 +36,6 @@ import com.team.util.MD5;
 import com.team.util.PageData;
 import com.team.util.Tools;
 import com.team.util.ZzyValidate;
-
 /**
  * Volunteer 2.0
  * @author Administrator
@@ -104,8 +103,6 @@ public class ZzyAppVolunteerController extends BaseController{
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			System.out.println("zzy:"+pd.toString());
-			System.out.println("zzy:"+pd.getString("tel"));
 			map=appuserService.zzyLogin(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -194,7 +191,7 @@ public class ZzyAppVolunteerController extends BaseController{
 			pd.put("JOB",request.getParameter("job"));
 			pd.put("SIGN",request.getParameter("sign"));
 			fm=toolService.zzyUploadImg(request);
-			if(fm.containsKey(1)){
+		  if(fm.containsKey(1)){
 				pd.put("AVATER",fm.get(1));
 			}
 			map=appuserService.zzyUpdateUser(pd);
@@ -285,6 +282,23 @@ public class ZzyAppVolunteerController extends BaseController{
 				map=vteamService.app_zzyList_byUserid(pd.getString("userid"));
 			else
 			map=vteamService.app_zzyList(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+			map.put("result","00");
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 团体信息
+	 */
+	@RequestMapping(value="/vtinfo")
+	@ResponseBody
+	public Object vtinfo(){
+		Map<String,Object>map =new HashMap<>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			map=vteamService.app_zzyInfo(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 			map.put("result","00");
@@ -471,6 +485,23 @@ public class ZzyAppVolunteerController extends BaseController{
 		pd = this.getPageData();
 		try {
 			map=vaenrollService.app_zzyList(pd);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+			map.put("result","00");
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 活动信息
+	 */
+	@RequestMapping(value="/vainfo")
+	@ResponseBody
+	public Object vainfo(){
+		Map<String,Object>map =new HashMap<>();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		try {
+			map=vactivityService.app_zzyInfo(pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 			map.put("result","00");

@@ -76,6 +76,9 @@ public class Const2 {
 	//团体列表
 	public static final String[] ZZY2_VT_LIST_PARAM_ARRAY = new String[]{};
 	public static final String[] ZZY2_VT_LIST_VALUE_ARRAY = new String[]{};
+	//团体信息
+	public static final String[] ZZY2_VT_INFO_PARAM_ARRAY = new String[]{"vtid"};
+	public static final String[] ZZY2_VT_INFO_VALUE_ARRAY = new String[]{"团体编号"};
 	//团体话题列表
 	public static final String[] ZZY2_VTT_LIST_PARAM_ARRAY = new String[]{"vtid"};
 	public static final String[] ZZY2_VTT_LIST_VALUE_ARRAY = new String[]{"团体编号"};

@@ -51,6 +51,9 @@ public class AppUtil2  {
 		}else if(method=="appzzy2_vtlist"){// 团体列表
 			paramArray =Const2.ZZY2_VT_LIST_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VT_LIST_VALUE_ARRAY;
+		}else if(method=="appzzy2_vtinfo"){// 团体信息
+			paramArray =Const2.ZZY2_VT_INFO_PARAM_ARRAY;
+			valueArray =Const2.ZZY2_VT_INFO_VALUE_ARRAY;
 		}else if(method=="appzzy2_vttlist"){//团体话题列表
 			paramArray =Const2.ZZY2_VTT_LIST_PARAM_ARRAY;
 			valueArray =Const2.ZZY2_VTT_LIST_VALUE_ARRAY;

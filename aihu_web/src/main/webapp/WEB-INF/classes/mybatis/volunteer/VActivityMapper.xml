@@ -139,6 +139,7 @@
 		<if test="VA_CITY!= null and VA_CITY!= ''"><!-- 关键词检索 -->
 		and VA_CITY=#{VA_CITY}
 		</if>
+		order by VA_UTIME desc
 	</select>
 	<select id="zzyListWithMultId" resultType="pd">
 		select

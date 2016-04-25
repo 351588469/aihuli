@@ -73,6 +73,10 @@ public interface VTeamManager{
 	 */
 	public Map<String, Object> app_zzyList(PageData pd)throws Exception;
 	/**
+	 * 团体信息
+	 */
+	public Map<String, Object> app_zzyInfo(PageData pd)throws Exception;
+	/**
 	 * 用户关注列表
 	 */
 	public Map<String, Object> app_zzyList_byUserid(String userid)throws Exception;
@@ -90,7 +94,8 @@ public interface VTeamManager{
 	public boolean zzyCheckCreateUser(String vtid,String userid)throws Exception;
 
 	boolean zzyCheckAdd(String userid) throws Exception;
-
+	
+	
 
 	
 }

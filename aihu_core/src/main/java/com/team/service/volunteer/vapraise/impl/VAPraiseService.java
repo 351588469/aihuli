@@ -115,6 +115,7 @@ public class VAPraiseService implements VAPraiseManager{
 					save(zzyPd);
 					vactivityService.zzyUpdatePraise(vaid,1);
 					result="01";
+					map.put("info","点赞成功");
 				}
 			}else result = "03";
 		//}else{result = "05";}

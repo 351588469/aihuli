@@ -35,7 +35,6 @@ import com.team.util.PathUtil;
 import com.team.util.Tools;
 import com.team.util.Watermark;
 import com.team.service.information.pictures.PicturesManager;
-
 /** 
  * 类名称：图片管理
  */

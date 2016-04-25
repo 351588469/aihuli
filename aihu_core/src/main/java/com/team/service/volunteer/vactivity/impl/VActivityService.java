@@ -18,6 +18,7 @@ import com.team.util.PageData;
 import com.team.util.Tools;
 import com.team.util.UuidUtil;
 import com.team.service.volunteer.vactivity.VActivityManager;
+import com.team.service.volunteer.vaenroll.VAEnrollManager;
 import com.team.service.volunteer.vaimg.VAImgManager;
 import com.team.service.volunteer.vteam.VTeamManager;
 
@@ -36,6 +37,8 @@ public class VActivityService implements VActivityManager{
 	private VTeamManager vteamService;
 	@Resource(name="vaimgService")
 	private VAImgManager vaimgService;
+	@Resource(name="vaenrollService")
+	private VAEnrollManager vaenrollService;
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -161,13 +164,14 @@ public class VActivityService implements VActivityManager{
 					PageData tpd=list.get(i);
 					String vtid=tpd.getString("VA_VT_ID");
 					PageData vt=vteamService.zzyFindById(vtid);
-					tpd.put("VA_VT_NAME",vt.getString("VT_NAME"));
+					if(vt!=null){
+						tpd.put("VA_VT_NAME",vt.getString("VT_NAME"));
+					}
 					PageData zti=new PageData();
 					zti.put("VAI_VA_ID",tpd.getString("VACTIVITY_ID"));
 					zti.put("VAI_TYPE",Const2.ZZY2_VA_IMG_THEME);
 					List<PageData>imgs=vaimgService.zzyList(zti);
 					tpd.put("VAI_IMG_THEME",imgs);
-					
 				}
 				map.put("pd",list);
 				result="01";
@@ -203,6 +207,36 @@ public class VActivityService implements VActivityManager{
 				result="01";
 		//}else{result = "05";}
 		map.put("result", result);
+		return map;
+	}
+	@Override
+	public Map<String,Object> app_zzyInfo(PageData pd)throws Exception{
+		Map<String,Object>map=new HashMap<String,Object>();
+		PageData opd=new PageData();
+		PageData zzyPd=new PageData();
+		String vaid=pd.getString("vaid");
+		PageData va=zzyFindById(vaid);
+		opd.put("va_info",va);
+		PageData enroll=new PageData();
+		if(pd.containsKey("userid")&&pd.get("userid")!=""){
+			zzyPd.put("VAE_VA_ID",vaid);
+			zzyPd.put("VAE_USER_ID",pd.get("userid"));
+			PageData tpd=vaenrollService.zzyCheck(zzyPd);
+			if(tpd!=null){//用户已经报名
+				enroll.put("status","1");
+				enroll.put("info","取消报名");
+			}else{
+				enroll.put("status","2");
+				enroll.put("info","立刻报名");
+			}
+			
+		}else{
+			enroll.put("status",2);
+			enroll.put("info","立刻报名");
+		}
+		opd.put("enroll_info", enroll);
+		map.put("pd",opd);
+		map.put("result","01");
 		return map;
 	}
 	@SuppressWarnings("unchecked")

@@ -177,10 +177,11 @@
 							<!-- 图片处理结束 -->
 							<form action="gm/${msg}.do" name="Form" id="Form" method="post">
 								<input type="hidden" name="GM_ID" id="GM_ID" value="${pd.GM_ID}" />
-								<input type="hidden" name="GM_LICENCE_PHOTO" id="GM_LICENCE_PHOTO"/>
-								<input type="hidden" name="GM_LEGALPERSON_PHOTOA" id="GM_LEGALPERSON_PHOTOA"/>
-								<input type="hidden" name="GM_LEGALPERSON_PHOTOB" id="GM_LEGALPERSON_PHOTOB"/>
-								<input type="hidden" name="GM_AVATER" id="GM_AVATER"/>
+								<input type="hidden" name="GM_CKSTATUS" id="GM_CKSTATUS" value="${pd.GM_CKSTATUS}" />
+								<input type="hidden" name="GM_LICENCE_PHOTO" id="GM_LICENCE_PHOTO"value="${pd.GM_CKSTATUS}"/>
+								<input type="hidden" name="GM_LEGALPERSON_PHOTOA" id="GM_LEGALPERSON_PHOTOA"value="${pd.GM_LEGALPERSON_PHOTOA}"/>
+								<input type="hidden" name="GM_LEGALPERSON_PHOTOB" id="GM_LEGALPERSON_PHOTOB"value="${pd.GM_LEGALPERSON_PHOTOB}"/>
+								<input type="hidden" name="GM_AVATER" id="GM_AVATER"value="${pd.GM_AVATER}"/>
 								<div id="zhongxin" style="padding-top: 13px;">
 									<table id="table_report"
 										class="table table-striped table-bordered table-hover">

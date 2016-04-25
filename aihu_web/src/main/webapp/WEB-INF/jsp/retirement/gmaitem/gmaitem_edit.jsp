@@ -39,7 +39,7 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">类别:</td>
 								<td>
 									<input type="text" readonly="readonly" name="GMAI_GMAT_NAME" id="GMAI_GMAT_NAME" value="${pd.GMAI_GMAT_NAME}" maxlength="32" style="width:98%;"/>
-									<input type="hidden" id="GMAI_GMAT_ID" value="${pd.GMAI_GMAT_ID}"/>
+									<input type="hidden" id="GMAI_GMAT_ID" name="GMAI_GMAT_ID" value="${pd.GMAI_GMAT_ID}"/>
 								</td>
 							</tr>
 							<tr>

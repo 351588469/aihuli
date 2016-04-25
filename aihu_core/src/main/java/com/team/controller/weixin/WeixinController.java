@@ -68,8 +68,7 @@ import javax.net.ssl.X509TrustManager;
 @Controller
 @RequestMapping(value="/weixin")
 public class WeixinController extends BaseController{
-	
-	@Resource(name="textmsgService")
+	@Resource(name="textmsgService") 
 	private TextmsgService textmsgService;
 	@Resource(name="commandService")
 	private CommandService commandService;

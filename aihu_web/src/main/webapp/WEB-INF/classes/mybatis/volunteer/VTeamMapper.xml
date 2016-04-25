@@ -72,6 +72,7 @@
 			VT_DESCRIBE = #{VT_DESCRIBE},
 			VT_C_ID = #{VT_C_ID},
 			VT_HTIME = #{VT_HTIME},
+			VT_STATUS = #{VT_STATUS},
 		VTEAM_ID = VTEAM_ID
 		where 
 		VTEAM_ID = #{VTEAM_ID}

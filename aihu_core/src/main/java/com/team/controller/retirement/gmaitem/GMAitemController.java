@@ -71,6 +71,12 @@ public class GMAitemController extends BaseController {
 		pd.put("GMAI_CTIME", Tools.date2Str(new Date()));	//创建时间
 		pd.put("GMAI_UTIME", Tools.date2Str(new Date()));	//修改时间
 		pd.put("GMAI_GMAT_NAME", "");	//题目类别名称
+		if(pd.containsKey("GMAI_GMAT_ID")&&pd.get("GMAI_GMAT_ID")!=""){
+			String typeid=pd.getString("GMAI_GMAT_ID");
+			PageData tpd=gmatypeService.zzyFindById(typeid);
+			pd.put("GMAI_GMAT_NAME",tpd.getString("GMAT_NAME"));
+			pd.put("GMAI_GMAT_NUM",tpd.get("GMAT_NUM"));
+		}
 		gmaitemService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -162,6 +168,7 @@ public class GMAitemController extends BaseController {
 		mv.setViewName("retirement/gmaitem/gmaitem_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
+		//System.out.println("zzy:pd"+pd.toString());
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
@@ -176,7 +183,6 @@ public class GMAitemController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		//System.out.println("zzy:"+pd.toString());
-		
 		String gmatype_id=(String)pd.getString("GMATYPE_ID");
 		PageData tpd=gmatypeService.zzyFindById(gmatype_id);
 		String gmid="",gm_name="";
@@ -192,7 +198,6 @@ public class GMAitemController extends BaseController {
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		//类别
-		
 		return mv;
 	}	
 	

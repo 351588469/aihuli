@@ -156,6 +156,9 @@ public class AppuserService implements AppuserManager{
 						return map;
 					}
 					dao.save("AppuserMapper.saveU", pd);
+					PageData tpd=new PageData();
+					tpd.put("userid",pd.get("USER_ID"));
+					map.put("pd",tpd);
 					result="01";
 				}else result = "03";
 			//}else{result = "05";}
@@ -193,6 +196,7 @@ public class AppuserService implements AppuserManager{
 					Integer n_vd=vdonationService.zzyCount_byUserId(userid);
 					PageData y=new PageData();
 					//y.put("user",user);
+					if(user!=null)
 					y.putAll(user);
 					y.put("n_va",n_va);
 					y.put("n_vt",n_vt);
@@ -202,7 +206,7 @@ public class AppuserService implements AppuserManager{
 						Integer status=(Integer) tpd.get("VT_STATUS");
 						y.put("vt_status",status);
 						if(status==1)y.put("vt_info","审核中");
-						else if(status==2)y.put("vt_info","审核通过");
+						else if(status==2)y.put("vt_info","审核通过,可发布活动");
 						y.put("vt_id",tpd.get("VTEAM_ID"));
 					}else{
 						y.put("vt_status",-1);

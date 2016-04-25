@@ -39,7 +39,6 @@ public class GMAitemService implements GMAitemManager{
 		pd.put("GMAI_CTIME",Tools.date2Str(new Date()));
 		pd.put("GMAI_UTIME",Tools.date2Str(new Date()));
 		pd.put("GMAI_UTIME",Tools.date2Str(new Date()));
-		
 		dao.save("GMAitemMapper.save", pd);
 	}
 	public void zzySave(PageData pd)throws Exception{

@@ -16,6 +16,7 @@ import com.team.util.AppUtil2;
 import com.team.util.PageData;
 import com.team.util.Tools;
 import com.team.util.UuidUtil;
+import com.team.service.volunteer.vtconcern.VTConcernManager;
 import com.team.service.volunteer.vteam.VTeamManager;
 import com.team.service.volunteer.vtimg.VTImgManager;
 
@@ -32,7 +33,8 @@ public class VTeamService implements VTeamManager{
 	private DaoSupport dao;
 	@Resource(name="vtimgService")
 	private VTImgManager vtimgService;
-	
+	@Resource(name="vtconcernService")
+	private VTConcernManager vtconcernService;
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -162,7 +164,7 @@ public class VTeamService implements VTeamManager{
 		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
 			if(AppUtil2.checkParam("appzzy2_vtlist", pd)){	//检查参数
 				if(pd.containsKey("city"))zzyPd.put("VT_CITY",pd.get("city"));
-				pd.put("VT_STATUS",2);
+				zzyPd.put("VT_STATUS",2);
 				List<PageData>list=zzyList(zzyPd);
 				map.put("pd",list);
 				result="01";
@@ -184,6 +186,37 @@ public class VTeamService implements VTeamManager{
 		List<PageData>list=(List<PageData>) dao.findForList("VTeamMapper.zzyListWithMultId",vaids);
 		map.put("pd",list);
 		result="01";
+		//}else{result = "05";}
+		map.put("result", result);
+		return map;
+	}
+	/**
+	 * 团体信息
+	 */
+	@Override
+	public Map<String,Object> app_zzyInfo(PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "00";
+		//if(Tools.checkKey("USERNAME", pd.getString("FKEY"))){	//检验请求key值是否合法
+			if(AppUtil2.checkParam("appzzy2_vtinfo", pd)){	//检查参数
+				String id=pd.getString("vtid");
+				PageData vt=zzyFindById(id);
+				if(pd.containsKey("userid")&&pd.getString("userid")!=""){
+					PageData tPd=new PageData();
+					tPd.put("VTC_VT_ID",pd.getString("vtid"));
+					tPd.put("VTC_USER_ID",pd.getString("userid"));
+					String vtcid=(String) dao.findForObject("VTConcernMapper.zzyConfirm",tPd);
+					if(vtcid!=null&&vtcid!=""){//用户已关注
+						vt.put("USER_VT_CONCERN","1");//已关注
+					}else{
+						vt.put("USER_VT_CONCERN","2");//未关注
+					}
+				}else{
+					vt.put("USER_VT_CONCERN","2");
+				}
+				map.put("pd",vt);
+				result="01";
+			}else result = "03";
 		//}else{result = "05";}
 		map.put("result", result);
 		return map;

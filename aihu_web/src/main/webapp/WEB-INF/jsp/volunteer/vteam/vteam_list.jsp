@@ -88,7 +88,10 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.VTEAM_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.VT_STATUS}</td>
+											<td class='center'>
+												<c:if test="${var.VT_STATUS==1}">审核未通过</c:if>
+												<c:if test="${var.VT_STATUS==2}">审核通过</c:if>
+											</td>
 											<td class='center'>${var.VT_NAME}</td>
 											<td class='center'>
 												<c:if test="${var.VT_LOGO!=''}">

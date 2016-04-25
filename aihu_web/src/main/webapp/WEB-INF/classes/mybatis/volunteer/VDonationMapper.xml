@@ -121,6 +121,7 @@
 		<if test="VD_USER_ID!= null and VD_USER_ID != ''">
 			and VD_USER_ID=#{VD_USER_ID}
 		</if>
+		order by VD_UTIME desc
 	</select>
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

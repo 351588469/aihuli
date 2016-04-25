@@ -129,13 +129,14 @@ public class GMAResultService implements GMAResultManager{
 		Map<String,Map<String,Object>>resultMap=new HashMap<>();
 		for(int i=0;i<list.size();i++){
 			Map<String,Object>map=list.get(i);
-			Double score=(Double) map.get("gmar_score");
-			Integer is=score.intValue();
+			///Double score=(Double) map.get("gmar_score");
+			String score=map.get("gmar_score").toString();
+			Integer is=Integer.parseInt(score);
 			map.put("gmar_score",is);
 			Map<String,Object>tm=new HashMap<String, Object>();
 			tm.put("GMARESULT_ID",UuidUtil.get32UUID());
 			tm.put("GMAR_E_ID",E_ID);
-			tm.put("GMAR_SCORE",map.get("gmar_score"));
+			tm.put("GMAR_SCORE",is);
 			String gmaiid=(String) map.get("gmai_id");
 			tm.put("GMAR_GMAI_ID",gmaiid);
 			PageData gmai=gmaitemService.zzyFindById(gmaiid);

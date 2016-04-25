@@ -60,6 +60,10 @@
 								<td><input class="span10 date-picker" name="VT_HTIME" id="VT_HTIME" value="${pd.VT_HTIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="成立时间" title="成立时间" style="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">审核状态:</td>
+								<td><input type="number" name="VT_STATUS" id="VT_STATUS" value="${pd.VT_STATUS}" maxlength="255" placeholder="这里输入描述" title="描述" style="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>

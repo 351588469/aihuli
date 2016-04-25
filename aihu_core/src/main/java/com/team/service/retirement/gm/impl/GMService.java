@@ -99,7 +99,11 @@ public class GMService implements GMManager{
 	}
 	@SuppressWarnings("unchecked")
 	public List<PageData>zzyList(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("GMMapper.zzyList", pd);
+		PageData zzyPd=new PageData();
+		if(pd.containsKey("city")&&pd.getString("city")!="")
+			zzyPd.put("GM_CITY",pd.get("city"));
+		zzyPd.put("GM_CKSTATUS",1);
+		return (List<PageData>)dao.findForList("GMMapper.zzyList",zzyPd);
 	}
 	/**通过id获取数据
 	 * @param pd

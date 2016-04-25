@@ -1,5 +1,6 @@
 package com.team.service.volunteer.vaenroll.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +15,15 @@ import org.springframework.stereotype.Service;
 import com.team.dao.DaoSupport;
 import com.team.entity.Page;
 import com.team.util.AppUtil2;
+import com.team.util.Const2;
 import com.team.util.PageData;
 import com.team.util.Tools;
 import com.team.util.UuidUtil;
 import com.team.service.system.appuser.AppuserManager;
 import com.team.service.volunteer.vactivity.VActivityManager;
 import com.team.service.volunteer.vaenroll.VAEnrollManager;
+import com.team.service.volunteer.vaimg.VAImgManager;
+import com.team.service.volunteer.vteam.VTeamManager;
 
 /** 
  * 说明： 活动报名表
@@ -36,6 +40,10 @@ public class VAEnrollService implements VAEnrollManager{
 	private VActivityManager vactivityService;
 	@Resource(name="appuserService")
 	private AppuserManager appuserService;
+	@Resource(name="vteamService")
+	private VTeamManager vteamService;
+	@Resource(name="vaimgService")
+	private VAImgManager vaimgService;
 	/**新增
 	 * @param pd
 	 * @throws Exception
@@ -113,7 +121,22 @@ public class VAEnrollService implements VAEnrollManager{
 			if(AppUtil2.checkParam("appzzy2_vaelist", pd)){	//检查参数
 				zzyPd.put("VAE_VA_ID",pd.getString("vaid"));
 				List<PageData>list=zzyList(zzyPd);
-				map.put("pd",list);
+				if(list==null)list=new ArrayList<>();
+				PageData tpd=vactivityService.zzyFindById(pd.getString("vaid"));
+				String vtid=tpd.getString("VA_VT_ID");
+				PageData vt=vteamService.zzyFindById(vtid);
+				if(vt!=null){
+					tpd.put("VA_VT_NAME",vt.getString("VT_NAME"));
+				}
+				PageData zti=new PageData();
+				zti.put("VAI_VA_ID",tpd.getString("VACTIVITY_ID"));
+				zti.put("VAI_TYPE",Const2.ZZY2_VA_IMG_THEME);
+				List<PageData>imgs=vaimgService.zzyList(zti);
+				tpd.put("VAI_IMG_THEME",imgs);
+				PageData pd1=new PageData();
+				pd1.put("va_info",tpd);
+				pd1.put("list",list);
+				map.put("pd",pd1);
 				result="01";
 			}else result = "03";
 		//}else{result = "05";}
@@ -135,6 +158,7 @@ public class VAEnrollService implements VAEnrollManager{
 				zzyPd.put("VAE_VA_ID",vaid);
 				zzyPd.put("VAE_USER_ID",userid);
 				PageData vae=zzyCheck(zzyPd);
+				
 				if(vae!=null&&vae.getString("VAENROLL_ID")!=""){//已经报名
 					String vaeid=vae.getString("VAENROLL_ID");
 					if(pd.getString("cancel")!=null&&pd.getString("cancel")!=""){//取消报名

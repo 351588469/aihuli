@@ -1,5 +1,4 @@
 package com.team.util;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -9,10 +8,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import javax.imageio.ImageIO;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
-
+import com.sun.image.codec.jpeg.JPEGCodec;
 /** 
  * 说明：图片水印处理类 （报错注意：用安装版的jdk，不要用开发工具自带的jdk）
  * @version

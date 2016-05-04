@@ -232,25 +232,25 @@
 											<td style="width:75px;text-align: right;padding-top: 13px;">简介:</td>
 											<td><input type="text" name="GM_DESCRIPTION"
 												id="GM_DESCRIPTION" value="${pd.GM_DESCRIPTION}"
-												maxlength="255" placeholder="这里输入简介" title="简介"
+												placeholder="这里输入简介" title="简介"
 												style="width:98%;" /></td>
 										</tr>
 										<tr>
 											<td style="width:75px;text-align: right;padding-top: 13px;">康娱设施:</td>
 											<td><input type="text" name="GM_RECEIVE" id="GM_RECEIVE"
-												value="${pd.GM_RECEIVE}" maxlength="255"
+												value="${pd.GM_RECEIVE}"
 												placeholder="这里输入康娱设施" title="康娱设施" style="width:98%;" /></td>
 										</tr>
 										<tr>
 											<td style="width:75px;text-align: right;padding-top: 13px;">收费标准:</td>
 											<td><input type="text" name="GM_FEEDESC "
-												id="GM_FEEDESC " value="${pd.GM_FEEDESC}" maxlength="255"
+												id="GM_FEEDESC " value="${pd.GM_FEEDESC}"
 												placeholder="这里输入收费标准" title="收费标准" style="width:98%;" /></td>
 										</tr>
 										<tr>
 											<td style="width:75px;text-align: right;padding-top: 13px;">服务内容:</td>
 											<td><input type="text" name="GM_SERVEINFO"
-												id="GM_SERVEINFO" value="${pd.GM_SERVEINFO}" maxlength="255"
+												id="GM_SERVEINFO" value="${pd.GM_SERVEINFO}" 
 												placeholder="这里输入服务内容" title="服务内容" style="width:98%;" /></td>
 										</tr>
 										<tr>

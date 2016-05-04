@@ -131,7 +131,8 @@ public class GMAResultService implements GMAResultManager{
 			Map<String,Object>map=list.get(i);
 			///Double score=(Double) map.get("gmar_score");
 			String score=map.get("gmar_score").toString();
-			Integer is=Integer.parseInt(score);
+			Double ds=Double.parseDouble(score);
+			Integer is=ds.intValue();
 			map.put("gmar_score",is);
 			Map<String,Object>tm=new HashMap<String, Object>();
 			tm.put("GMARESULT_ID",UuidUtil.get32UUID());
